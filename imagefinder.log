@@ -1,0 +1,1484 @@
+2025/03/15 23:12:38 --- ImageFinder Debug Log Started at 2025-03-15T23:12:38+01:00 ---
+2025/03/15 23:12:38 Starting image scan on folder: /Users/z/Downloads/_vittorio/
+2025/03/15 23:12:38 Force rewrite: false, Source prefix: DISK0
+2025/03/15 23:12:38 Found 1467 image files to process
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/01_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/1 __F_7411_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/02_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/03_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/0.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/04_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/05_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/06_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/09_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/0Roma.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/0Roma_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/0_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0159_A4.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0159_A4_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0161_A4.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0161_A4_e.jpg
+2025/03/15 23:12:38 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0163_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0163_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/04_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0178_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/03_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0178_monitorview_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0178_monitorview.jpeg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0180_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/01_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0178_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/02_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0180_monitorview_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0180_monitorview.jpeg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0182_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0184_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0185_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/05_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0186_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/06_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/09_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0187_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0188_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0180_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0188_monitorview_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0188_monitorview.jpeg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0182_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0189_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0184_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0189_monitorview_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0189_monitorview.jpeg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0192_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0185_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0186_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0192_monitorview_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0195_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0192_monitorview.jpeg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2367_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0187_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2368_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2369_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0188_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2379_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0189_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2380_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0192_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2381_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K0195_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2382_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2367_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2384_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2368_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2390_A4_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2369_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7710_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2379_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7713_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2380_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7715_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2381_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7716_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2382_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7713.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7732_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7710.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2384_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7735_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7825_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7833_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _17K2390_A4.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7839_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7715.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7841_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7716.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7845_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7732.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7847_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7825.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7848_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7839.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7735.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7853_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7854_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7833.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7845.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7859_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7862_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7841.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7847.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7867_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7848.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7869_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7853.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7874_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7876_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7854.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7879_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7862.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7859.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7890_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7892_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7869.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7867.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2381_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2386_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2390_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2391_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2394_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2397_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2399_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7876.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2404 copie_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7874.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2404_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2413_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2416_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7879.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2422_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2419_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2436_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2428_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC2440_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9184_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9185_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9190_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9206_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7890.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9211_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _82V7892.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9220_e.jpg
+2025/03/15 23:12:39 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9226_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9184.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9227_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9185.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9228_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9227.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9220.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9229_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9226.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9233_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9238_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9206.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9190.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9241_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9211.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9251_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9255_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9228.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9233.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9260_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9265_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9241.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9271_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9229.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9279_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9260.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9255.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9238.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9284_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9287_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9294_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9251.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9298_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9271.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9299_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9279.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9300_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9265.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9284.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9287.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9306_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9314_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9319_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9298.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9324_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9294.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9299.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9327_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9328_e.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9300.jpg
+2025/03/15 23:12:40 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9332_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9306.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9338_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9319.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9314.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9339_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9343_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9324.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9327.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9344_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9351_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9332.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9354_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9328.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7409_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7409.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7411_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9338.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7413_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7413.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7414_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7418.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7418_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9339.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7421_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9343.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7422-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7421.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7453_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9351.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7422-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7458_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9354.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7453.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7489_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7491_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7458.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7501-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7489.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7503_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7507-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7491.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7501-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7509-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7511-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7503.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7514_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _DSC9344.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7507-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7411.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7520_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7509-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7511-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7525_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7526_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7529_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7531-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7514.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7533-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7525.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7526.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7535-Modifica-Modifica_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7529.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7531-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7539_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7541-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7533-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7554-Pano_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7535-Modifica-Modifica.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7539.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7560-Pano_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7566_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7541-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7576-Pano_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7584_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7576-Pano.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7560-Pano.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7566.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7585_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7594_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7414.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7584.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7595_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7585.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7602_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7604_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7605_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7594.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7595.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7607_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7608_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7602.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7604.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7609_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7605.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7610_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7607.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7611_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7608.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7612_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7609.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7656-HDR-2_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7610.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7656-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7611.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7658-2_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7612.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7658_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7656-HDR-2.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8114_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7658-2.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7656-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8116_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8118_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8120_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7658.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8122-HDR_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8114.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7520.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8116.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8118.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8129_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8127_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8131_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8134_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8122-HDR.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8143-HDR-Panorama_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8127.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8129.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8145_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8147_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8134.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8131.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8143-HDR-Panorama.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8149_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8151_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8153_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8145.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8156_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8147.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8160_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8149.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8151.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8165_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8169_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8156.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8171_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8160.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8173_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8165.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8169.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8175_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8177_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8171.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8173.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8179_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8181_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8177.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8183_e.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8179.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_7554-Pano.jpg
+2025/03/15 23:12:41 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8185_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8181.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8187_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8183.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8188_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8190_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8185.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8192_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8188.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8194_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8192.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8120.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8201-HDR_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8194.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8205-HDR-Modifica-Modifica_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8248-HDR-2_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8201-HDR.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8248-HDR_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8248-HDR-2.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8253_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8248-HDR.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8256_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8253.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8259_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8153.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8262_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8259.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8265_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8262.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8268_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8175.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8187.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8274_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8300-HDR-Panorama-2_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8300-HDR-Panorama_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8190.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8301_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8312.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8312_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8316.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8316_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8205-HDR-Modifica-Modifica.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8319_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8325.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8325_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8256.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8328_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8265.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8331_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8268.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8334_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8331.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8337_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8274.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8340_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8334.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8337.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8351_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8354_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8340.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8364_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8301.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8351.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8367_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8374_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8354.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8364.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8379_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8385_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8367.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8390_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8379.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8393_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8385.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8397_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8390.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8405_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8393.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8408_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8397.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8300-HDR-Panorama.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _jmshot_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8408.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8319.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1.NohopeNofear_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8328.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1.ador_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1.interior_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1.ador.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/10.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/10_JMD046_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 _jmshot.jpeg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1.NohopeNofear.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/10_JMD_BGG22_install_09_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/10_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/10_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/11.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 copy.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/11_JMD038_2B_crop_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1.interior.jpeg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/11_JMD042_2_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/11_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/11_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12_JMD_BGG22_install_08_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12_JMD049_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8374.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12leones1_e.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12leones.jpg
+2025/03/15 23:12:42 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12leones_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12leones1.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1 __F_8405.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12leonesvista2_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12leonesvista_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12oil &dust_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12oil &dust.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13_JMD041_2_crop_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13_JMD_BGG22_install_23B_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13a_JMD040_3_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13b_JMD040_3_detail2_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13ol(thepriceofyourhead).jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13ol(thepriceofyourhead)_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12leonesvista.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14-1-816x1024.jpeg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14-1-816x1024_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12leonesvista2.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14_JMD050_2_crop_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14_JMD047_2C_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14oil&dust-D.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14oil&dust-D_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/15.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/15_JMD_BGG22_install_25B_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/15_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/15_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/15performance2.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/15performance2_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/12_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/10_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/16_JMD038_2B_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/16_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/11_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/16a_JMD038_2Bdetail_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/16b_JMD049_2_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/17.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/17_JMD_BGG22_install_11_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/13_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/17_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/17_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/17a.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/17a_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/18.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/14_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-068_korr_A4_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-068_korr_A4.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-071_korr_A4_e.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/15_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:43 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-079_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-071_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-104_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-079_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-114_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/16a_JMD038_2Bdetail.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-120_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/11_JMD038_2B_crop.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/16_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-104_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-123_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-128_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-131_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-114_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-139_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-120_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-145_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-123_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-128_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-146_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-131_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-149_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-150_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-139_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-171_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-145_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-174_korr_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-174_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-180_A4_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-146_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/18_JMD_BGG22_install_26_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/18_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-149_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-150_korr_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/18_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/16_JMD038_2B.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-171_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/19.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/19_JMD050_2_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/19_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1_JMD036_2_crop_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/19_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1_JMD_BGG22_install_18_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/181116_Neu-180_A4.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1kleptocracy_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1x_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1x.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2.PrinceS2_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2 copy.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2.gustonf_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/1kleptocracy.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2.therape_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2.gustonf.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/17_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7711_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7714_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7716-807x1024.jpeg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7716-807x1024_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7716_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2.therape.jpeg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7721-788x1024.jpeg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7721-788x1024_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7721_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7714.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7733_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2.PrinceS2.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7738-1024x936_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7738-1024x936.jpeg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7721.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7738_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7750-804x1024.jpeg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7711.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7716.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7750-804x1024_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7750_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32800_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32802_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32804_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7733.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32808_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20170115_1L6A7750.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32809_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32808.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32814_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32809.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/18_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-monkey2_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady53998 v3_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/19_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54000 diptych v3_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32800.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32802.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54000 v3_e.jpg
+2025/03/15 23:12:44 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54003 diptych v4_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32804.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54003 v3_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-monkey2.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54005 v3_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20171127_JillMulleady-32814.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54006 diptych v3_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady53998 v3.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54006 v3_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54000 v3.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54007 v3_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54003 v3.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190318_JillMulleady54583_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54000 diptych v3.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54005 v3.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190318_JillMulleady54585_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190318_JillMulleady54586_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190903_JillMulleady63322_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190903_JillMulleady63326_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190903_JillMulleady63328_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190903_JillMulleady63329_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_10_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_11_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_12_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_13_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_14_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_15_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_16_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_17_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_18_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_18b_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_18c_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_19_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_20_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_2_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_3_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_4_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_5_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_6_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_7_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_8_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54006 v3.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_9_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_web 11_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_web 11.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_web 19_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_web 19 copy.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_web 5_e.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2020_10_JillMuleady_installationviews_web 5.jpg
+2025/03/15 23:12:45 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20210515_JillMulleady22470-hires_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54003 diptych v4.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54007 v3.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/21.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/21_Jill Mulleady_Kunsthalle Bern, 2017_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/21_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/22.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/22_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/23.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/23_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/24.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/24_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190318_JillMulleady54585.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/25.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/25_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2_JMD044_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2_JMD_BGG22_install_01_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2_e copy.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2a_JMD036_2_detail1_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2xx.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2xx_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190318_JillMulleady54586.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3.Finissage_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/2web.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3.bag_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190318_JillMulleady54583.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3.iris_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3.iris.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3_JMD048_2_crop_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3_JMD_BGG22_install_02_b_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3x.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3.bag.jpeg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.Boeuf_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20190307JillMulleady54006 diptych v3.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3x_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.nueva_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/3.Finissage.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.nueva.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.window_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.windowback_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4_JMD042_2_crop_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.JPG
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4a.nueva1_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4a.nueva1.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5.Boeufdetail_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.window.jpeg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5_JMD039_3_crop_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/20210515_JillMulleady22470-hires.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.windowback.jpeg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5_JMD_BGG22_install_04_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5escalera_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5a_JMD039_3_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5b_JMD039_3_detail1_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/6_JMD040_3_crop_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/6_JMD_BGG22_install_05_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/6_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5escalera.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/6a_JMD_BGG22_install_03_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/6.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/6bis_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5.Boeufdetail.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/7_JMD_BGG22_install_24_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/4.Boeuf.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/7_JMD047_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/7_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/5.JPG
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/8.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/8_JMD037_6jmarsb_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/8_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/8_JMD037_6jmarsa_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/8iv1_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/8iv1.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/9.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/9_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/9_JMD045_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/9_JMD037_6jmars_detail_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/9a_JMD045_2_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/AVZ_arsenale-22_JILL MULLEADY-3927.jpeg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/AVZ_arsenale-22_JILL MULLEADY-3927_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/AVZ_arsenale-22_JILL MULLEADY-3928.jpeg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/AVZ_arsenale-22_JILL MULLEADY-3928_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Arsenale_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/AVZ_arsenale-22_JILL MULLEADY-3930_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/AVZ_arsenale-22_JILL MULLEADY-3930.jpeg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Available-Framed_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Available-Framed.JPG
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Available-unframed_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Arsenale.png
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Available-unframed.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/21_Jill Mulleady_Kunsthalle Bern, 2017.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_10_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_11_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_12_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_13_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/6bis.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_14_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_1_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/7.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_2_e.jpg
+2025/03/15 23:12:46 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_1.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_11.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_12.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_39_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_3_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_10.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_40_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_4_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_14.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_13.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_5_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_6_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_2.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_7_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_3.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_8_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_4.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_9_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_39.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill Mulleady_Photo_Diane_Arques_ADAGP_LR01_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill Mulleady_Photo_Diane_Arques_ADAGP_LR03_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill Mulleady_Photo_Diane_Arques_ADAGP_LR02_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill Mulleady_Photo_Diane_Arques_ADAGP_LR04_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill Mulleady_Photo_Diane_Arques_ADAGP_LR05_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill Mulleady_Photo_Diane_Arques_ADAGP_LR06_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR01_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR02_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR03_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR04_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR05_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR06_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR07_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR08_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR10_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Cahiers_D_Art_Jill_Mulleady_works_woPhoto_Diane_Arques_ADAGP_HR09_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_7.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/DSC01158_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_51_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_40.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_53_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_6.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_55_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_5.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_61_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_51.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_8.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_65_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/DSC01158.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_53.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_69_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_71_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_73_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_69.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_55.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_76_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_78_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/CSC_9.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_61.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_80_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_85_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_65.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_71.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_73.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_87_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_01_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_02_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_78.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_04_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_76.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_05_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_04.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_85.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_06_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_80.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_07_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_05.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_01.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_08_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_09_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_02.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_10_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_11_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_06.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_12_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_07.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_13_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_08.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_09.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_14_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_15_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_10.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_11.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_16_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_12.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_13.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_17_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_18.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_18_e.jpg
+2025/03/15 23:12:47 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_2_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_15.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_2.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_3.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_3_a_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_14.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_3_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_87.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_3_a.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_5_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_6_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_4_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_7_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_8__e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_6.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_16.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_7.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_ASunfortheSleepers_1_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_ASunfortheSleepers_2_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_5.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_4.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_ASunfortheSleepers_3_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_Bern.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_Bern_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_Fight_PrinceS_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_Installationview_Greenman_1_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_8_.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_KunsthallBern.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_KunsthallBern_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FullSizeRender.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FullSizeRender_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/GGdS-2016-Jill-Mulleady-011-683x1024.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/GGdS-2016-Jill-Mulleady-011-683x1024_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Giardini_comp.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Giardini_comp_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_ASunfortheSleepers_1.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_ASunfortheSleepers_2.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/GGdS-2016-Jill-Mulleady-011.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_Fight_PrinceS.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_ASunfortheSleepers_3.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Heliogabale_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_1690_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_7277_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_7278_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_7280_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_7277.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_Mulleady_Installationview_Greenman_1_2.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_7278.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_7283_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_8327-1_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_7280.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IR_22 Jill Mulleady_0154_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_7283.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IR_22 Jill Mulleady_0154.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IR_22 Jill Mulleady_0157.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IR_22 Jill Mulleady_0157_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_8327-1.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/IMG_1690.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD001_detail2_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD001_detail_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD002_detail_1_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD001_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD002_detail_2_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/FF_2017_ThisMortalCoil_Install_17.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD002_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD003_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD004_detail_1_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD004_detail_2_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD004_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD003_detail 2_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD003_detail 1_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD005_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD006_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD007_detail_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD007_detail2_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD008_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD007_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD009_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD010_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD011_detail 1_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD011_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD012_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD003.jpeg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD013_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Heliogabale.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD014_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD005.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD015_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD007.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD016_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD007_detail.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD017_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD013.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD018_e.jpg
+2025/03/15 23:12:48 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD007_detail2.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD019_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD014.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD020_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD012.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD021_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD022.jpeg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD015.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD022_e.jpeg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD016.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD023_detail 1_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD023_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD023_detail 2_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD023_wall_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD024_placeholder.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD024_placeholder_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD018.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD023.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD032_placeholder_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_01_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD032_placeholder.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_02_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD017.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_03_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_01.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_04_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_05_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_02.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD035_detail_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD035_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD035.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_03.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD036_2_c_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD019.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_04.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD036_2_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD036_2_detail1_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD020.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_2B_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD033_detail_05.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_6jmars_detail_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_6jmarsb_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_6jmarsa_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_6jmars_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_detail1_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_detail2_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD038_2B_c_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD021.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_detail1.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD038_2B_detail1_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD038_2B_e.jpg
+2025/03/15 23:12:49 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD039_3_c_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_detail2.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD039_3_detail1_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD039_3_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD038_2B.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD040_3_c_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD039_3.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD040_3_detail1_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD036_2.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD040_3_detail2_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD040_3_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD039_3_detail1.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD041_2_c_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD036_2_detail1.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD041_2_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD037_2B.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD042_2_c_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD038_2B_detail1.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD042_2_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD044_2_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD044.jpeg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD044_b_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD044_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD044_b.jpeg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD045.jpeg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD045_2_e.jpg
+2025/03/15 23:12:50 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD045_b.jpeg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD045_b_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD045_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD046.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD040_3_detail1.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD046_2_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD046_b.jpeg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD046_b_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD040_3.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD046_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD040_3_detail2.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD047_2B_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD047.jpeg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD047_b_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD047_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD047_b.jpeg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD048_2_c_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD048_2_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD048_detail_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD049.jpeg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD042_2.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD049_2_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD046_2.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD049_b_e.jpg
+2025/03/15 23:12:51 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD049_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD049_b.jpeg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD045_2.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD050_2_c_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD050_2_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD051_placeholder_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD041_2.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD051_placeholder.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD044_2.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD053_b_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD053_c_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD053_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD053_b.jpeg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_01_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_02_b_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD053.jpeg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_03_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD047_2B.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_04_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_04.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_01.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_05_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_06_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_02_b.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_07_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_03.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_08_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD050_2.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_05.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_09_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_10_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_06.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_11_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_07.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_12_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_08.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_13_e.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_09.jpg
+2025/03/15 23:12:52 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_14_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD048_2.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_18_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_10.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_20_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_11.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_21_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD049_2.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_12.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_22_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_23B_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_13.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_24_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_14.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_25B_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_18.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_26_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_20.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.001.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_22.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.002.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_21.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.003.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.001.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.006.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_23B.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.007.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_24.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_25B.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.008.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMD_BGG22_install_26.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.009.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.010.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.002.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.006.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.011.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_001.002.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.003.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_02.002.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_001.002.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.007.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_03.002.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_04.002.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_02.002.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_05.002.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.008.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_03.002.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_06.002.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.010.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_07.002.L_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_10_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.011.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_11-2_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_04.002.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_IV_2018_001.009.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_11_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_12-2_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_05.002.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_13-2_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_14-2_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_06.002.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_15-2_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JM_P_2018_07.002.L.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_16-2_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_17-2_e.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_11.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_14.jpg
+2025/03/15 23:12:53 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_18-2_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_13.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_18_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_12.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_20-2_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_21-2_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_21_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_16.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_15.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_22-2_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_17.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_23-2_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_25_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_18.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_26_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_21.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_20.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_27_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_28_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_23.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_22.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_29_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_30_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_28.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_31_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_10.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9185_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9185.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9190_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_26.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9206_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_29.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9220_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_31.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9227_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9190.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9229_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9206.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9238_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9220.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9251_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9227.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9260_e.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_30.jpg
+2025/03/15 23:12:54 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9265_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9229.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_27.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9284_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9294_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9260.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9300_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9238.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9314_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9284.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9251.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9324_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JMu_M_25.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9332_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9344_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9265.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JillMulleady_Swiss Institute_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/JillMulleady_Swiss Institute.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8072_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9300.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8117_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9294.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8119_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9314.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8122_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9324.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8124_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9332.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8125_e.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Jill Mulleady Blood Fog photo Rebecca Fanuele © Consortium Museum 9344.jpg
+2025/03/15 23:12:55 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8126_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8072.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8128_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8119.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8129_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8125.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8133_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8117.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8135_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8122.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8137_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8124.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8139_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8126.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8144_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8128.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8147_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8129.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8150_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8133.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8154_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8135.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8156_e.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8137.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8144.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8150.jpg
+2025/03/15 23:12:56 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/LePen_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_139_Is it your skin that I wear_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8139.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_171_Ashes_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_173_Drama_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8147.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_174_Feral_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/LePen.jpeg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_175_Hamlet_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8154.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_176_Madame Bovary_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/KHBern_2017-05_GM_8156.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_177_Orpheus_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_174_Feral.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_171_Ashes.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_178_Snow Blood_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_179_Untitled_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_139_Is it your skin that I wear.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_180_White Pussy_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_175_Hamlet.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_173_Drama.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (11)_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (2)_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_176_Madame Bovary.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (3)_e.jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (11).jpg
+2025/03/15 23:12:57 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_177_Orpheus.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (2).jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (4)_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (5)_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Mulleady_PrinceS_2017_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (3).jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/NG4066_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/NG4066_framed_1_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-6824_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-6846_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-6874_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-6892_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-6901_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-6910_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8421_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Mulleady_PrinceS_2017.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8424_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8458_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8459_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_178_Snow Blood.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8460_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (4).jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8463_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8513_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8514_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8464_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8519_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8527_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8530_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8534_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-8535_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/Photo-Joshua_White-jwpictures.com-9665_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/NG4066.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 01_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 02_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 03_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 04_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 03.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 05_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_179_Untitled.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 06_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MYKOLAITIS x MARSAS SUGRĮŽTA (5).jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 07_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/MULLEADY_180_White Pussy.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 08_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 01.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 02.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 09_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 10_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 04.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 11_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 05.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 12_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 07.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 13_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 06.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 09.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 14_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 15_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 08.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 16_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 11.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 17_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 10.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 18_e.jpg
+2025/03/15 23:12:58 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 12.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 19_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 13.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 20_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 16.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 15.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 21_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 22_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 14.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 23_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 17.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 24_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 19.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 18.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 25_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_01_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 20.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 21.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_02A_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_02B_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 23.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_03A_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 22.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_03B_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 24.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_03C_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/aa1.jpeg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/aa1_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/SI Mulleady 25.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/athousandnaturalshocks_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/dw-775x1024.jpeg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/dw-775x1024_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/greenr.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/greenr_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/hhp.jpeg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/hhp_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/athousandnaturalshocks.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/houseofspirits_e.jpg
+2025/03/15 23:12:59 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/jillwoodblock.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/jillwoodblock_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/klep.jpeg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/klep_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/madeintheshade.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/madeintheshade_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/houseofspirits.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/mk1.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/mk1_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/mk2.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/mk2_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/mk3_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/mk3.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+ 1.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+ 17_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+ 17.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+ 1_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+ 2_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+ 2.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+ 7_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+ 7.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/non_processed_selects+.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/perfo1_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/spraylavie.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/spraylavie_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/unavailable.JPG
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/unavailable_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wc1.jpeg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_01.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wc1_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wc2_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wd1.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wc2.jpeg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wd1_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wd5_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/perfo1.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wd6_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wd5.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/ws2_e.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/wd6.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/ws2.jpg
+2025/03/15 23:13:00 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/ws3_e.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/ws4_e.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/ws3.jpg
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/79330_SFA_001_01.tif
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/79330_SFA_001_02.tif
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/79330_SFA_024_05.tif
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/79330_SFA_035_13.tif
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/79330_SFA_038_07.tif
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/79330_SFA_043_30.tif
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_001_01.jpg
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_001_02.jpg
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_024_05.jpg
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_035_13.jpg
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_038_07.jpg
+2025/03/15 23:13:01 Skipping unchanged image: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_043_30.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/ws7_e.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/79330_SFA_001_01.tif
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/79330_SFA_001_02.tif
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/79330_SFA_024_05.tif
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/79330_SFA_035_13.tif
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/79330_SFA_038_07.tif
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/79330_SFA_043_30.tif
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_001_01.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_001_02.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_024_05.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_035_13.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_038_07.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/output/retouch v2 79330_SFA_043_30.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/ws4.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/ws7.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_02A.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_02B.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_03B.jpg
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_03C.jpg
+2025/03/15 23:13:01 Scan completed in 22.901297625s. Processed: 1466, Errors: 0
+2025/03/15 23:13:01 PROCESSED: /Users/z/Downloads/_vittorio/jpgs/WMAA_Mulleady_03A.jpg

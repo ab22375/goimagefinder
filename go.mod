@@ -1,4 +1,4 @@
-module match_image2
+module imagefinder
 
 go 1.24.1
 

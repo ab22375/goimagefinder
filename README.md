@@ -1,43 +1,40 @@
-# ImageFinder
+# Image Similarity Indexing and Search Tool
 
-ImageFinder is a Go application for indexing and finding similar images across multiple directories. It uses perceptual hashing and structural similarity (SSIM) to find matches.
+## Overview
+
+This program is a command-line tool designed to **scan, index, and search** for similar images based on perceptual and average hash comparisons. It supports various image formats, including **JPG, PNG, TIFF, RAW (e.g., NEF, CR2), and HEIC**.
+
+The program uses **SQLite** for database storage and **OpenCV (GoCV)** for image processing, allowing users to:
+
+- Scan a folder of images and store metadata and hash values in a database.
+- Search for similar images by comparing a query image against the indexed database using **hash matching and SSIM (Structural Similarity Index Measure)**.
 
 ## Features
 
-* Index images from directories into a SQLite database
-* Search for similar images using perceptual hash and SSIM comparison
-* Support for multiple image formats (JPEG, PNG, TIFF, and basic support for RAW and HEIC)
-* Debug mode for detailed logging of operations
-* Continue processing even when errors occur with individual images
-* Source prefixes for organizing images from different sources
+- Supports **multiple image formats**, including RAW and HEIC.
+- Uses **average hash (aHash) and perceptual hash (pHash)** for image comparison.
+- Computes **SSIM similarity scores** for more accurate matching.
+- Allows **incremental updates** to the database to avoid reprocessing unchanged images.
+- Supports **multi-threaded processing** for efficient scanning.
+- Provides **CLI commands** for scanning and searching images.
+
+## Dependencies
+
+To use this tool, you need to install:
+
+- **Go** (Golang) 1.18+
+- **GoCV** (OpenCV bindings for Go): Install via `go get gocv.io/x/gocv`
+- **SQLite3**: Install via `go get github.com/mattn/go-sqlite3`
 
 ## Installation
 
-### Prerequisites
+Clone this repository and build the project:
 
-* Go 1.18 or higher
-* OpenCV 4.x (required for gocv)
-* SQLite3
-
-### Building from Source
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/imagefinder.git
-   cd imagefinder
-   ```
-2. Initialize the Go module (if not already done):
-   ```
-   make init
-   ```
-3. Install dependencies:
-   ```
-   make deps
-   ```
-4. Build the application:
-   ```
-   make build
-   ```
+```sh
+git clone https://github.com/your-repo/image-similarity-indexer.git
+cd image-similarity-indexer
+go build -o image-indexer
+```
 
 ## Usage
 
@@ -72,6 +69,68 @@ Options:
 * `--prefix=NAME`: Source prefix for filtering results
 * `--debug`: Enable debug mode with detailed logging
 * `--logfile=PATH`: Specify custom log file path (default: imagefinder.log)
+
+## Example Workflow
+
+1. **Index a directory of images**
+
+   ```sh
+   ./image-indexer scan --folder=/home/user/photos --database=photos.db --prefix=DSLR --force
+   ```
+2. **Find similar images to a given file**
+
+   ```sh
+   ./image-indexer search --image=/home/user/photos/query.jpg --database=photos.db --threshold=0.85
+   ```
+
+## Technical Details
+
+### Image Processing
+
+- **Average Hash (aHash)**: Calculates an 8x8 pixel grayscale representation and compares each pixel to the mean brightness.
+- **Perceptual Hash (pHash)**: Uses a **32x32** DCT-based transformation and median filtering for robust comparisons.
+- **SSIM (Structural Similarity Index)**: Measures perceptual differences between images.
+
+### Database Schema
+
+The SQLite database stores image metadata and hash values:
+
+```sql
+CREATE TABLE IF NOT EXISTS images (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    path TEXT NOT NULL,
+    source_prefix TEXT,
+    format TEXT,
+    width INTEGER,
+    height INTEGER,
+    created_at TEXT,
+    modified_at TEXT,
+    size INTEGER,
+    average_hash TEXT,
+    perceptual_hash TEXT,
+    UNIQUE(path, source_prefix)
+);
+```
+
+Indexes are created for fast lookup:
+
+```sql
+CREATE INDEX IF NOT EXISTS idx_path ON images(path);
+CREATE INDEX IF NOT EXISTS idx_average_hash ON images(average_hash);
+CREATE INDEX IF NOT EXISTS idx_perceptual_hash ON images(perceptual_hash);
+```
+
+## Performance Considerations
+
+- **Concurrency**: Uses a semaphore to limit the number of concurrent processing threads (default: 8).
+- **Incremental updates**: Skips unchanged images unless `--force` is specified.
+- **Optimized queries**: Uses SQLite indexes to speed up searches.
+
+## Future Enhancements
+
+- Support for **GPU acceleration** using OpenCV CUDA.
+- More **advanced hash algorithms** like Wavelet Hashing.
+- Improved **HEIC and RAW processing** via external libraries.
 
 ## Debug Mode
 

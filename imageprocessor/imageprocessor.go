@@ -87,6 +87,13 @@ func (l *RawImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	tempFilename := filepath.Join(l.TempDir, fmt.Sprintf("raw_conv_%d.tiff", time.Now().UnixNano()))
 	defer os.Remove(tempFilename) // Clean up temp file when done
 
+	// Check if it's a CR3 file specifically
+	if strings.ToLower(filepath.Ext(path)) == ".cr3" {
+		if success, img := l.tryCR3(path, tempFilename); success {
+			return img, nil
+		}
+	}
+
 	// First try with dcraw
 	if success, img := l.tryDcraw(path, tempFilename); success {
 		return img, nil
@@ -738,4 +745,44 @@ func isRawFormat(path string) bool {
 		}
 	}
 	return false
+}
+
+func (l *RawImageLoader) tryCR3(path string, tempFilename string) (bool, gocv.Mat) {
+	// CR3 files often need different handling
+
+	// Try with exiftool to extract preview image (often works for CR3)
+	cmd := exec.Command("exiftool", "-b", "-PreviewImage", path)
+
+	outFile, err := os.Create(tempFilename)
+	if err != nil {
+		logging.LogWarning("Failed to create temp file for CR3 conversion: %v", err)
+		return false, gocv.NewMat()
+	}
+	defer outFile.Close()
+
+	cmd.Stdout = outFile
+	err = cmd.Run()
+
+	if err == nil {
+		// Check if file has content
+		info, err := os.Stat(tempFilename)
+		if err == nil && info.Size() > 0 {
+			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
+			if !img.Empty() {
+				return true, img
+			}
+		}
+	}
+
+	// Alternative approach using newer versions of libraw
+	cmd = exec.Command("libraw_unpack", "-O", tempFilename, path)
+	err = cmd.Run()
+	if err == nil {
+		img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
+		if !img.Empty() {
+			return true, img
+		}
+	}
+
+	return false, gocv.NewMat()
 }

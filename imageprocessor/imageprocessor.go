@@ -1,10 +1,12 @@
 package imageprocessor
 
 import (
+	"bytes"
 	"database/sql"
 	"fmt"
 	"image"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -53,11 +55,23 @@ func (l *DefaultImageLoader) LoadImage(path string) (gocv.Mat, error) {
 }
 
 // RawImageLoader handles RAW camera formats
-type RawImageLoader struct{}
+type RawImageLoader struct {
+	TempDir string
+}
+
+// NewRawImageLoader creates a new RawImageLoader with a temp directory
+func NewRawImageLoader() *RawImageLoader {
+	// Create a temp directory for raw image processing if needed
+	tempDir := os.TempDir()
+	return &RawImageLoader{
+		TempDir: tempDir,
+	}
+}
 
 func (l *RawImageLoader) CanLoad(path string) bool {
 	ext := strings.ToLower(filepath.Ext(path))
-	rawFormats := []string{".nef", ".nrw", ".arw", ".raf", ".srf", ".cr2", ".cr3", ".dng"}
+	// Explicitly include all requested formats: DNG, RAF, ARW, NEF, CR2, CR3
+	rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf"}
 	for _, format := range rawFormats {
 		if ext == format {
 			// Check if file exists and is readable
@@ -69,22 +83,89 @@ func (l *RawImageLoader) CanLoad(path string) bool {
 }
 
 func (l *RawImageLoader) LoadImage(path string) (gocv.Mat, error) {
-	// This is a simplified implementation
-	// In a real application, you would use libraries like libraw or dcraw
-	// to decode raw files to a temporary TIFF/JPEG, then load that with gocv
+	// Create a unique temporary filename for the converted image
+	tempFilename := filepath.Join(l.TempDir, fmt.Sprintf("raw_conv_%d.tiff", time.Now().UnixNano()))
+	defer os.Remove(tempFilename) // Clean up temp file when done
 
-	// Example pseudocode:
-	// 1. Use external tool to convert RAW to temporary TIFF
-	// 2. Load the TIFF with gocv
-	// 3. Delete the temporary file
+	// First try with dcraw
+	if success, img := l.tryDcraw(path, tempFilename); success {
+		return img, nil
+	}
 
-	// For demonstration, we'll attempt to load directly
-	// This will likely fail for most RAW formats without proper implementation
+	// If dcraw fails, try libraw fallback
+	if success, img := l.tryLibRaw(path, tempFilename); success {
+		return img, nil
+	}
+
+	// If all else fails, attempt direct load (unlikely to work for most RAW formats)
 	img := gocv.IMRead(path, gocv.IMReadGrayScale)
 	if img.Empty() {
-		return img, fmt.Errorf("failed to load RAW image: %s (proper RAW implementation needed)", path)
+		return img, fmt.Errorf("failed to load RAW image: %s (all conversion methods failed)", path)
 	}
+
 	return img, nil
+}
+
+func (l *RawImageLoader) tryDcraw(path string, tempFilename string) (bool, gocv.Mat) {
+	// Convert RAW to TIFF using dcraw
+	// -T = output TIFF
+	// -c = output to stdout (we redirect to file)
+	// -w = use camera white balance
+	// -q 3 = use high-quality interpolation
+	cmd := exec.Command("dcraw", "-T", "-c", "-w", "-q", "3", path)
+
+	// Create the output file
+	outFile, err := os.Create(tempFilename)
+	if err != nil {
+		logging.LogWarning("Failed to create temp file for dcraw conversion: %v", err)
+		return false, gocv.NewMat()
+	}
+	defer outFile.Close()
+
+	// Set stdout to our file
+	cmd.Stdout = outFile
+
+	// Capture stderr for error reporting
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+
+	// Run the command
+	err = cmd.Run()
+	if err != nil {
+		logging.LogWarning("dcraw conversion failed: %v, stderr: %s", err, stderr.String())
+		return false, gocv.NewMat()
+	}
+
+	// Load the converted TIFF
+	img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
+	if img.Empty() {
+		return false, gocv.NewMat()
+	}
+
+	return true, img
+}
+
+func (l *RawImageLoader) tryLibRaw(path string, tempFilename string) (bool, gocv.Mat) {
+	// Try with rawtherapee-cli as an alternative for RAW conversion
+	// Example: rawtherapee-cli -o /tmp/output.jpg -c /path/to/raw/file.CR2
+	cmd := exec.Command("rawtherapee-cli", "-o", tempFilename, "-c", path)
+
+	// Capture stderr for error reporting
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
+	if err != nil {
+		logging.LogWarning("rawtherapee conversion failed: %v, stderr: %s", err, stderr.String())
+		return false, gocv.NewMat()
+	}
+
+	img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
+	if img.Empty() {
+		return false, gocv.NewMat()
+	}
+
+	return true, img
 }
 
 // HeicImageLoader handles HEIC/HEIF formats
@@ -122,7 +203,7 @@ func NewImageLoaderRegistry() *ImageLoaderRegistry {
 	return &ImageLoaderRegistry{
 		loaders: []ImageLoader{
 			&DefaultImageLoader{},
-			&RawImageLoader{},
+			NewRawImageLoader(), // Use constructor for the enhanced version
 			&HeicImageLoader{},
 		},
 	}
@@ -361,11 +442,21 @@ func CalculateHammingDistance(hash1, hash2 string) int {
 }
 
 // FindSimilarImages finds similar images to the query image
+// FindSimilarImages finds similar images to the query image with enhanced RAW/JPG matching
 func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, error) {
 	if options.DebugMode {
 		logging.DebugLog("Starting image search for: %s", options.QueryPath)
 		logging.DebugLog("Threshold: %.2f, Source Prefix: %s", options.Threshold, options.SourcePrefix)
 	}
+
+	// Check if query is a RAW file
+	isRawQuery := isRawFormat(options.QueryPath)
+	if isRawQuery && options.DebugMode {
+		logging.DebugLog("Query image is a RAW format file, using special processing")
+	}
+
+	// If the query is a JPG, check if there might be RAW versions to match against
+	isJpgQuery := isJpgFormat(options.QueryPath)
 
 	queryImg, err := LoadImage(options.QueryPath)
 	if err != nil {
@@ -388,9 +479,30 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 		logging.DebugLog("Query image hashes - avgHash: %s, pHash: %s", avgHash, pHash)
 	}
 
-	// Query database for potential matches
-	rows, err := db.Query(`SELECT path, source_prefix, average_hash, perceptual_hash FROM images 
-		WHERE source_prefix = ? OR ? = ''`, options.SourcePrefix, options.SourcePrefix)
+	// Create a more complex query based on the query type
+	var rows *sql.Rows
+	if isJpgQuery {
+		// For JPG queries, boost the chance of finding related RAW files by using a more aggressive query
+		// This query includes RAW files with similar filenames
+		baseFilename := getBaseFilename(options.QueryPath)
+
+		query := `SELECT path, source_prefix, average_hash, perceptual_hash, format FROM images 
+			WHERE (source_prefix = ? OR ? = '') AND 
+			      (path LIKE ? OR 1=1)`
+
+		searchPattern := "%" + baseFilename + "%"
+
+		if options.DebugMode {
+			logging.DebugLog("Using filename pattern search for JPG query: %s", searchPattern)
+		}
+
+		rows, err = db.Query(query, options.SourcePrefix, options.SourcePrefix, searchPattern)
+	} else {
+		// Standard query for other file types
+		rows, err = db.Query(`SELECT path, source_prefix, average_hash, perceptual_hash, format FROM images 
+			WHERE source_prefix = ? OR ? = ''`, options.SourcePrefix, options.SourcePrefix)
+	}
+
 	if err != nil {
 		return nil, fmt.Errorf("database query error: %v", err)
 	}
@@ -403,11 +515,12 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 
 	// Process count for logging
 	var processed int
+	var rawProcessed int
 	startTime := time.Now()
 
 	for rows.Next() {
-		var path, sourcePrefix, dbAvgHash, dbPHash string
-		err := rows.Scan(&path, &sourcePrefix, &dbAvgHash, &dbPHash)
+		var path, sourcePrefix, dbAvgHash, dbPHash, format string
+		err := rows.Scan(&path, &sourcePrefix, &dbAvgHash, &dbPHash, &format)
 		if err != nil {
 			if options.DebugMode {
 				logging.LogError("Error scanning row: %v", err)
@@ -417,21 +530,69 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 
 		processed++
 
-		// Calculate hamming distance (number of different bits)
+		// Check if the candidate is a RAW file
+		isRawCandidate := isRawFormat(path)
+		if isRawCandidate {
+			rawProcessed++
+		}
+
+		// Calculate hamming distance
 		avgHashDistance := CalculateHammingDistance(avgHash, dbAvgHash)
 		pHashDistance := CalculateHammingDistance(pHash, dbPHash)
 
-		// If hash distance is within threshold, compute SSIM for more accurate comparison
-		if avgHashDistance <= 10 || pHashDistance <= 12 { // Adjustable thresholds
+		// Determine thresholds based on file types
+		var avgThreshold, pHashThreshold int
+
+		// Use very generous thresholds for RAW-JPG comparisons
+		if (isRawQuery && isJpgFormat(path)) || (isJpgQuery && isRawCandidate) {
+			avgThreshold = 20   // Much more lenient
+			pHashThreshold = 25 // Much more lenient
+
 			if options.DebugMode {
-				logging.DebugLog("Potential match found: %s (avgHashDist: %d, pHashDist: %d)",
-					path, avgHashDistance, pHashDistance)
+				logging.DebugLog("Using very lenient thresholds for RAW-JPG comparison between %s and %s",
+					options.QueryPath, path)
+			}
+		} else if isRawQuery || isRawCandidate {
+			// Somewhat lenient for other RAW-involved comparisons
+			avgThreshold = 15
+			pHashThreshold = 18
+		} else {
+			// Standard thresholds for normal image comparisons
+			avgThreshold = 10
+			pHashThreshold = 12
+		}
+
+		// Special handling for filename-based matching
+		if isJpgQuery && isRawCandidate {
+			// Check if the filenames suggest they're related
+			if areFilenamesRelated(options.QueryPath, path) {
+				if options.DebugMode {
+					logging.DebugLog("Filename relationship detected between %s and %s, forcing comparison",
+						options.QueryPath, path)
+				}
+
+				// For related filenames, force SSIM comparison regardless of hash distance
+				avgThreshold = 64   // Essentially bypassing the check (8x8 hash has max 64 bits)
+				pHashThreshold = 64 // Essentially bypassing the check
+			}
+		}
+
+		// If hash distance is within threshold, compute SSIM for more accurate comparison
+		if avgHashDistance <= avgThreshold || pHashDistance <= pHashThreshold {
+			if options.DebugMode {
+				if isRawCandidate || isRawQuery {
+					logging.DebugLog("RAW image potential match found: %s (avgHashDist: %d/%d, pHashDist: %d/%d)",
+						path, avgHashDistance, avgThreshold, pHashDistance, pHashThreshold)
+				} else {
+					logging.DebugLog("Potential match found: %s (avgHashDist: %d/%d, pHashDist: %d/%d)",
+						path, avgHashDistance, avgThreshold, pHashDistance, pHashThreshold)
+				}
 			}
 
 			wg.Add(1)
 			semaphore <- struct{}{}
 
-			go func(p, prefix string) {
+			go func(p, prefix, fmt string) {
 				defer wg.Done()
 				defer func() { <-semaphore }()
 
@@ -454,12 +615,27 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 				}
 				defer candidateImg.Close()
 
+				// Adjust threshold for RAW-JPG comparisons
+				localThreshold := options.Threshold
+
+				// Use a more lenient SSIM threshold for RAW-JPG comparisons
+				if (isRawQuery && isJpgFormat(p)) || (isJpgQuery && isRawFormat(p)) {
+					// Lower the threshold by 20% for RAW-JPG comparisons
+					localThreshold = options.Threshold * 0.8
+
+					if options.DebugMode {
+						logging.DebugLog("Using reduced SSIM threshold of %.2f for RAW-JPG comparison with %s",
+							localThreshold, p)
+					}
+				}
+
 				ssimScore := ComputeSSIM(queryImg, candidateImg)
 
 				// If SSIM score is above threshold, add to matches
-				if ssimScore >= options.Threshold {
+				if ssimScore >= localThreshold {
 					if options.DebugMode {
-						logging.DebugLog("Match confirmed: %s (SSIM: %.4f)", p, ssimScore)
+						logging.DebugLog("Match confirmed: %s (SSIM: %.4f >= %.4f)",
+							p, ssimScore, localThreshold)
 					}
 
 					match := types.ImageMatch{
@@ -471,22 +647,26 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 					mutex.Lock()
 					matches = append(matches, match)
 					mutex.Unlock()
+				} else if options.DebugMode && (isRawQuery || isRawFormat(p)) {
+					logging.DebugLog("RAW image match rejected: %s (SSIM: %.4f < %.4f)",
+						p, ssimScore, localThreshold)
 				}
-			}(path, sourcePrefix)
+			}(path, sourcePrefix, format)
 		}
 
 		// Log progress every 100 images in debug mode
 		if options.DebugMode && processed%100 == 0 {
 			elapsed := time.Since(startTime)
-			logging.DebugLog("Search progress: %d images processed in %v", processed, elapsed)
+			logging.DebugLog("Search progress: %d images processed (%d RAW) in %v",
+				processed, rawProcessed, elapsed)
 		}
 	}
 
 	wg.Wait()
 
 	if options.DebugMode {
-		logging.DebugLog("Search completed. Total images processed: %d, Matches found: %d",
-			processed, len(matches))
+		logging.DebugLog("Search completed. Total images processed: %d (%d RAW), Matches found: %d",
+			processed, rawProcessed, len(matches))
 	}
 
 	// Sort matches by SSIM score (higher is better)
@@ -495,4 +675,68 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 	})
 
 	return matches, nil
+}
+
+// Helper to check if a file is in JPG format
+func isJpgFormat(path string) bool {
+	ext := strings.ToLower(filepath.Ext(path))
+	return ext == ".jpg" || ext == ".jpeg"
+}
+
+// Extract the base filename without extension and path
+func getBaseFilename(path string) string {
+	// Get just the filename without the directory
+	filename := filepath.Base(path)
+	// Remove the extension
+	return strings.TrimSuffix(filename, filepath.Ext(filename))
+}
+
+// Check if two filenames are likely related (e.g., IMG_1234.NEF and IMG_1234.JPG)
+func areFilenamesRelated(path1, path2 string) bool {
+	base1 := getBaseFilename(path1)
+	base2 := getBaseFilename(path2)
+
+	// Direct match
+	if base1 == base2 {
+		return true
+	}
+
+	// Check for common patterns where JPG exports get renamed
+	// 1. Some software adds suffixes like "_edited" or "-edited"
+	if strings.HasPrefix(base1, base2) || strings.HasPrefix(base2, base1) {
+		return true
+	}
+
+	// 2. Check for the same numeric part (cameras often use numeric names)
+	digits1 := extractDigits(base1)
+	digits2 := extractDigits(base2)
+
+	if digits1 != "" && digits2 != "" && digits1 == digits2 {
+		return true
+	}
+
+	return false
+}
+
+// Extract just the digits from a string
+func extractDigits(s string) string {
+	var result strings.Builder
+	for _, ch := range s {
+		if ch >= '0' && ch <= '9' {
+			result.WriteRune(ch)
+		}
+	}
+	return result.String()
+}
+
+// Helper to check if a file is in RAW format
+func isRawFormat(path string) bool {
+	ext := strings.ToLower(filepath.Ext(path))
+	rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf"}
+	for _, format := range rawFormats {
+		if ext == format {
+			return true
+		}
+	}
+	return false
 }

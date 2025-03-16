@@ -13,6 +13,7 @@ type ImageInfo struct {
 	Size           int64  `json:"size"`
 	AverageHash    string `json:"average_hash"`
 	PerceptualHash string `json:"perceptual_hash"`
+	IsRawFormat    bool   `json:"is_raw_format"`
 }
 
 // ImageMatch holds the similarity scores

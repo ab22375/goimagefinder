@@ -441,7 +441,6 @@ func CalculateHammingDistance(hash1, hash2 string) int {
 	return distance
 }
 
-// FindSimilarImages finds similar images to the query image
 // FindSimilarImages finds similar images to the query image with enhanced RAW/JPG matching
 func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, error) {
 	if options.DebugMode {

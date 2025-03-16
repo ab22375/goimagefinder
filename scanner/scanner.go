@@ -76,9 +76,6 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 		}
 	}
 
-	// Detect if this is a RAW image
-	isRawImage := isRawFormat(path)
-
 	// Get file info
 	fileInfo, err := os.Stat(path)
 	if err != nil {
@@ -89,6 +86,9 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 	// Get file format from extension (without the dot)
 	fileFormat := strings.TrimPrefix(strings.ToLower(filepath.Ext(path)), ".")
 
+	// Detect if this is a RAW image
+	isRawImage := isRawFormat(path)
+
 	// Load and process the image - for RAW files, convert to JPG first
 	var img gocv.Mat
 
@@ -97,31 +97,30 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 			logging.DebugLog("Converting RAW image to JPG for consistent hashing: %s", path)
 		}
 
-		// Try to use our standard RAW loader first, which already has fallback mechanisms
-		img, err = imageprocessor.LoadImage(path)
+		// First try our dedicated RAW to JPG conversion
+		img, err = convertRawToJpgAndLoad(path)
 
-		// If standard loading fails, we don't attempt the conversion
+		// If conversion fails, fall back to standard loader
 		if err != nil {
-			result.Error = fmt.Errorf("failed to load RAW image %s: %v", path, err)
-			return result
-		}
-
-		// Successfully loaded the RAW image using one of the existing methods
-		if options.DebugMode {
-			logging.DebugLog("Successfully loaded RAW image using standard loader: %s", path)
+			if options.DebugMode {
+				logging.LogWarning("RAW to JPG conversion failed: %v, falling back to standard loader", err)
+			}
+			img, err = imageprocessor.LoadImage(path)
+		} else if options.DebugMode {
+			logging.DebugLog("Successfully converted RAW to JPG for: %s", path)
 		}
 	} else {
 		// For non-RAW files, load normally
 		img, err = imageprocessor.LoadImage(path)
-		if err != nil {
-			result.Error = fmt.Errorf("failed to load image %s: %v", path, err)
-			return result
-		}
 	}
 
+	if err != nil {
+		result.Error = fmt.Errorf("failed to load image %s: %v", path, err)
+		return result
+	}
 	defer img.Close()
 
-	// Compute hashes - now always based on JPG representation for RAW files
+	// Compute hashes
 	avgHash, err := imageprocessor.ComputeAverageHash(img)
 	if err != nil {
 		result.Error = fmt.Errorf("cannot compute average hash for %s: %v", path, err)
@@ -136,7 +135,7 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 
 	// Log hash information for debugging raw images
 	if options.DebugMode && isRawImage {
-		logging.DebugLog("RAW image (converted to JPG) hashes - %s - avgHash: %s, pHash: %s", path, avgHash, pHash)
+		logging.DebugLog("RAW image hashes - %s - avgHash: %s, pHash: %s", path, avgHash, pHash)
 	}
 
 	// Create ImageInfo object
@@ -150,7 +149,7 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 		Size:           fileInfo.Size(),
 		AverageHash:    avgHash,
 		PerceptualHash: pHash,
-		IsRawFormat:    isRawImage, // This field needs to be in your types.ImageInfo struct
+		IsRawFormat:    isRawImage,
 	}
 
 	// Store in database
@@ -161,7 +160,7 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 	}
 
 	if options.DebugMode && isRawImage {
-		logging.DebugLog("Successfully indexed RAW image (using JPG conversion): %s", path)
+		logging.DebugLog("Successfully indexed RAW image: %s", path)
 	}
 
 	result.Success = true

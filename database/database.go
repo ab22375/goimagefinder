@@ -178,3 +178,51 @@ func QueryPotentialMatches(db *sql.DB, sourcePrefix string) (*sql.Rows, error) {
 	// Query database for potential matches
 	return db.Query(query, args...)
 }
+
+// ScanStats contains statistics from a scan operation
+type ScanStats struct {
+	TotalImages  int
+	ErrorCount   int
+	UniqueHashes int
+}
+
+// GetScanStats retrieves statistics about scanned images
+func GetScanStats(db *sql.DB, sourcePrefix string) (*ScanStats, error) {
+	var stats ScanStats
+	var err error
+
+	// Count total images
+	var totalQuery string
+	var args []interface{}
+
+	if sourcePrefix != "" {
+		totalQuery = "SELECT COUNT(*) FROM images WHERE source_prefix = ?"
+		args = append(args, sourcePrefix)
+	} else {
+		totalQuery = "SELECT COUNT(*) FROM images"
+	}
+
+	err = db.QueryRow(totalQuery, args...).Scan(&stats.TotalImages)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get total images: %v", err)
+	}
+
+	// Count unique hashes
+	var hashQuery string
+	if sourcePrefix != "" {
+		hashQuery = "SELECT COUNT(DISTINCT average_hash) FROM images WHERE source_prefix = ?"
+	} else {
+		hashQuery = "SELECT COUNT(DISTINCT average_hash) FROM images"
+	}
+
+	err = db.QueryRow(hashQuery, args...).Scan(&stats.UniqueHashes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get unique hashes: %v", err)
+	}
+
+	// Count errors (assuming you track errors in the database)
+	// If you don't have an explicit error field, this can be omitted or adapted
+	stats.ErrorCount = 0
+
+	return &stats, nil
+}

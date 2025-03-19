@@ -19,6 +19,15 @@ make package-macos
 make create-dmg
 ```
 
+```bash
+make clean
+make build-macos-arm64
+make package-macos
+make create-dmg
+```
+
+
+
 # after changing packages
 go build ./...
 

@@ -25,6 +25,9 @@ type ScanOptions struct {
 	ForceRewrite bool
 	DebugMode    bool
 	DbPath       string
+	LogPath      string
+	TotalImages  int // Optional pre-counted total
+	MaxWorkers   int // Optional worker limit
 }
 
 // ProcessImageResult holds the result of processing an image
@@ -32,14 +35,35 @@ type ProcessImageResult struct {
 	Path    string
 	Success bool
 	Error   error
+	IsRaw   bool
+	IsTif   bool
+}
+
+// FileStats tracks information about files to be processed
+type FileStats struct {
+	totalFiles int
+	rawFiles   int
+	tifFiles   int
+}
+
+// ImageHashes contains computed hashes for an image
+type ImageHashes struct {
+	avgHash string
+	pHash   string
 }
 
 // ScanAndStoreFolder scans a folder and stores image information in the database
 func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
+	// Determine concurrency limit
+	maxWorkers := 8 // Default
+	if options.MaxWorkers > 0 {
+		maxWorkers = options.MaxWorkers
+	}
+
 	// Initialize components for parallel processing
 	var wg sync.WaitGroup
 	resultsChan := make(chan ProcessImageResult, 100)
-	semaphore := make(chan struct{}, 8) // Limit concurrent goroutines
+	semaphore := make(chan struct{}, maxWorkers)
 
 	// Count and classify files before processing
 	fileStats := countFilesToProcess(options)
@@ -64,13 +88,6 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 	printCompletionStats(progressTracker, startTime, options)
 
 	return err
-}
-
-// FileStats tracks information about files to be processed
-type FileStats struct {
-	totalFiles int
-	rawFiles   int
-	tifFiles   int
 }
 
 // countFilesToProcess counts and classifies files to be processed
@@ -191,32 +208,22 @@ func (p *ProgressTracker) processResults(resultsChan chan ProcessImageResult) {
 		p.mu.Lock()
 		p.processed++
 
-		// Check file type
-		ext := strings.ToLower(filepath.Ext(result.Path))
-
-		// Check if it's a RAW file
-		isRawFile := false
-		rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf"}
-		for _, format := range rawFormats {
-			if ext == format {
-				isRawFile = true
-				p.rawProcessed++
-				break
-			}
+		// Track RAW files
+		if result.IsRaw {
+			p.rawProcessed++
 		}
 
-		// Check if it's a TIF file
-		isTifFile := ext == ".tif" || ext == ".tiff"
-		if isTifFile {
+		// Track TIF files
+		if result.IsTif {
 			p.tifProcessed++
 		}
 
 		if !result.Success {
 			p.errors++
-			if isRawFile {
+			if result.IsRaw {
 				p.rawErrors++
 			}
-			if isTifFile {
+			if result.IsTif {
 				p.tifErrors++
 			}
 			// Log the error if debug mode is enabled
@@ -237,33 +244,73 @@ func (p *ProgressTracker) stop() {
 	p.done <- true
 }
 
-// walkAndProcessFiles traverses the directory and processes each file
+// Modify the walkAndProcessFiles function to remove the unused fileExt variable:
+
+// walkAndProcessFiles processes all image files in a directory
 func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, resultsChan chan ProcessImageResult, semaphore chan struct{}) error {
+	// First create a registry to identify image files
 	registry := imageprocessor.NewImageLoaderRegistry()
 
-	// Walk through directory and process files
+	// Walk through the directory tree
 	return filepath.Walk(options.FolderPath, func(path string, info os.FileInfo, err error) error {
-		if err != nil || info.IsDir() {
-			if err != nil && options.DebugMode {
-				logging.LogError("Error accessing path %s: %v", path, err)
+		if err != nil {
+			if options.DebugMode {
+				logging.LogError("Failed to access path %s: %v", path, err)
 			}
+			return nil // Continue with other files
+		}
+
+		// Skip directories
+		if info.IsDir() {
 			return nil
 		}
 
-		// Check if we have a loader for this file
-		if registry.CanLoadFile(path) {
-			wg.Add(1)
+		// Skip files that we can't handle
+		if !registry.CanLoadFile(path) {
+			return nil
+		}
+
+		// Add to wait group and launch goroutine for processing
+		wg.Add(1)
+		go func(filePath string) {
+			defer wg.Done()
+
 			// Acquire semaphore
 			semaphore <- struct{}{}
+			defer func() { <-semaphore }()
 
-			go func(p string) {
-				defer wg.Done()
-				defer func() { <-semaphore }() // Release semaphore when done
+			// Check file type
+			isRawImage := isRawFormat(filePath)
+			isTifImage := isTifFormat(filePath)
 
-				result := processAndStoreImage(db, p, options.SourcePrefix, options)
-				resultsChan <- result
-			}(path)
-		}
+			// Process image with panic recovery
+			var result ProcessImageResult
+
+			func() {
+				// Use defer to catch panics
+				defer func() {
+					if r := recover(); r != nil {
+						err := fmt.Errorf("panic during image processing: %v", r)
+						result = ProcessImageResult{
+							Path:    filePath,
+							Success: false,
+							Error:   err,
+							IsRaw:   isRawImage,
+							IsTif:   isTifImage,
+						}
+						logging.LogError("Recovered from panic processing %s: %v", filePath, r)
+					}
+				}()
+
+				// Process the image
+				result = processAndStoreImage(db, filePath, options.SourcePrefix, options)
+				result.IsRaw = isRawImage
+				result.IsTif = isTifImage
+			}()
+
+			// Send result to channel
+			resultsChan <- result
+		}(path)
 
 		return nil
 	})
@@ -324,13 +371,19 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 	isRawImage := isRawFormat(path)
 	isTifImage := isTifFormat(path)
 
-	// Load the image based on its type
-	img, err := loadImageBasedOnType(path, isRawImage, isTifImage, options.DebugMode)
+	// Load the image based on its type - with panic recovery
+	img, err := safeLoadImageBasedOnType(path, isRawImage, isTifImage, options.DebugMode)
 	if err != nil {
 		result.Error = fmt.Errorf("failed to load image %s: %v", path, err)
 		return result
 	}
 	defer img.Close()
+
+	// Skip empty images
+	if img.Empty() {
+		result.Error = fmt.Errorf("image is empty after loading: %s", path)
+		return result
+	}
 
 	// Compute hashes
 	imageHashes, err := computeImageHashes(img, path, fileFormat, isRawImage, isTifImage, options.DebugMode)
@@ -415,12 +468,6 @@ func checkAndSkipIfUnchanged(db *sql.DB, path string, sourcePrefix string, optio
 	return nil
 }
 
-// ImageHashes contains computed hashes for an image
-type ImageHashes struct {
-	avgHash string
-	pHash   string
-}
-
 // computeImageHashes computes average and perceptual hashes for an image
 func computeImageHashes(img gocv.Mat, path string, fileFormat string, isRawImage bool, isTifImage bool, debugMode bool) (ImageHashes, error) {
 	var hashes ImageHashes
@@ -448,28 +495,49 @@ func computeImageHashes(img gocv.Mat, path string, fileFormat string, isRawImage
 	return hashes, nil
 }
 
-// loadImageBasedOnType loads an image using appropriate method based on file type
-func loadImageBasedOnType(path string, isRawImage bool, isTifImage bool, debugMode bool) (gocv.Mat, error) {
+// safeLoadImageBasedOnType safely loads an image with panic recovery
+func safeLoadImageBasedOnType(path string, isRawImage bool, isTifImage bool, debugMode bool) (gocv.Mat, error) {
 	var img gocv.Mat
 	var err error
 
+	// Use defer to recover from any panics during image loading
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("panic during image loading: %v", r)
+			logging.LogError("Panic during image loading: %v, file: %s", r, path)
+			if !img.Empty() {
+				img.Close()
+			}
+			img = gocv.NewMat() // Return an empty Mat to prevent further issues
+		}
+	}()
+
+	// Attempt to load the image based on its type
+	img, err = loadImageBasedOnType(path, isRawImage, isTifImage, debugMode)
+	return img, err
+}
+
+// loadImageBasedOnType loads an image using appropriate method based on file type
+func loadImageBasedOnType(path string, isRawImage bool, isTifImage bool, debugMode bool) (gocv.Mat, error) {
 	if isRawImage {
 		if debugMode {
 			logging.DebugLog("Converting RAW image to JPG for consistent hashing: %s", path)
 		}
 
 		// First try our dedicated RAW to JPG conversion
-		img, err = convertRawToJpgAndLoad(path)
+		img, err := convertRawToJpgAndLoad(path)
 
 		// If conversion fails, fall back to standard loader
 		if err != nil {
 			if debugMode {
 				logging.LogWarning("RAW to JPG conversion failed: %v, falling back to standard loader", err)
 			}
-			img, err = imageprocessor.LoadImage(path)
+			return imageprocessor.LoadImage(path)
 		} else if debugMode {
 			logging.DebugLog("Successfully converted RAW to JPG for: %s", path)
 		}
+
+		return img, nil
 	} else if isTifImage {
 		if debugMode {
 			logging.DebugLog("Processing TIFF image with specialized TIFF loader: %s", path)
@@ -477,23 +545,23 @@ func loadImageBasedOnType(path string, isRawImage bool, isTifImage bool, debugMo
 
 		// Use specialized TIFF loader
 		tiffLoader := imageprocessor.NewTiffImageLoader()
-		img, err = tiffLoader.LoadImage(path)
+		img, err := tiffLoader.LoadImage(path)
 
 		// If specialized loader fails, fall back to standard loader
 		if err != nil {
 			if debugMode {
 				logging.LogWarning("TIFF specialized loader failed: %v, falling back to standard loader", err)
 			}
-			img, err = imageprocessor.LoadImage(path)
+			return imageprocessor.LoadImage(path)
 		} else if debugMode {
 			logging.DebugLog("Successfully loaded TIFF image: %s", path)
 		}
+
+		return img, nil
 	} else {
 		// For non-RAW and non-TIF files, load normally
-		img, err = imageprocessor.LoadImage(path)
+		return imageprocessor.LoadImage(path)
 	}
-
-	return img, err
 }
 
 // Helper to check if a file is in TIF format
@@ -629,4 +697,38 @@ func convertCR3WithExiftool(path, outputPath string) error {
 	}
 
 	return fmt.Errorf("could not extract any preview image from CR3 file")
+}
+
+// Add these utility functions to your scanner/scanner.go file:
+
+// IsImageFile checks if a file extension belongs to an image file
+func IsImageFile(ext string) bool {
+	ext = strings.ToLower(ext)
+	switch ext {
+	case ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp":
+		return true
+	case ".cr2", ".nef", ".arw", ".orf", ".rw2", ".pef", ".dng", ".raw":
+		return true
+	case ".tif", ".tiff":
+		return true
+	default:
+		return false
+	}
+}
+
+// IsRawFormat checks if a file extension is for a RAW image format
+func IsRawFormat(ext string) bool {
+	ext = strings.ToLower(ext)
+	switch ext {
+	case ".cr2", ".nef", ".arw", ".orf", ".rw2", ".pef", ".dng", ".raw":
+		return true
+	default:
+		return false
+	}
+}
+
+// IsTiffFormat checks if a file extension is for a TIFF image
+func IsTiffFormat(ext string) bool {
+	ext = strings.ToLower(ext)
+	return ext == ".tif" || ext == ".tiff"
 }

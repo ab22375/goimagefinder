@@ -7,36 +7,46 @@ This program is a command-line tool designed to **scan, index, and search** for 
 The program uses **SQLite** for database storage and **OpenCV (GoCV)** for image processing, allowing users to:
 
 - Scan a folder of images and store metadata and hash values in a database.
-- Search for similar images by comparing a query image against the indexed database using **hash matching and SSIM (Structural Similarity Index Measure)**.
+- Search for similar images by comparing a query image against the indexed database using **hash matching and similarity scoring**.
 
 ## Features
 
-- Supports **multiple image formats**, including RAW and HEIC.
-- Uses **average hash (aHash) and perceptual hash (pHash)** for image comparison.
-- Computes **SSIM similarity scores** for more accurate matching.
-- Allows **incremental updates** to the database to avoid reprocessing unchanged images.
-- Supports **multi-threaded processing** for efficient scanning.
-- Provides **CLI commands** for scanning and searching images.
+- **Multi-format support**: Handles standard (JPG, PNG), RAW (NEF, CR2, RAF, ARW, CR3, DNG), and TIFF formats
+- **Robust hash algorithms**: Uses average hash (aHash) and perceptual hash (pHash) for image comparison
+- **Smart image similarity**: Computes weighted similarity scores with filename matching boosts
+- **Incremental scanning**: Avoids reprocessing unchanged files to save time
+- **Multi-threaded processing**: Efficiently processes images in parallel
+- **Specialized format handling**: Format-specific loaders for different camera RAW formats
+- **Detailed logging**: Comprehensive debug logging system
 
 ## Dependencies
 
 To use this tool, you need to install:
 
 - **Go** (Golang) 1.18+
-- **GoCV** (OpenCV bindings for Go): Install via `go get gocv.io/x/gocv`
-- **SQLite3**: Install via `go get github.com/mattn/go-sqlite3`
+- **GoCV** (OpenCV bindings for Go): `go get gocv.io/x/gocv`
+- **SQLite3**: `go get github.com/mattn/go-sqlite3`
 
-## Installation for Mac Silicon (AMR64)
+### External Tools (Optional)
 
-**Download the dmg from**
+Some advanced features require external tools:
+
+- **exiftool**: For extracting preview images from RAW files
+- **dcraw**: For converting RAW images
+- **rawtherapee-cli**: Alternative RAW processor
+- **ImageMagick/VIPS/GDAL**: For advanced TIFF processing
+
+## Installation for Mac Silicon (ARM64)
+
+**Download the DMG from:**
 
 https://github.com/ab22375/search_image/tree/main/dist
 
-Install the program
+After installing, create a symlink in your PATH:
 
-# Create a symlink in a directory that's in your PATH
+```bash
 sudo ln -s /Applications/goimagefinder.app/Contents/MacOS/goimagefinder /usr/local/bin/goimagefinder
-
+```
 
 ## Usage
 
@@ -44,24 +54,24 @@ sudo ln -s /Applications/goimagefinder.app/Contents/MacOS/goimagefinder /usr/loc
 
 To scan and index a directory of images:
 
-```
+```bash
 goimagefinder scan --folder=/path/to/images [options]
 ```
 
 Options:
 
-* `--database=PATH`: Path to database file (default: executable's directory/images.db)
+* `--database=PATH` or `--db=PATH`: Path to database file (default: executable's directory/images.db)
 * `--prefix=NAME`: Source prefix for scanning (e.g., "ExternalDrive1")
 * `--force`: Force rewrite existing entries
 * `--debug`: Enable debug mode with detailed logging
 * `--logfile=PATH`: Specify custom log file path (default: imagefinder.log)
 
-From terminal it can conveniently be run as
+Terminal convenience example:
 
-```sh
+```bash
 F="/path/to/folder/to/scan"
 L="/path/to/log/file.log"
-D="/path/to/slite/database.db"
+D="/path/to/sqlite/database.db"
 P="prefix-name"
 goimagefinder scan --folder=$F --database=$D --prefix=$P --debug --logfile=$L
 ```
@@ -70,22 +80,24 @@ goimagefinder scan --folder=$F --database=$D --prefix=$P --debug --logfile=$L
 
 To search for images similar to a query image:
 
-```
-./build/imagefinder search --image=/path/to/query.jpg [options]
+```bash
+goimagefinder search --image=/path/to/query.jpg [options]
 ```
 
 Options:
 
-* `--database=PATH`: Path to database file (default: executable's directory/images.db)
+* `--database=PATH` or `--db=PATH`: Path to database file (default: executable's directory/images.db)
 * `--threshold=VALUE`: Similarity threshold (0.0-1.0, default: 0.8)
 * `--prefix=NAME`: Source prefix for filtering results
 * `--debug`: Enable debug mode with detailed logging
 * `--logfile=PATH`: Specify custom log file path (default: imagefinder.log)
 
+Terminal convenience example:
 
-```sh
-D="/path/to/slite/database.db"
+```bash
+D="/path/to/sqlite/database.db"
 I="/path/to/image/to/search.jpg"
+L="/path/to/log/file.log"
 goimagefinder search --database=$D --debug --logfile=$L --image=$I
 ```
 
@@ -93,22 +105,33 @@ goimagefinder search --database=$D --debug --logfile=$L --image=$I
 
 1. **Index a directory of images**
 
-   ```sh
-   ./image-indexer scan --folder=/home/user/photos --database=photos.db --prefix=DSLR --force
+   ```bash
+   goimagefinder scan --folder=/home/user/photos --database=photos.db --prefix=DSLR --force
    ```
+
 2. **Find similar images to a given file**
 
-   ```sh
-   ./image-indexer search --image=/home/user/photos/query.jpg --database=photos.db --threshold=0.85
+   ```bash
+   goimagefinder search --image=/home/user/photos/query.jpg --database=photos.db --threshold=0.85
    ```
 
 ## Technical Details
 
 ### Image Processing
 
+The tool uses multiple approaches for image similarity detection:
+
 - **Average Hash (aHash)**: Calculates an 8x8 pixel grayscale representation and compares each pixel to the mean brightness.
 - **Perceptual Hash (pHash)**: Uses a **32x32** DCT-based transformation and median filtering for robust comparisons.
-- **SSIM (Structural Similarity Index)**: Measures perceptual differences between images.
+- **Filename similarity**: Adds a small boost when filenames are similar (e.g., IMG_1234.JPG and IMG_1234.CR2).
+
+### RAW Image Handling
+
+The program implements specialized loaders for various RAW formats:
+
+- Uses embedded preview extraction when possible (via exiftool)
+- Falls back to dcraw/rawtherapee for RAW conversion
+- Supports format-specific optimizations for RAF, NEF, ARW, CR2, CR3, and DNG files
 
 ### Database Schema
 
@@ -127,6 +150,7 @@ CREATE TABLE IF NOT EXISTS images (
     size INTEGER,
     average_hash TEXT,
     perceptual_hash TEXT,
+    features BLOB,
     UNIQUE(path, source_prefix)
 );
 ```
@@ -141,31 +165,20 @@ CREATE INDEX IF NOT EXISTS idx_perceptual_hash ON images(perceptual_hash);
 
 ## Performance Considerations
 
-- **Concurrency**: Uses a semaphore to limit the number of concurrent processing threads (default: 8).
+- **Concurrency**: Uses a semaphore to limit the number of concurrent processing threads (default: optimal for your CPU).
 - **Incremental updates**: Skips unchanged images unless `--force` is specified.
 - **Optimized queries**: Uses SQLite indexes to speed up searches.
-
-## Future Enhancements
-
-- Support for **GPU acceleration** using OpenCV CUDA.
-- More **advanced hash algorithms** like Wavelet Hashing.
-- Improved **HEIC and RAW processing** via external libraries.
+- **Specialized loaders**: Format-specific handling improves processing efficiency.
 
 ## Debug Mode
 
 When using the `--debug` flag, the application will create a detailed log file with information about:
 
-* Each image processed
-* Processing errors and their causes
-* Hash values generated
-* Image comparison details
-* Database operations
-
-This is particularly useful for:
-
-* Identifying problematic image files
-* Troubleshooting performance issues
-* Understanding why certain images are matched or not matched
+* Image processing workflow
+* Hash computation details
+* Errors and their causes
+* Processing statistics for different file types
+* Search matches and near-matches
 
 Example debug log output:
 
@@ -173,17 +186,17 @@ Example debug log output:
 2025/03/15 10:15:23 --- ImageFinder Debug Log Started at 2025-03-15T10:15:23Z ---
 2025/03/15 10:15:23 Starting image scan on folder: /home/user/photos
 2025/03/15 10:15:23 Force rewrite: false, Source prefix: myCollection
-2025/03/15 10:15:24 Found 1283 image files to process
+2025/03/15 10:15:24 Found 1283 image files to process (123 RAW files, 45 TIF files)
 2025/03/15 10:15:25 PROCESSED: /home/user/photos/img001.jpg
-2025/03/15 10:15:25 FAILED: /home/user/photos/corrupted.jpg - Error: failed to load image: invalid file format
+2025/03/15 10:15:25 FAILED: /home/user/photos/corrupted.jpg - Error: failed to load image
 2025/03/15 10:15:25 PROCESSED: /home/user/photos/img002.jpg
 ...
-2025/03/15 10:20:45 Scan completed in 5m22s. Processed: 1283, Errors: 7
+2025/03/15 10:20:45 Scan completed in 5m22s. Processed: 1283, Errors: 7, RAW files: 123, RAW errors: 2
 ```
 
 ## Project Structure
 
-The application is divided into several modules:
+The application is organized into several packages:
 
 * `main.go`: Entry point and command handling
 * `database/`: Database operations and schema management
@@ -192,20 +205,6 @@ The application is divided into several modules:
 * `logging/`: Debug and error logging
 * `types/`: Shared data structures
 * `utils/`: Utility functions for argument parsing, etc.
-
-## Development
-
-### Running Tests
-
-```
-make test
-```
-
-### Setting Up Development Environment
-
-```
-make setup
-```
 
 ## License
 

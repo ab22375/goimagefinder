@@ -26,15 +26,17 @@ To use this tool, you need to install:
 - **GoCV** (OpenCV bindings for Go): Install via `go get gocv.io/x/gocv`
 - **SQLite3**: Install via `go get github.com/mattn/go-sqlite3`
 
-## Installation
+## Installation for Mac Silicon (AMR64)
 
-Clone this repository and build the project:
+**Download the dmg from**
 
-```sh
-git clone https://github.com/your-repo/image-similarity-indexer.git
-cd image-similarity-indexer
-go build -o image-indexer
-```
+https://github.com/ab22375/search_image/tree/main/dist
+
+Install the program
+
+# Create a symlink in a directory that's in your PATH
+sudo ln -s /Applications/goimagefinder.app/Contents/MacOS/goimagefinder /usr/local/bin/goimagefinder
+
 
 ## Usage
 
@@ -43,7 +45,7 @@ go build -o image-indexer
 To scan and index a directory of images:
 
 ```
-./build/imagefinder scan --folder=/path/to/images [options]
+goimagefinder scan --folder=/path/to/images [options]
 ```
 
 Options:
@@ -53,6 +55,16 @@ Options:
 * `--force`: Force rewrite existing entries
 * `--debug`: Enable debug mode with detailed logging
 * `--logfile=PATH`: Specify custom log file path (default: imagefinder.log)
+
+From terminal it can conveniently be run as
+
+```sh
+F="/path/to/folder/to/scan"
+L="/path/to/log/file.log"
+D="/path/to/slite/database.db"
+P="prefix-name"
+goimagefinder scan --folder=$F --database=$D --prefix=$P --debug --logfile=$L
+```
 
 ### Searching for Similar Images
 
@@ -69,6 +81,13 @@ Options:
 * `--prefix=NAME`: Source prefix for filtering results
 * `--debug`: Enable debug mode with detailed logging
 * `--logfile=PATH`: Specify custom log file path (default: imagefinder.log)
+
+
+```sh
+D="/path/to/slite/database.db"
+I="/path/to/image/to/search.jpg"
+goimagefinder search --database=$D --debug --logfile=$L --image=$I
+```
 
 ## Example Workflow
 

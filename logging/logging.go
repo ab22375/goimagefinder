@@ -55,6 +55,19 @@ func CloseLogger() {
 	}
 }
 
+// LogInfo logs an information message (added to match usage in format_loader_implementations.go)
+func LogInfo(format string, args ...interface{}) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	if debugLogger != nil {
+		debugLogger.Printf("INFO: "+format, args...)
+	} else {
+		// Fallback to standard output if logger is not set up
+		log.Printf("INFO: "+format, args...)
+	}
+}
+
 // DebugLog logs a message if debug mode is enabled
 func DebugLog(format string, args ...interface{}) {
 	mu.Lock()

@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"image"
+	"image/jpeg"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -17,6 +18,7 @@ import (
 	"imagefinder/types"
 
 	"gocv.io/x/gocv"
+	"golang.org/x/image/tiff"
 )
 
 // SearchOptions defines the options for image searching
@@ -210,8 +212,9 @@ func NewImageLoaderRegistry() *ImageLoaderRegistry {
 	return &ImageLoaderRegistry{
 		loaders: []ImageLoader{
 			&DefaultImageLoader{},
-			NewRawImageLoader(), // Use constructor for the enhanced version
-			&HeicImageLoader{},
+			NewRawImageLoader(),  // RAW image loader
+			NewTiffImageLoader(), // TIFF image loader with specialized support
+			&HeicImageLoader{},   // HEIC image loader
 		},
 	}
 }
@@ -448,7 +451,7 @@ func CalculateHammingDistance(hash1, hash2 string) int {
 	return distance
 }
 
-// FindSimilarImages finds similar images to the query image with enhanced RAW/JPG matching
+// FindSimilarImages finds similar images to the query image with enhanced RAW/TIF/JPG matching
 func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, error) {
 	if options.DebugMode {
 		logging.DebugLog("Starting image search for: %s", options.QueryPath)
@@ -461,7 +464,13 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 		logging.DebugLog("Query image is a RAW format file, using special processing")
 	}
 
-	// If the query is a JPG, check if there might be RAW versions to match against
+	// Check if query is a TIF file
+	isTifQuery := isTifFormat(options.QueryPath)
+	if isTifQuery && options.DebugMode {
+		logging.DebugLog("Query image is a TIFF format file, using specialized processing")
+	}
+
+	// If the query is a JPG, check if there might be RAW/TIF versions to match against
 	isJpgQuery := isJpgFormat(options.QueryPath)
 
 	queryImg, err := LoadImage(options.QueryPath)
@@ -488,8 +497,8 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 	// Create a more complex query based on the query type
 	var rows *sql.Rows
 	if isJpgQuery {
-		// For JPG queries, boost the chance of finding related RAW files by using a more aggressive query
-		// This query includes RAW files with similar filenames
+		// For JPG queries, boost the chance of finding related RAW/TIF files by using a more aggressive query
+		// This query includes RAW and TIF files with similar filenames
 		baseFilename := getBaseFilename(options.QueryPath)
 
 		query := `SELECT path, source_prefix, average_hash, perceptual_hash, format FROM images 
@@ -522,6 +531,7 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 	// Process count for logging
 	var processed int
 	var rawProcessed int
+	var tifProcessed int
 	startTime := time.Now()
 
 	for rows.Next() {
@@ -542,6 +552,12 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 			rawProcessed++
 		}
 
+		// Check if the candidate is a TIF file
+		isTifCandidate := isTifFormat(path)
+		if isTifCandidate {
+			tifProcessed++
+		}
+
 		// Calculate hamming distance
 		avgHashDistance := CalculateHammingDistance(avgHash, dbAvgHash)
 		pHashDistance := CalculateHammingDistance(pHash, dbPHash)
@@ -549,17 +565,18 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 		// Determine thresholds based on file types
 		var avgThreshold, pHashThreshold int
 
-		// Use very generous thresholds for RAW-JPG comparisons
-		if (isRawQuery && isJpgFormat(path)) || (isJpgQuery && isRawCandidate) {
+		// Use very generous thresholds for RAW/TIF-JPG comparisons
+		if (isRawQuery && isJpgFormat(path)) || (isJpgQuery && isRawCandidate) ||
+			(isTifQuery && isJpgFormat(path)) || (isJpgQuery && isTifCandidate) {
 			avgThreshold = 20   // Much more lenient
 			pHashThreshold = 25 // Much more lenient
 
 			if options.DebugMode {
-				logging.DebugLog("Using very lenient thresholds for RAW-JPG comparison between %s and %s",
+				logging.DebugLog("Using very lenient thresholds for special format comparison between %s and %s",
 					options.QueryPath, path)
 			}
-		} else if isRawQuery || isRawCandidate {
-			// Somewhat lenient for other RAW-involved comparisons
+		} else if isRawQuery || isRawCandidate || isTifQuery || isTifCandidate {
+			// Somewhat lenient for other special format comparisons
 			avgThreshold = 15
 			pHashThreshold = 18
 		} else {
@@ -569,7 +586,7 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 		}
 
 		// Special handling for filename-based matching
-		if isJpgQuery && isRawCandidate {
+		if isJpgQuery && (isRawCandidate || isTifCandidate) {
 			// Check if the filenames suggest they're related
 			if areFilenamesRelated(options.QueryPath, path) {
 				if options.DebugMode {
@@ -586,8 +603,8 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 		// If hash distance is within threshold, compute SSIM for more accurate comparison
 		if avgHashDistance <= avgThreshold || pHashDistance <= pHashThreshold {
 			if options.DebugMode {
-				if isRawCandidate || isRawQuery {
-					logging.DebugLog("RAW image potential match found: %s (avgHashDist: %d/%d, pHashDist: %d/%d)",
+				if isRawCandidate || isTifCandidate {
+					logging.DebugLog("Special format potential match found: %s (avgHashDist: %d/%d, pHashDist: %d/%d)",
 						path, avgHashDistance, avgThreshold, pHashDistance, pHashThreshold)
 				} else {
 					logging.DebugLog("Potential match found: %s (avgHashDist: %d/%d, pHashDist: %d/%d)",
@@ -598,7 +615,7 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 			wg.Add(1)
 			semaphore <- struct{}{}
 
-			go func(p, prefix, fmt string) {
+			go func(p, prefix, fmt string, isRaw, isTif bool) {
 				defer wg.Done()
 				defer func() { <-semaphore }()
 
@@ -621,16 +638,17 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 				}
 				defer candidateImg.Close()
 
-				// Adjust threshold for RAW-JPG comparisons
+				// Adjust threshold for special format-JPG comparisons
 				localThreshold := options.Threshold
 
-				// Use a more lenient SSIM threshold for RAW-JPG comparisons
-				if (isRawQuery && isJpgFormat(p)) || (isJpgQuery && isRawFormat(p)) {
-					// Lower the threshold by 20% for RAW-JPG comparisons
+				// Use a more lenient SSIM threshold for RAW/TIF-JPG comparisons
+				if (isRawQuery && isJpgFormat(p)) || (isJpgQuery && isRaw) ||
+					(isTifQuery && isJpgFormat(p)) || (isJpgQuery && isTif) {
+					// Lower the threshold by 20% for special format-JPG comparisons
 					localThreshold = options.Threshold * 0.8
 
 					if options.DebugMode {
-						logging.DebugLog("Using reduced SSIM threshold of %.2f for RAW-JPG comparison with %s",
+						logging.DebugLog("Using reduced SSIM threshold of %.2f for special format comparison with %s",
 							localThreshold, p)
 					}
 				}
@@ -653,26 +671,26 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 					mutex.Lock()
 					matches = append(matches, match)
 					mutex.Unlock()
-				} else if options.DebugMode && (isRawQuery || isRawFormat(p)) {
-					logging.DebugLog("RAW image match rejected: %s (SSIM: %.4f < %.4f)",
+				} else if options.DebugMode && (isRawQuery || isRaw || isTifQuery || isTif) {
+					logging.DebugLog("Special format match rejected: %s (SSIM: %.4f < %.4f)",
 						p, ssimScore, localThreshold)
 				}
-			}(path, sourcePrefix, format)
+			}(path, sourcePrefix, format, isRawCandidate, isTifCandidate)
 		}
 
 		// Log progress every 100 images in debug mode
 		if options.DebugMode && processed%100 == 0 {
 			elapsed := time.Since(startTime)
-			logging.DebugLog("Search progress: %d images processed (%d RAW) in %v",
-				processed, rawProcessed, elapsed)
+			logging.DebugLog("Search progress: %d images processed (%d RAW, %d TIF) in %v",
+				processed, rawProcessed, tifProcessed, elapsed)
 		}
 	}
 
 	wg.Wait()
 
 	if options.DebugMode {
-		logging.DebugLog("Search completed. Total images processed: %d (%d RAW), Matches found: %d",
-			processed, rawProcessed, len(matches))
+		logging.DebugLog("Search completed. Total images processed: %d (%d RAW, %d TIF), Matches found: %d",
+			processed, rawProcessed, tifProcessed, len(matches))
 	}
 
 	// Sort matches by SSIM score (higher is better)
@@ -687,6 +705,12 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]types.ImageMatch, e
 func isJpgFormat(path string) bool {
 	ext := strings.ToLower(filepath.Ext(path))
 	return ext == ".jpg" || ext == ".jpeg"
+}
+
+// Helper to check if a file is in TIF format
+func isTifFormat(path string) bool {
+	ext := strings.ToLower(filepath.Ext(path))
+	return ext == ".tif" || ext == ".tiff"
 }
 
 // Extract the base filename without extension and path
@@ -782,6 +806,130 @@ func (l *RawImageLoader) tryCR3(path string, tempFilename string) (bool, gocv.Ma
 		if !img.Empty() {
 			return true, img
 		}
+	}
+
+	return false, gocv.NewMat()
+}
+
+// TiffImageLoader handles TIFF image formats with specialized support
+type TiffImageLoader struct {
+	TempDir string
+}
+
+// NewTiffImageLoader creates a new TiffImageLoader with a temp directory
+func NewTiffImageLoader() *TiffImageLoader {
+	// Create a temp directory for tiff processing if needed
+	tempDir := os.TempDir()
+	return &TiffImageLoader{
+		TempDir: tempDir,
+	}
+}
+
+func (l *TiffImageLoader) CanLoad(path string) bool {
+	ext := strings.ToLower(filepath.Ext(path))
+	return ext == ".tif" || ext == ".tiff"
+}
+
+func (l *TiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
+	// First try direct loading with gocv
+	img := gocv.IMRead(path, gocv.IMReadGrayScale)
+	if !img.Empty() {
+		return img, nil
+	}
+
+	// If direct loading fails, try conversion methods
+	tempFilename := filepath.Join(l.TempDir, fmt.Sprintf("tif_conv_%d.jpg", time.Now().UnixNano()))
+	defer os.Remove(tempFilename) // Clean up temp file when done
+
+	// Try multiple methods to load the TIFF
+	if success, img := l.tryImageMagick(path, tempFilename); success {
+		return img, nil
+	}
+
+	if success, img := l.tryVips(path, tempFilename); success {
+		return img, nil
+	}
+
+	if success, img := l.tryGdal(path, tempFilename); success {
+		return img, nil
+	}
+
+	// Final attempt with native Go TIFF loader
+	if success, img := l.tryNativeGoTiff(path, tempFilename); success {
+		return img, nil
+	}
+
+	return gocv.NewMat(), fmt.Errorf("failed to load TIFF image: %s (all conversion methods failed)", path)
+}
+
+func (l *TiffImageLoader) tryImageMagick(path, tempFilename string) (bool, gocv.Mat) {
+	cmd := exec.Command("convert", path, tempFilename)
+	err := cmd.Run()
+	if err == nil {
+		img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
+		if !img.Empty() {
+			return true, img
+		}
+	}
+	return false, gocv.NewMat()
+}
+
+func (l *TiffImageLoader) tryVips(path, tempFilename string) (bool, gocv.Mat) {
+	cmd := exec.Command("vips", "copy", path, tempFilename)
+	err := cmd.Run()
+	if err == nil {
+		img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
+		if !img.Empty() {
+			return true, img
+		}
+	}
+	return false, gocv.NewMat()
+}
+
+func (l *TiffImageLoader) tryGdal(path, tempFilename string) (bool, gocv.Mat) {
+	cmd := exec.Command("gdal_translate", "-of", "JPEG", "-co", "QUALITY=90", path, tempFilename)
+	err := cmd.Run()
+	if err == nil {
+		img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
+		if !img.Empty() {
+			return true, img
+		}
+	}
+	return false, gocv.NewMat()
+}
+
+func (l *TiffImageLoader) tryNativeGoTiff(path, tempFilename string) (bool, gocv.Mat) {
+	file, err := os.Open(path)
+	if err != nil {
+		return false, gocv.NewMat()
+	}
+	defer file.Close()
+
+	// Use the golang.org/x/image/tiff package
+	// Note: You'll need to import this package
+	// import "golang.org/x/image/tiff"
+	img, err := tiff.Decode(file)
+	if err != nil {
+		return false, gocv.NewMat()
+	}
+
+	// Convert to JPEG
+	outFile, err := os.Create(tempFilename)
+	if err != nil {
+		return false, gocv.NewMat()
+	}
+	defer outFile.Close()
+
+	// Note: You'll need to import the jpeg package
+	// import "image/jpeg"
+	err = jpeg.Encode(outFile, img, &jpeg.Options{Quality: 95})
+	if err != nil {
+		return false, gocv.NewMat()
+	}
+
+	gocvImg := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
+	if !gocvImg.Empty() {
+		return true, gocvImg
 	}
 
 	return false, gocv.NewMat()

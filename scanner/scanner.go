@@ -35,7 +35,6 @@ type ProcessImageResult struct {
 }
 
 // processAndStoreImage processes a single image and stores it in the database
-// processAndStoreImage processes a single image and stores it in the database
 func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options ScanOptions) ProcessImageResult {
 	result := ProcessImageResult{
 		Path:    path,
@@ -86,10 +85,11 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 	// Get file format from extension (without the dot)
 	fileFormat := strings.TrimPrefix(strings.ToLower(filepath.Ext(path)), ".")
 
-	// Detect if this is a RAW image
+	// Detect if this is a RAW image or TIF image
 	isRawImage := isRawFormat(path)
+	isTifImage := isTifFormat(path)
 
-	// Load and process the image - for RAW files, convert to JPG first
+	// Load and process the image - for RAW/TIF files, handle specially
 	var img gocv.Mat
 
 	if isRawImage {
@@ -109,8 +109,26 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 		} else if options.DebugMode {
 			logging.DebugLog("Successfully converted RAW to JPG for: %s", path)
 		}
+	} else if isTifImage {
+		if options.DebugMode {
+			logging.DebugLog("Processing TIFF image with specialized TIFF loader: %s", path)
+		}
+
+		// Use specialized TIFF loader
+		tiffLoader := imageprocessor.NewTiffImageLoader()
+		img, err = tiffLoader.LoadImage(path)
+
+		// If specialized loader fails, fall back to standard loader
+		if err != nil {
+			if options.DebugMode {
+				logging.LogWarning("TIFF specialized loader failed: %v, falling back to standard loader", err)
+			}
+			img, err = imageprocessor.LoadImage(path)
+		} else if options.DebugMode {
+			logging.DebugLog("Successfully loaded TIFF image: %s", path)
+		}
 	} else {
-		// For non-RAW files, load normally
+		// For non-RAW and non-TIF files, load normally
 		img, err = imageprocessor.LoadImage(path)
 	}
 
@@ -133,9 +151,10 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 		return result
 	}
 
-	// Log hash information for debugging raw images
-	if options.DebugMode && isRawImage {
-		logging.DebugLog("RAW image hashes - %s - avgHash: %s, pHash: %s", path, avgHash, pHash)
+	// Log hash information for debugging special images
+	if options.DebugMode && (isRawImage || isTifImage) {
+		logging.DebugLog("%s image hashes - %s - avgHash: %s, pHash: %s",
+			fileFormat, path, avgHash, pHash)
 	}
 
 	// Create ImageInfo object
@@ -159,12 +178,96 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 		return result
 	}
 
-	if options.DebugMode && isRawImage {
-		logging.DebugLog("Successfully indexed RAW image: %s", path)
+	if options.DebugMode && (isRawImage || isTifImage) {
+		logging.DebugLog("Successfully indexed %s image: %s", fileFormat, path)
 	}
 
 	result.Success = true
 	return result
+}
+
+// loadTifImage loads a TIFF image using specialized methods
+func loadTifImage(path string, debugMode bool) (gocv.Mat, error) {
+	// First try direct loading with gocv (may not work with all TIFFs)
+	img := gocv.IMRead(path, gocv.IMReadUnchanged)
+	if !img.Empty() {
+		return img, nil
+	}
+
+	// If direct loading fails, convert to temporary JPG and load
+	tempDir := os.TempDir()
+	tempJpg := filepath.Join(tempDir, fmt.Sprintf("tif_conv_%d.jpg", time.Now().UnixNano()))
+	defer os.Remove(tempJpg) // Clean up temp file when done
+
+	if debugMode {
+		logging.DebugLog("Converting TIF image to JPG for consistent loading: %s", path)
+	}
+
+	// Try multiple TIF to JPG conversion methods
+	methods := []func(string, string) error{
+		convertTifWithImageMagick,
+		convertTifWithVips,
+		convertTifWithGdal,
+	}
+
+	var lastError error
+	for _, method := range methods {
+		err := method(path, tempJpg)
+		if err == nil {
+			// Check if the file was created successfully
+			_, statErr := os.Stat(tempJpg)
+			if statErr == nil {
+				// Load the standard JPG representation
+				convertedImg := gocv.IMRead(tempJpg, gocv.IMReadGrayScale)
+				if !convertedImg.Empty() {
+					return convertedImg, nil
+				}
+			}
+		}
+		lastError = err
+	}
+
+	// If all methods fail, return the error
+	return gocv.NewMat(), fmt.Errorf("failed to load TIF image: %v", lastError)
+}
+
+// convertTifWithImageMagick converts a TIF file to JPG using ImageMagick
+func convertTifWithImageMagick(path, outputPath string) error {
+	// Use ImageMagick to convert TIF to JPG
+	cmd := exec.Command("convert", path, outputPath)
+	return cmd.Run()
+}
+
+// convertTifWithVips converts a TIF file to JPG using libvips
+func convertTifWithVips(path, outputPath string) error {
+	// Use vips to convert TIF to JPG
+	cmd := exec.Command("vips", "copy", path, outputPath)
+	return cmd.Run()
+}
+
+// convertTifWithGdal converts a TIF file to JPG using GDAL (good for geospatial TIFFs)
+func convertTifWithGdal(path, outputPath string) error {
+	// Use gdal_translate to convert TIF to JPG
+	cmd := exec.Command("gdal_translate", "-of", "JPEG", "-co", "QUALITY=90", path, outputPath)
+	return cmd.Run()
+}
+
+// Helper to check if a file is in TIF format
+func isTifFormat(path string) bool {
+	ext := strings.ToLower(filepath.Ext(path))
+	return ext == ".tif" || ext == ".tiff"
+}
+
+// Helper to check if a file is in RAW format
+func isRawFormat(path string) bool {
+	ext := strings.ToLower(filepath.Ext(path))
+	rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf"}
+	for _, format := range rawFormats {
+		if ext == format {
+			return true
+		}
+	}
+	return false
 }
 
 // convertRawToJpgAndLoad converts a RAW file to JPG and loads it for hashing
@@ -245,18 +348,6 @@ func convertWithDcrawCameraWB(path, outputPath string) error {
 	return cmd.Run()
 }
 
-// Helper to check if a file is in RAW format
-func isRawFormat(path string) bool {
-	ext := strings.ToLower(filepath.Ext(path))
-	rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf"}
-	for _, format := range rawFormats {
-		if ext == format {
-			return true
-		}
-	}
-	return false
-}
-
 // ScanAndStoreFolder scans a folder and stores image information in the database
 func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 	var wg sync.WaitGroup
@@ -270,6 +361,7 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 	// Count total files before starting
 	var totalFiles int
 	var rawFiles int
+	var tifFiles int
 	registry := imageprocessor.NewImageLoaderRegistry()
 
 	if options.DebugMode {
@@ -287,6 +379,8 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 			totalFiles++
 			// Count RAW images separately
 			ext := strings.ToLower(filepath.Ext(path))
+
+			// Check if it's a RAW file
 			rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf"}
 			for _, format := range rawFormats {
 				if ext == format {
@@ -294,18 +388,24 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 					break
 				}
 			}
+
+			// Check if it's a TIF file
+			if ext == ".tif" || ext == ".tiff" {
+				tifFiles++
+			}
 		}
 		return nil
 	})
 
-	fmt.Printf("Starting image indexing...\nTotal image files to process: %d (including %d RAW files)\n", totalFiles, rawFiles)
+	fmt.Printf("Starting image indexing...\nTotal image files to process: %d (including %d RAW files and %d TIF files)\n",
+		totalFiles, rawFiles, tifFiles)
 	fmt.Printf("Force rewrite mode: %v\n", options.ForceRewrite)
 	if options.SourcePrefix != "" {
 		fmt.Printf("Source prefix: %s\n", options.SourcePrefix)
 	}
 	if options.DebugMode {
 		fmt.Printf("Debug mode: enabled\n")
-		logging.DebugLog("Found %d image files to process (%d RAW files)", totalFiles, rawFiles)
+		logging.DebugLog("Found %d image files to process (%d RAW files, %d TIF files)", totalFiles, rawFiles, tifFiles)
 	}
 
 	// Create a ticker for progress indicator
@@ -315,6 +415,8 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 	errors := 0
 	rawProcessed := 0
 	rawErrors := 0
+	tifProcessed := 0
+	tifErrors := 0
 	var mu sync.Mutex
 
 	// Progress display goroutine
@@ -326,9 +428,11 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 			case <-ticker.C:
 				mu.Lock()
 				if errors > 0 {
-					fmt.Printf("\rProgress: %d/%d (Errors: %d, RAW: %d/%d)", processed, totalFiles, errors, rawProcessed, rawFiles)
+					fmt.Printf("\rProgress: %d/%d (Errors: %d, RAW: %d/%d, TIF: %d/%d)",
+						processed, totalFiles, errors, rawProcessed, rawFiles, tifProcessed, tifFiles)
 				} else {
-					fmt.Printf("\rProgress: %d/%d (RAW: %d/%d)", processed, totalFiles, rawProcessed, rawFiles)
+					fmt.Printf("\rProgress: %d/%d (RAW: %d/%d, TIF: %d/%d)",
+						processed, totalFiles, rawProcessed, rawFiles, tifProcessed, tifFiles)
 				}
 				mu.Unlock()
 			}
@@ -341,8 +445,10 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 			mu.Lock()
 			processed++
 
-			// Check if this is a RAW file
+			// Check file type
 			ext := strings.ToLower(filepath.Ext(result.Path))
+
+			// Check if it's a RAW file
 			isRawFile := false
 			rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf"}
 			for _, format := range rawFormats {
@@ -353,10 +459,19 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 				}
 			}
 
+			// Check if it's a TIF file
+			isTifFile := ext == ".tif" || ext == ".tiff"
+			if isTifFile {
+				tifProcessed++
+			}
+
 			if !result.Success {
 				errors++
 				if isRawFile {
 					rawErrors++
+				}
+				if isTifFile {
+					tifErrors++
 				}
 				if options.DebugMode {
 					logging.LogImageProcessed(result.Path, false, result.Error.Error())
@@ -410,13 +525,16 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 	// Log final statistics
 	elapsed := time.Since(startTime)
 	if options.DebugMode {
-		logging.DebugLog("Scan completed in %v. Processed: %d, Errors: %d, RAW files: %d, RAW errors: %d",
-			elapsed, processed, errors, rawProcessed, rawErrors)
+		logging.DebugLog("Scan completed in %v. Processed: %d, Errors: %d, RAW files: %d, RAW errors: %d, TIF files: %d, TIF errors: %d",
+			elapsed, processed, errors, rawProcessed, rawErrors, tifProcessed, tifErrors)
 	}
 
 	fmt.Printf("Processed %d images in %v.\n", processed, elapsed.Round(time.Second))
 	if rawProcessed > 0 {
 		fmt.Printf("Successfully processed %d/%d RAW image files.\n", rawProcessed-rawErrors, rawFiles)
+	}
+	if tifProcessed > 0 {
+		fmt.Printf("Successfully processed %d/%d TIF image files.\n", tifProcessed-tifErrors, tifFiles)
 	}
 
 	if errors > 0 {

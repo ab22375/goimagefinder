@@ -2,6 +2,7 @@ package imageprocessor
 
 import (
 	"database/sql"
+	"encoding/hex"
 	"fmt"
 	"image"
 	"math"
@@ -54,127 +55,6 @@ func LoadImage(path string) (gocv.Mat, error) {
 	}
 
 	return img, nil
-}
-
-// ComputeAverageHash calculates a simple average hash for the image
-func ComputeAverageHash(img gocv.Mat) (string, error) {
-	if img.Empty() {
-		return "", fmt.Errorf("cannot compute hash for empty image")
-	}
-
-	// Resize to 8x8
-	resized := gocv.NewMat()
-	defer resized.Close()
-
-	gocv.Resize(img, &resized, image.Point{X: 8, Y: 8}, 0, 0, gocv.InterpolationLinear)
-
-	// Convert to grayscale if not already
-	gray := gocv.NewMat()
-	defer gray.Close()
-
-	if img.Channels() != 1 {
-		gocv.CvtColor(resized, &gray, gocv.ColorBGRToGray)
-	} else {
-		resized.CopyTo(&gray)
-	}
-
-	// Calculate mean pixel value manually
-	var sum uint64
-	var count int
-
-	for y := 0; y < gray.Rows(); y++ {
-		for x := 0; x < gray.Cols(); x++ {
-			pixel := gray.GetUCharAt(y, x)
-			sum += uint64(pixel)
-			count++
-		}
-	}
-
-	// Calculate average
-	var threshold float64
-	if count > 0 {
-		threshold = float64(sum) / float64(count)
-	}
-
-	// Compute hash
-	hash := ""
-	for y := 0; y < gray.Rows(); y++ {
-		for x := 0; x < gray.Cols(); x++ {
-			pixel := gray.GetUCharAt(y, x)
-			if float64(pixel) >= threshold {
-				hash += "1"
-			} else {
-				hash += "0"
-			}
-		}
-	}
-
-	return hash, nil
-}
-
-// ComputePerceptualHash computes a DCT-based perceptual hash for the image
-func ComputePerceptualHash(img gocv.Mat) (string, error) {
-	if img.Empty() {
-		return "", fmt.Errorf("cannot compute hash for empty image")
-	}
-
-	// Resize to 32x32
-	resized := gocv.NewMat()
-	defer resized.Close()
-
-	gocv.Resize(img, &resized, image.Point{X: 32, Y: 32}, 0, 0, gocv.InterpolationLinear)
-
-	// Convert to grayscale if not already
-	gray := gocv.NewMat()
-	defer gray.Close()
-
-	if img.Channels() != 1 {
-		gocv.CvtColor(resized, &gray, gocv.ColorBGRToGray)
-	} else {
-		resized.CopyTo(&gray)
-	}
-
-	// Convert to float for DCT
-	floatImg := gocv.NewMat()
-	defer floatImg.Close()
-	gray.ConvertTo(&floatImg, gocv.MatTypeCV32F)
-
-	// Apply DCT
-	dct := gocv.NewMat()
-	defer dct.Close()
-	gocv.DCT(floatImg, &dct, 0)
-
-	// Extract 8x8 low frequency components
-	lowFreq := dct.Region(image.Rect(0, 0, 8, 8))
-	defer lowFreq.Close()
-
-	// Calculate median value
-	values := make([]float32, 64)
-	idx := 0
-	for y := 0; y < lowFreq.Rows(); y++ {
-		for x := 0; x < lowFreq.Cols(); x++ {
-			values[idx] = lowFreq.GetFloatAt(y, x)
-			idx++
-		}
-	}
-
-	// Simple median calculation
-	median := calculateMedian(values)
-
-	// Compute hash
-	hash := ""
-	for y := 0; y < lowFreq.Rows(); y++ {
-		for x := 0; x < lowFreq.Cols(); x++ {
-			val := lowFreq.GetFloatAt(y, x)
-			if val >= median {
-				hash += "1"
-			} else {
-				hash += "0"
-			}
-		}
-	}
-
-	return hash, nil
 }
 
 // FindSimilarImages finds similar images in the database based on perceptual and average hash comparisons
@@ -303,12 +183,86 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]ImageMatch, error) 
 // calculateHashSimilarity computes the normalized similarity between two hash strings
 // Returns a value between 0.0 (completely different) and 1.0 (identical)
 func calculateHashSimilarity(hash1, hash2 string) float64 {
-	// If lengths don't match, we can't compare them properly
-	if len(hash1) != len(hash2) {
+	// Both hashes should already be in hex format, but let's validate
+	isValidHex := func(s string) bool {
+		for _, c := range s {
+			if !((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')) {
+				return false
+			}
+		}
+		return len(s) > 0 && len(s)%2 == 0
+	}
+
+	// If either hash is not valid hex, log warning and try binary comparison
+	if !isValidHex(hash1) || !isValidHex(hash2) {
+		logging.LogWarning("Non-hex hashes being compared: %s vs %s", hash1, hash2)
+		// Fall back to binary comparison in this case
+		return calculateBinaryHashSimilarity(hash1, hash2)
+	}
+
+	// Calculate Hamming distance on hex strings
+	distance := 0
+	bytes1, err1 := hex.DecodeString(hash1)
+	bytes2, err2 := hex.DecodeString(hash2)
+
+	if err1 != nil || err2 != nil {
+		logging.LogError("Error decoding hex strings: %v, %v", err1, err2)
 		return 0.0
 	}
 
-	// Calculate Hamming distance (number of differing bits)
+	// Make sure we can compare the byte slices
+	if len(bytes1) != len(bytes2) {
+		// If lengths are different, pad the shorter one
+		if len(bytes1) < len(bytes2) {
+			bytes1 = append(bytes1, make([]byte, len(bytes2)-len(bytes1))...)
+		} else {
+			bytes2 = append(bytes2, make([]byte, len(bytes1)-len(bytes2))...)
+		}
+	}
+
+	// Compute bit-level Hamming distance
+	for i := 0; i < len(bytes1); i++ {
+		xor := bytes1[i] ^ bytes2[i]
+		// Count set bits in XOR (hamming weight of XOR equals hamming distance)
+		for j := 0; j < 8; j++ {
+			if (xor & (1 << j)) != 0 {
+				distance++
+			}
+		}
+	}
+
+	// Calculate similarity (1.0 = identical, 0.0 = completely different)
+	totalBits := len(bytes1) * 8
+	return 1.0 - float64(distance)/float64(totalBits)
+}
+
+// Fallback for binary hash comparison
+func calculateBinaryHashSimilarity(hash1, hash2 string) float64 {
+	// Ensure both strings only consist of '0' and '1'
+	isBinaryString := func(s string) bool {
+		for _, c := range s {
+			if c != '0' && c != '1' {
+				return false
+			}
+		}
+		return true
+	}
+
+	if !isBinaryString(hash1) || !isBinaryString(hash2) {
+		logging.LogError("Invalid binary hash formats: %s vs %s", hash1, hash2)
+		return 0.0
+	}
+
+	// If lengths don't match, we'll extend the shorter one
+	if len(hash1) != len(hash2) {
+		if len(hash1) < len(hash2) {
+			hash1 = hash1 + strings.Repeat("0", len(hash2)-len(hash1))
+		} else {
+			hash2 = hash2 + strings.Repeat("0", len(hash1)-len(hash2))
+		}
+	}
+
+	// Calculate hamming distance
 	distance := 0
 	for i := 0; i < len(hash1); i++ {
 		if hash1[i] != hash2[i] {
@@ -316,10 +270,25 @@ func calculateHashSimilarity(hash1, hash2 string) float64 {
 		}
 	}
 
-	// Normalize the result to 0.0-1.0 range
-	// 0.0 means maximum distance (all bits different)
-	// 1.0 means identical hashes (no bits different)
 	return 1.0 - float64(distance)/float64(len(hash1))
+}
+
+// hexToBinary converts a hexadecimal string to binary string
+func hexToBinary(hexStr string) string {
+	hexBytes, _ := hex.DecodeString(hexStr)
+	var binBuilder strings.Builder
+
+	for _, b := range hexBytes {
+		for i := 7; i >= 0; i-- {
+			if (b & (1 << i)) != 0 {
+				binBuilder.WriteRune('1')
+			} else {
+				binBuilder.WriteRune('0')
+			}
+		}
+	}
+
+	return binBuilder.String()
 }
 
 // calculateFilenameSimiliarity returns a similarity boost based on filename comparison
@@ -416,7 +385,7 @@ func preprocessImageForHashing(img gocv.Mat) gocv.Mat {
 }
 
 // Utility function to calculate the median of a float array
-func calculateMedian(values []float32) float32 {
+func calculateMedian1(values []float32) float32 {
 	// Make a copy to avoid modifying the original slice
 	valuesCopy := make([]float32, len(values))
 	copy(valuesCopy, values)

@@ -263,3 +263,5 @@ func (l *CR3ImageLoader) tryCR3WithExiftool(path string, tempFilename string) er
 
 	return nil
 }
+
+// Add this to format_specific_loaders.go

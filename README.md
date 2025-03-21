@@ -45,7 +45,10 @@ https://github.com/ab22375/search_image/tree/main/dist
 After installing, create a symlink in your PATH:
 
 ```bash
-sudo ln -s /Applications/goimagefinder.app/Contents/MacOS/goimagefinder /usr/local/bin/goimagefinder
+sudo rm -f /usr/local/bin/goimagefinder
+echo '#!/bin/bash' | sudo tee /usr/local/bin/goimagefinder > /dev/null
+echo 'exec /Applications/goimagefinder.app/Contents/MacOS/goimagefinder "$@"' | sudo tee -a /usr/local/bin/goimagefinder > /dev/null
+sudo chmod +x /usr/local/bin/goimagefinder
 ```
 
 ## Usage

@@ -42,6 +42,7 @@ make clean
 make build-macos-arm64
 ./dist/macos-arm64/goimagefinder
 ```
+
 # after changing packages
 go build ./...
 

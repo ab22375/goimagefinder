@@ -2,6 +2,7 @@ package imageprocessor
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -31,7 +32,11 @@ func (r *RawImageConverter) convertWithDcrawAutoBright(path, outputPath string) 
 	// -q 3 = high-quality interpolation
 	// -O = output to specified file
 	cmd := exec.Command("dcraw", "-w", "-a", "-q", "3", "-O", outputPath, path)
-	return cmd.Run()
+	stderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("dcraw failed: %v, stderr: %s", err, string(stderr))
+	}
+	return nil
 }
 
 // Convert using dcraw with camera white balance, no auto-brightness
@@ -40,7 +45,11 @@ func (r *RawImageConverter) convertWithDcrawCameraWB(path, outputPath string) er
 	// -q 3 = high-quality interpolation
 	// -O = output to specified file
 	cmd := exec.Command("dcraw", "-w", "-q", "3", "-O", outputPath, path)
-	return cmd.Run()
+	stderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("dcraw (camera wb) failed: %v, stderr: %s", err, string(stderr))
+	}
+	return nil
 }
 
 // convertCR3WithExiftool specialized function for CR3 files which often need special handling
@@ -48,7 +57,10 @@ func (r *RawImageConverter) convertCR3WithExiftool(path, outputPath string) erro
 	// CR3 files often have multiple preview images
 	// Try extracting the largest preview image
 	cmd := exec.Command("exiftool", "-b", "-LargePreviewImage", "-w", outputPath, path)
-	err := cmd.Run()
+	stderr, err := cmd.CombinedOutput()
+	if err != nil && r.DebugMode {
+		logging.DebugLog("Exiftool error for CR3: %v, stderr: %s", err, string(stderr))
+	}
 
 	// Check if the output file was created and has content
 	if err == nil {
@@ -68,7 +80,10 @@ func (r *RawImageConverter) convertCR3WithExiftool(path, outputPath string) erro
 
 	for _, tag := range tags {
 		cmd := exec.Command("exiftool", "-b", "-"+tag, "-w", outputPath, path)
-		err := cmd.Run()
+		stderr, err := cmd.CombinedOutput()
+		if err != nil && r.DebugMode {
+			logging.DebugLog("Exiftool error for tag %s: %v, stderr: %s", tag, err, string(stderr))
+		}
 
 		// Check if successful
 		if err == nil {
@@ -88,7 +103,6 @@ func (r *RawImageConverter) ConvertAndLoad(path string) (gocv.Mat, error) {
 	tempJpg := filepath.Join(tempDir, fmt.Sprintf("std_conv_%d.jpg", time.Now().UnixNano()))
 	defer os.Remove(tempJpg) // Clean up temp file when done
 
-	// Update this part in ConvertAndLoad
 	methods := []struct {
 		name string
 		fn   func(string, string) error
@@ -119,9 +133,16 @@ func (r *RawImageConverter) ConvertAndLoad(path string) (gocv.Mat, error) {
 
 		// Check if the file was created successfully
 		fileInfo, err := os.Stat(tempJpg)
-		if err != nil || fileInfo.Size() == 0 {
+		if err != nil {
 			if r.DebugMode {
-				logging.DebugLog("Output file not created or empty using %s", method.name)
+				logging.DebugLog("Error stating temp file %s: %v", tempJpg, err)
+			}
+			continue
+		}
+
+		if fileInfo.Size() == 0 {
+			if r.DebugMode {
+				logging.DebugLog("Output file %s is empty", tempJpg)
 			}
 			continue
 		}
@@ -175,7 +196,12 @@ func (r *RawImageConverter) convertWithLibRaw(path, outputPath string) error {
 	cmd := exec.Command("dcraw_emu", "-e", "-c", path)
 	jpgData, err := cmd.Output()
 	if err != nil {
-		return err
+		stderr, _ := cmd.StderrPipe()
+		var errOut []byte
+		if stderr != nil {
+			errOut, _ = os.ReadFile(filepath.Base(path) + ".stderr")
+		}
+		return fmt.Errorf("libraw error: %v, stderr: %s", err, string(errOut))
 	}
 
 	return os.WriteFile(outputPath, jpgData, 0644)
@@ -195,7 +221,10 @@ func (r *RawImageConverter) convertWithJPGFallback(path, outputPath string) erro
 
 	for _, tag := range tags {
 		cmd := exec.Command("exiftool", "-b", "-"+tag, "-w", outputPath, path)
-		err := cmd.Run()
+		stderr, err := cmd.CombinedOutput()
+		if err != nil && r.DebugMode {
+			logging.DebugLog("Exiftool fallback error for tag %s: %v, stderr: %s", tag, err, string(stderr))
+		}
 
 		if err == nil {
 			// Check if file was created and has content
@@ -214,7 +243,7 @@ func (r *RawImageConverter) extractPreviewWithExiftool(path, outputPath string) 
 	// Make sure outputPath is properly created
 	dir := filepath.Dir(outputPath)
 	if err := os.MkdirAll(dir, 0755); err != nil {
-		return err
+		return fmt.Errorf("failed to create output directory: %v", err)
 	}
 
 	// Use -o instead of -w to directly specify output file
@@ -223,6 +252,18 @@ func (r *RawImageConverter) extractPreviewWithExiftool(path, outputPath string) 
 	if err != nil && r.DebugMode {
 		logging.DebugLog("Exiftool error: %v, output: %s", err, string(output))
 	}
+
+	// Verify file exists and has content
+	if err == nil {
+		info, statErr := os.Stat(outputPath)
+		if statErr != nil {
+			return fmt.Errorf("failed to stat output file: %v", statErr)
+		}
+		if info.Size() == 0 {
+			return fmt.Errorf("extracted preview is empty")
+		}
+	}
+
 	return err
 }
 
@@ -239,11 +280,15 @@ func extractSonyARWPreview(path, outputPath string) error {
 
 	for _, tag := range tags {
 		cmd := exec.Command("exiftool", "-b", "-"+tag, "-o", outputPath, path)
-		if err := cmd.Run(); err == nil {
-			// Check if file exists and has content
-			if fi, err := os.Stat(outputPath); err == nil && fi.Size() > 0 {
-				return nil
-			}
+		stderr, err := cmd.CombinedOutput()
+		if err != nil {
+			logging.DebugLog("Sony ARW preview extraction error: %v, stderr: %s", err, string(stderr))
+			continue
+		}
+
+		// Check if file exists and has content
+		if fi, err := os.Stat(outputPath); err == nil && fi.Size() > 0 {
+			return nil
 		}
 	}
 
@@ -262,10 +307,15 @@ func (r *RawImageConverter) extractRAFPreviewWithExiftool(path, outputPath strin
 	// Run exiftool and pipe output directly to file
 	cmd := exec.Command("exiftool", "-b", "-PreviewImage", path)
 	cmd.Stdout = outFile
+	stderr, err := cmd.StderrPipe()
 
 	err = cmd.Run()
 	if err != nil {
-		return err
+		var errOut []byte
+		if stderr != nil {
+			errOut, _ = io.ReadAll(stderr)
+		}
+		return fmt.Errorf("exiftool error: %v, stderr: %s", err, string(errOut))
 	}
 
 	// Verify file has content

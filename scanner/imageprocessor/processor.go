@@ -3,6 +3,7 @@ package imageprocessor
 import (
 	"fmt"
 	"math"
+	"runtime/debug"
 
 	"imagefinder/imageprocessor"
 	"imagefinder/logging"
@@ -44,8 +45,9 @@ func (p *ImageProcessor) ProcessImage(path string, isRaw bool, isTiff bool) (goc
 	// Use defer to recover from any panics during image loading
 	defer func() {
 		if r := recover(); r != nil {
-			err = fmt.Errorf("panic during image loading: %v", r)
-			logging.LogError("Panic during image loading: %v, file: %s", r, path)
+			stackTrace := debug.Stack()
+			err = fmt.Errorf("panic during image loading: %v\nStack trace: %s", r, string(stackTrace))
+			logging.LogError("Panic during image loading: %v, file: %s\nStack trace: %s", r, path, string(stackTrace))
 			if !img.Empty() {
 				img.Close()
 			}
@@ -59,15 +61,20 @@ func (p *ImageProcessor) ProcessImage(path string, isRaw bool, isTiff bool) (goc
 			logging.DebugLog("Converting RAW image to JPG for consistent hashing: %s", path)
 		}
 		img, err = p.RawConverter.ConvertAndLoad(path)
+		if err != nil {
+			return gocv.NewMat(), fmt.Errorf("RAW conversion failed for %s: %v", path, err)
+		}
 	} else if isTiff {
 		img, err = p.TiffHandler.LoadAndProcess(path)
+		if err != nil {
+			return gocv.NewMat(), fmt.Errorf("TIFF processing failed for %s: %v", path, err)
+		}
 	} else {
 		// For standard image formats
 		img, err = LoadImage(path)
-	}
-
-	if err != nil {
-		return gocv.NewMat(), err
+		if err != nil {
+			return gocv.NewMat(), fmt.Errorf("standard image loading failed for %s: %v", path, err)
+		}
 	}
 
 	// Skip empty images
@@ -95,6 +102,11 @@ func ComputePerceptualHash(img gocv.Mat) (string, error) {
 func applyDCT(img gocv.Mat) gocv.Mat {
 	rows, cols := img.Rows(), img.Cols()
 	result := gocv.NewMatWithSize(rows, cols, gocv.MatTypeCV32F)
+	defer func() {
+		if r := recover(); r != nil {
+			logging.LogError("Panic in applyDCT: %v", r)
+		}
+	}()
 
 	for u := 0; u < rows; u++ {
 		for v := 0; v < cols; v++ {
@@ -137,14 +149,14 @@ func (p *ImageProcessor) ComputeImageHashes(img gocv.Mat, path string, fileForma
 		PHash   string
 	}
 
-	// Compute average hash
+	// Compute average hash with improved error handling
 	avgHash, err := ComputeAverageHash(img)
 	if err != nil {
 		return hashes, fmt.Errorf("cannot compute average hash for %s: %v", path, err)
 	}
 	hashes.AvgHash = avgHash
 
-	// Compute perceptual hash
+	// Compute perceptual hash with improved error handling
 	pHash, err := ComputePerceptualHash(img)
 	if err != nil {
 		return hashes, fmt.Errorf("cannot compute perceptual hash for %s: %v", path, err)

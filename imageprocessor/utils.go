@@ -64,16 +64,16 @@ func gocvMatFromGoImage(img image.Image) (gocv.Mat, error) {
 	return grayMat, nil
 }
 
-// Check if a file exists
-func fileExists(path string) bool {
-	_, err := os.Stat(path)
-	return err == nil
+// fileExistsLegacy is kept for compatibility with existing code
+// Use the function from loaders.go for new code
+func fileExistsLegacy(path string) bool {
+	return fileExists(path)
 }
 
-// Check if a file exists and has content
-func fileHasContent(path string) bool {
-	info, err := os.Stat(path)
-	return err == nil && info.Size() > 0
+// hasFileContentLegacy is kept for compatibility with existing code
+// Use hasFileContent from tiff_loader.go for new code
+func hasFileContentLegacy(path string) bool {
+	return hasFileContent(path)
 }
 
 // Extract preview image with exiftool

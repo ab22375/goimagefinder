@@ -10,8 +10,9 @@ import (
 	"time"
 
 	"imagefinder/database"
+	"imagefinder/imageprocessor"
 	"imagefinder/logging"
-	"imagefinder/scanner/imageprocessor"
+	"imagefinder/scanner/processor"
 	"imagefinder/types"
 )
 
@@ -61,7 +62,7 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 // countFilesToProcess counts and classifies files to be processed
 func countFilesToProcess(options ScanOptions) FileStats {
 	stats := FileStats{}
-	loaderRegistry := imageprocessor.NewImageLoaderRegistry()
+	loaderRegistry := imageprocessor.NewImageLoaderRegistry() // Use root registry directly
 
 	if options.DebugMode {
 		logging.DebugLog("Starting image scan on folder: %s", options.FolderPath)
@@ -121,12 +122,13 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 		semaphoreAbandonments int
 	}{}
 
-	// Create image processor
-	processor := imageprocessor.NewImageProcessor(options.DebugMode)
+	// Create image processor from our new package
+	imgProcessor := processor.NewImageProcessor(options.DebugMode)
 	logging.DebugLog("Image processor created")
 
 	// Create registry to identify image files
 	loaderRegistry := imageprocessor.NewImageLoaderRegistry()
+
 	logging.DebugLog("Image loader registry created")
 
 	// Create a properly sized results buffer
@@ -328,7 +330,7 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 		}
 
 		// Skip files that we can't handle
-		if !loaderRegistry.CanLoadFile(path) && !IsImageFile(path) {
+		if !loaderRegistry.CanLoadFile(path) && !imageprocessor.IsImageFile(path) {
 			if options.DebugMode {
 				logging.DebugLog("Skipping non-image file: %s", path)
 			}
@@ -483,8 +485,8 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 				}()
 
 				// Check file type
-				isRawImage := IsRawFormat(filePath)
-				isTifImage := IsTiffFormat(filePath)
+				isRawImage := imageprocessor.IsRawFormat(filePath)
+				isTifImage := imageprocessor.IsTiffFormat(filePath)
 
 				if isRawImage {
 					stats.Lock()
@@ -528,7 +530,7 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 						logging.DebugLog("Processing file #%d: %s", fileNum, filePath)
 					}
 
-					result = processAndStoreImage(db, filePath, options.SourcePrefix, options, processor)
+					result = processAndStoreImage(db, filePath, options.SourcePrefix, options, imgProcessor)
 					result.IsRaw = isRawImage
 					result.IsTif = isTifImage
 
@@ -673,7 +675,7 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 }
 
 // processAndStoreImage processes a single image and stores it in the database
-func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options ScanOptions, processor *imageprocessor.ImageProcessor) ProcessImageResult {
+func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options ScanOptions, imgProcessor *processor.ImageProcessor) ProcessImageResult {
 	result := ProcessImageResult{
 		Path:    path,
 		Success: false,
@@ -693,12 +695,12 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 		return result
 	}
 
-	fileFormat := GetFileFormat(path)
-	isRawImage := IsRawFormat(path)
-	isTifImage := IsTiffFormat(path)
+	fileFormat := string(imageprocessor.GetFileFormat(path))
+	isRawImage := imageprocessor.IsRawFormat(path)
+	isTifImage := imageprocessor.IsTiffFormat(path)
 
 	// Load and process the image
-	img, err := processor.ProcessImage(path, isRawImage, isTifImage)
+	img, err := imgProcessor.ProcessImage(path, isRawImage, isTifImage)
 	if err != nil {
 		result.Error = fmt.Errorf("failed to load image %s: %v", path, err)
 		return result
@@ -712,7 +714,7 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 	}
 
 	// Compute hashes
-	imageHashes, err := processor.ComputeImageHashes(img, path, fileFormat, isRawImage, isTifImage)
+	imageHashes, err := imgProcessor.ComputeImageHashes(img, path, fileFormat, isRawImage, isTifImage)
 	if err != nil {
 		result.Error = err
 		return result

@@ -1,9 +1,12 @@
 package imageprocessor
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
 	"sync"
+
+	"imagefinder/logging"
 
 	"gocv.io/x/gocv"
 )
@@ -24,11 +27,8 @@ func NewImageLoaderRegistry() *ImageLoaderRegistry {
 	// Register standard image loaders for common formats
 	registry.registerStandardLoaders()
 
-	// Register RAW format loaders
-	registry.registerRawLoaders()
-
-	// Register TIF format loader
-	registry.registerTiffLoader()
+	// Register specialized format loaders
+	registry.registerSpecializedLoaders()
 
 	return registry
 }
@@ -36,38 +36,51 @@ func NewImageLoaderRegistry() *ImageLoaderRegistry {
 // registerStandardLoaders registers loaders for standard image formats
 func (r *ImageLoaderRegistry) registerStandardLoaders() {
 	// Create a default image loader for standard formats
-	defaultLoader := &StandardImageLoader{}
+	standardLoader := NewStandardImageLoader()
 
 	// Register for common image formats
-	r.RegisterLoader(".jpg", defaultLoader)
-	r.RegisterLoader(".jpeg", defaultLoader)
-	r.RegisterLoader(".png", defaultLoader)
-	r.RegisterLoader(".bmp", defaultLoader)
-	r.RegisterLoader(".gif", defaultLoader)
-	r.RegisterLoader(".webp", defaultLoader)
+	r.RegisterLoader(".jpg", standardLoader)
+	r.RegisterLoader(".jpeg", standardLoader)
+	r.RegisterLoader(".png", standardLoader)
+	r.RegisterLoader(".bmp", standardLoader)
+	r.RegisterLoader(".gif", standardLoader)
+	r.RegisterLoader(".webp", standardLoader)
 
 	// Set the default loader
-	r.defaultLoader = defaultLoader
+	r.defaultLoader = standardLoader
 }
 
-// registerRawLoaders registers loaders for RAW camera formats
-func (r *ImageLoaderRegistry) registerRawLoaders() {
-	// Register RAW format loaders
-	r.RegisterLoader(".raf", NewRAFImageLoader())
-	r.RegisterLoader(".nef", NewNEFImageLoader())
-	r.RegisterLoader(".arw", NewARWImageLoader())
-	r.RegisterLoader(".cr2", NewCR2ImageLoader())
-	r.RegisterLoader(".cr3", NewCR3ImageLoader())
-	r.RegisterLoader(".dng", NewDNGImageLoader())
-	r.RegisterLoader(".nrw", NewRawImageLoader()) // Fallback for Nikon NRW
-	r.RegisterLoader(".srf", NewRawImageLoader()) // Fallback for Sony SRF
-}
-
-// registerTiffLoader registers loader for TIFF images
-func (r *ImageLoaderRegistry) registerTiffLoader() {
+// registerSpecializedLoaders registers loaders for specialized formats
+func (r *ImageLoaderRegistry) registerSpecializedLoaders() {
+	// Register TIFF format loader
 	tiffLoader := NewTiffImageLoader()
 	r.RegisterLoader(".tif", tiffLoader)
 	r.RegisterLoader(".tiff", tiffLoader)
+
+	// Register RAW format loaders using a simple implementation for now
+	// This will be enhanced in specialized files
+	simpleRawLoader := NewSimpleRawImageLoader()
+	
+	// Register for common RAW formats
+	r.RegisterLoader(".raw", simpleRawLoader)
+	r.RegisterLoader(".raf", simpleRawLoader)
+	r.RegisterLoader(".nef", simpleRawLoader)
+	r.RegisterLoader(".arw", simpleRawLoader)
+	r.RegisterLoader(".cr2", simpleRawLoader)
+	r.RegisterLoader(".dng", simpleRawLoader)
+	r.RegisterLoader(".nrw", simpleRawLoader)
+	r.RegisterLoader(".srf", simpleRawLoader)
+	
+	// Register specialized CR3 loader if available
+	if checkExiftoolCommandAvailable() {
+		// If exiftool is available, use the specialized loader
+		r.RegisterLoader(".cr3", NewCR3ExiftoolLoader())
+		logging.LogInfo("Registered specialized CR3ExiftoolLoader")
+	} else {
+		// Otherwise fallback to simple loader
+		r.RegisterLoader(".cr3", simpleRawLoader)
+		logging.LogInfo("Registered fallback RAW loader for CR3")
+	}
 }
 
 // RegisterLoader registers a new loader for a specific file extension
@@ -102,28 +115,12 @@ func (r *ImageLoaderRegistry) CanLoadFile(path string) bool {
 	return ok
 }
 
-// StandardImageLoader is the default loader for common image formats
-type StandardImageLoader struct{}
-
-// CanLoad checks if this loader can handle the given file
-func (l *StandardImageLoader) CanLoad(path string) bool {
-	ext := strings.ToLower(filepath.Ext(path))
-	supportedExts := []string{".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"}
-
-	for _, supported := range supportedExts {
-		if ext == supported {
-			return fileExists(path)
-		}
+// LoadImage loads an image using the appropriate registered loader
+func (r *ImageLoaderRegistry) LoadImage(path string) (gocv.Mat, error) {
+	loader := r.GetLoader(path)
+	if loader == nil {
+		return gocv.NewMat(), fmt.Errorf("no suitable loader found for: %s", path)
 	}
-
-	return false
-}
-
-// LoadImage loads a standard image format
-func (l *StandardImageLoader) LoadImage(path string) (gocv.Mat, error) {
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		return img, newImageLoadError("failed to load image", path)
-	}
-	return img, nil
+	
+	return loader.LoadImage(path)
 }

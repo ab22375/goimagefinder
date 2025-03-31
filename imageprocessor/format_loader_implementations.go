@@ -27,7 +27,7 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	// First, try extracting the embedded preview image (often highest quality for Fuji)
 	logging.LogInfo("Trying to extract RAF preview with exiftool")
 	if err := extractPreviewWithExiftool(path, tempFilename); err == nil {
-		if fileHasContent(tempFilename) {
+		if hasFileContent(tempFilename) {
 			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 			if !img.Empty() {
 				logging.LogInfo("Successfully extracted RAF preview")
@@ -39,7 +39,7 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	// Try RAF-specific conversion
 	logging.LogInfo("Trying RAF-specific conversion")
 	if err := l.tryRAFSpecific(path, tempFilename); err == nil {
-		if fileHasContent(tempFilename) {
+		if hasFileContent(tempFilename) {
 			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 			if !img.Empty() {
 				logging.LogInfo("RAF-specific conversion successful")
@@ -51,7 +51,7 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	// Try with dcraw auto-brightness
 	logging.LogInfo("Trying RAF with dcraw auto-brightness")
 	if err := convertWithDcrawAutoBright(path, tempFilename); err == nil {
-		if fileHasContent(tempFilename) {
+		if hasFileContent(tempFilename) {
 			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 			if !img.Empty() {
 				logging.LogInfo("dcraw auto-brightness successful for RAF")
@@ -63,7 +63,7 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	// Try with dcraw camera white balance
 	logging.LogInfo("Trying RAF with dcraw camera WB")
 	if err := convertWithDcrawCameraWB(path, tempFilename); err == nil {
-		if fileHasContent(tempFilename) {
+		if hasFileContent(tempFilename) {
 			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 			if !img.Empty() {
 				logging.LogInfo("dcraw camera WB successful for RAF")
@@ -75,7 +75,7 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	// Try with rawtherapee
 	logging.LogInfo("Trying RAF with rawtherapee")
 	if err := convertWithRawtherapee(path, tempFilename); err == nil {
-		if fileHasContent(tempFilename) {
+		if hasFileContent(tempFilename) {
 			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 			if !img.Empty() {
 				logging.LogInfo("rawtherapee successful for RAF")
@@ -98,7 +98,7 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		err = cmd.Run()
 		outFile.Close()
 
-		if err == nil && fileHasContent(tempFile) {
+		if err == nil && hasFileContent(tempFile) {
 			img := gocv.IMRead(tempFile, gocv.IMReadGrayScale)
 			if !img.Empty() {
 				logging.LogInfo("RAF special fallback successful")
@@ -142,7 +142,7 @@ func (l *NEFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		err := method(path, tempFilename)
 		if err == nil {
 			// Check if file exists and has content
-			if fileHasContent(tempFilename) {
+			if hasFileContent(tempFilename) {
 				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 				if !img.Empty() {
 					return img, nil
@@ -183,7 +183,7 @@ func (l *ARWImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		err := method(path, tempFilename)
 		if err == nil {
 			// Check if file exists and has content
-			if fileHasContent(tempFilename) {
+			if hasFileContent(tempFilename) {
 				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 				if !img.Empty() {
 					return img, nil
@@ -224,7 +224,7 @@ func (l *CR2ImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		err := method(path, tempFilename)
 		if err == nil {
 			// Check if file exists and has content
-			if fileHasContent(tempFilename) {
+			if hasFileContent(tempFilename) {
 				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 				if !img.Empty() {
 					return img, nil
@@ -264,7 +264,7 @@ func (l *CR3ImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		err := method(path, tempFilename)
 		if err == nil {
 			// Check if file exists and has content
-			if fileHasContent(tempFilename) {
+			if hasFileContent(tempFilename) {
 				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 				if !img.Empty() {
 					return img, nil
@@ -304,7 +304,7 @@ func (l *DNGImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		err := method(path, tempFilename)
 		if err == nil {
 			// Check if file exists and has content
-			if fileHasContent(tempFilename) {
+			if hasFileContent(tempFilename) {
 				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 				if !img.Empty() {
 					return img, nil

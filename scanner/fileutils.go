@@ -1,49 +1,43 @@
 package scanner
 
 import (
-	"path/filepath"
+	"imagefinder/imageprocessor"
 	"strings"
 )
 
 // IsImageFile checks if a file extension belongs to an image file
 func IsImageFile(path string) bool {
-	ext := strings.ToLower(filepath.Ext(path))
-	switch ext {
-	case ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp":
-		return true
-	case ".cr2", ".nef", ".arw", ".orf", ".rw2", ".pef", ".dng", ".raw", ".raf", ".cr3", ".nrw", ".srf":
-		return true
-	case ".tif", ".tiff":
-		return true
-	default:
-		return false
-	}
+	return imageprocessor.IsImageFile(path)
 }
 
 // IsRawFormat checks if a file is in RAW format
 func IsRawFormat(path string) bool {
-	ext := strings.ToLower(filepath.Ext(path))
-	rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf", ".orf", ".rw2", ".pef", ".raw"}
-	for _, format := range rawFormats {
-		if ext == format {
-			return true
-		}
-	}
-	return false
+	return imageprocessor.IsRawFormat(path)
 }
 
 // IsTiffFormat checks if a file is in TIF format
 func IsTiffFormat(path string) bool {
-	ext := strings.ToLower(filepath.Ext(path))
-	return ext == ".tif" || ext == ".tiff"
+	return imageprocessor.IsTiffFormat(path)
 }
 
 // GetFileFormat returns the lowercase file extension without the dot
 func GetFileFormat(path string) string {
-	return strings.TrimPrefix(strings.ToLower(filepath.Ext(path)), ".")
+	format := imageprocessor.GetFileFormat(path)
+	return strings.ToLower(string(format))
 }
 
 // SupportedRawFormats returns a list of supported RAW formats
 func SupportedRawFormats() []string {
-	return []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf", ".orf", ".rw2", ".pef", ".raw"}
+	// Get all supported extensions
+	allExtensions := imageprocessor.GetSupportedExtensions()
+	
+	// Filter to include only RAW formats
+	var rawFormats []string
+	for _, ext := range allExtensions {
+		if imageprocessor.IsRawFormat(ext) {
+			rawFormats = append(rawFormats, ext)
+		}
+	}
+	
+	return rawFormats
 }

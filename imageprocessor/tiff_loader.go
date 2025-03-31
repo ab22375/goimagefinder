@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"imagefinder/logging"
@@ -13,27 +12,25 @@ import (
 	"gocv.io/x/gocv"
 )
 
-// TiffImageLoader handles TIFF image format
-type TiffImageLoader struct {
+// EnhancedTiffImageLoader is a more advanced TIFF loader with specialized conversion methods
+type EnhancedTiffImageLoader struct {
+	BaseImageLoader
 	TempDir string
 }
 
-// NewTiffImageLoader creates a new loader for TIFF files
-func NewTiffImageLoader() *TiffImageLoader {
+// NewEnhancedTiffImageLoader creates a new enhanced loader for TIFF files
+func NewEnhancedTiffImageLoader() *EnhancedTiffImageLoader {
 	tempDir := os.TempDir()
-	return &TiffImageLoader{
+	return &EnhancedTiffImageLoader{
+		BaseImageLoader: BaseImageLoader{
+			SupportedFormats: []FormatType{FormatTIFF},
+		},
 		TempDir: tempDir,
 	}
 }
 
-// CanLoad checks if this loader can handle the given file
-func (l *TiffImageLoader) CanLoad(path string) bool {
-	ext := strings.ToLower(filepath.Ext(path))
-	return (ext == ".tif" || ext == ".tiff") && fileExists(path)
-}
-
-// LoadImage loads a TIFF image
-func (l *TiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
+// LoadImage loads a TIFF image with advanced methods
+func (l *EnhancedTiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	logging.LogInfo("Loading TIFF image with specialized loader: %s", path)
 
 	// First try direct loading with OpenCV
@@ -59,7 +56,7 @@ func (l *TiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		err := method(path, tempFilename)
 		if err == nil {
 			// Check if file exists and has content
-			if fileHasContent(tempFilename) {
+			if hasFileContent(tempFilename) {
 				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
 				if !img.Empty() {
 					return img, nil
@@ -75,11 +72,13 @@ func (l *TiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		return gocvMatFromGoImage(goImg)
 	}
 
-	return gocv.NewMat(), newImageLoadError("failed to load TIFF image (all methods failed)", path)
+	return gocv.NewMat(), fmt.Errorf("failed to load TIFF image (all methods failed): %s", path)
 }
 
+// Check if file has content using the utility function
+
 // convertTiffWithImageMagick converts a TIFF file to JPEG using ImageMagick
-func (l *TiffImageLoader) convertTiffWithImageMagick(path, outputPath string) error {
+func (l *EnhancedTiffImageLoader) convertTiffWithImageMagick(path, outputPath string) error {
 	_, err := exec.LookPath("convert")
 	if err != nil {
 		return os.ErrNotExist
@@ -90,7 +89,7 @@ func (l *TiffImageLoader) convertTiffWithImageMagick(path, outputPath string) er
 }
 
 // convertTiffWithVips converts a TIFF file to JPEG using libvips
-func (l *TiffImageLoader) convertTiffWithVips(path, outputPath string) error {
+func (l *EnhancedTiffImageLoader) convertTiffWithVips(path, outputPath string) error {
 	_, err := exec.LookPath("vips")
 	if err != nil {
 		return os.ErrNotExist
@@ -101,7 +100,7 @@ func (l *TiffImageLoader) convertTiffWithVips(path, outputPath string) error {
 }
 
 // convertTiffWithGdal converts a TIFF file to JPEG using GDAL (good for geospatial TIFFs)
-func (l *TiffImageLoader) convertTiffWithGdal(path, outputPath string) error {
+func (l *EnhancedTiffImageLoader) convertTiffWithGdal(path, outputPath string) error {
 	_, err := exec.LookPath("gdal_translate")
 	if err != nil {
 		return os.ErrNotExist

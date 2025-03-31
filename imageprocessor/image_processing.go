@@ -384,31 +384,4 @@ func preprocessImageForHashing(img gocv.Mat) gocv.Mat {
 	return blurred
 }
 
-// Utility function to calculate the median of a float array
-func calculateMedian1(values []float32) float32 {
-	// Make a copy to avoid modifying the original slice
-	valuesCopy := make([]float32, len(values))
-	copy(valuesCopy, values)
-
-	// Sort the values
-	for i := 0; i < len(valuesCopy); i++ {
-		for j := i + 1; j < len(valuesCopy); j++ {
-			if valuesCopy[i] > valuesCopy[j] {
-				valuesCopy[i], valuesCopy[j] = valuesCopy[j], valuesCopy[i]
-			}
-		}
-	}
-
-	// Calculate median
-	length := len(valuesCopy)
-	if length%2 == 0 {
-		return (valuesCopy[length/2-1] + valuesCopy[length/2]) / 2
-	}
-
-	return valuesCopy[length/2]
-}
-
-// Helper function to create standardized image load errors
-func newImageLoadError(message, path string) error {
-	return fmt.Errorf("%s: %s", message, path)
-}
+// End of image processing functions

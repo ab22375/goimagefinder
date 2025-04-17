@@ -57,17 +57,16 @@ func (r *ImageLoaderRegistry) registerSpecializedLoaders() {
 	r.RegisterLoader(".tif", tiffLoader)
 	r.RegisterLoader(".tiff", tiffLoader)
 
-	// Register RAW format loaders using a simple implementation for now
-	// This will be enhanced in specialized files
+	// Register RAW format loaders using the SimpleRawImageLoader for compatibility
 	simpleRawLoader := NewSimpleRawImageLoader()
 	
-	// Register for common RAW formats
-	r.RegisterLoader(".raw", simpleRawLoader)
+	// Register for all RAW formats
 	r.RegisterLoader(".raf", simpleRawLoader)
 	r.RegisterLoader(".nef", simpleRawLoader)
 	r.RegisterLoader(".arw", simpleRawLoader)
 	r.RegisterLoader(".cr2", simpleRawLoader)
 	r.RegisterLoader(".dng", simpleRawLoader)
+	r.RegisterLoader(".raw", simpleRawLoader)
 	r.RegisterLoader(".nrw", simpleRawLoader)
 	r.RegisterLoader(".srf", simpleRawLoader)
 	

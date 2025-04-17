@@ -1,4 +1,6 @@
-# GoImageFinder - Claude.md
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Build Commands
 - `make build` - Build application for current platform
@@ -19,9 +21,9 @@
 
 ## Code Style Guidelines
 - **Imports:** Standard library first, internal packages second, external last
-- **Formatting:** Use `gofmt` (standard Go formatting with 4-space indentation)
-- **Error Handling:** Explicit error checking, error wrapping with context
-- **Naming:** CamelCase for exported identifiers, camelCase for unexported
-- **Types:** Exported types start with uppercase, custom types for specialization
+- **Formatting:** Use `gofmt` with standard 4-space indentation
+- **Error Handling:** Explicit error checking with context wrapping
+- **Naming:** CamelCase for exported, camelCase for unexported identifiers
+- **Types:** Exported types start with uppercase
 - **Functions:** Use `VerbNoun` format (e.g., `ScanAndStoreFolder`)
-- **Errors:** Always propagate errors up call stack with context
+- **Documentation:** Add comments for exported functions and types

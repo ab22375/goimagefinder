@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoImageFinder</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GoImageFinder</h1>
+        </header>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="config-section">
+                    <h2>Configurazione Database</h2>
+                    <div class="input-group">
+                        <input type="text" id="dbPath" placeholder="/path/to/database.db" value="~/goimagefinder.db">
+                        <button class="browse-btn" onclick="browsePath('db')">...</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h2>Cartella Immagini</h2>
+                    <div class="input-group">
+                        <input type="text" id="folderPath" placeholder="/path/to/images/">
+                        <button class="browse-btn" onclick="browsePath('folder')">...</button>
+                    </div>
+                    <button class="scan-btn" onclick="startScan()">Scansiona</button>
+                </div>
+
+                <div class="search-section">
+                    <h2>Cerca Immagine Simile</h2>
+                    <div class="file-selector">
+                        <input type="file" id="imageFile" accept="image/*" style="display: none" onchange="handleFileSelect(event)">
+                        <button class="select-btn" onclick="document.getElementById('imageFile').click()">Seleziona</button>
+                        <div id="selectedImage" class="selected-image"></div>
+                    </div>
+                    
+                    <div class="threshold-control">
+                        <label>Threshold:</label>
+                        <div class="slider-container">
+                            <input type="range" id="threshold" min="0" max="100" value="75" oninput="updateThreshold()">
+                            <span id="thresholdValue">0.75</span>
+                        </div>
+                    </div>
+                    
+                    <button class="search-btn" onclick="searchImages()">Cerca</button>
+                </div>
+
+                <div id="progressBar" class="progress-bar" style="display: none;">
+                    <div class="progress-fill"></div>
+                    <span class="progress-text"></span>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <h2>Risultati</h2>
+                <div class="results-header">
+                    <span class="col-preview">Anteprima</span>
+                    <span class="col-path">Percorso</span>
+                    <span class="col-score">Score</span>
+                </div>
+                <div id="results" class="results-container">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

@@ -137,6 +137,20 @@ setup:
 	@mkdir -p database imageprocessor logging scanner types utils
 	@echo "Project structure created"
 
+# Build and run web server
+webserver:
+	@echo "Building web server..."
+	@$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/webserver ./cmd/webserver/main.go
+	@echo "Starting web server on port 8012..."
+	@$(BUILD_DIR)/webserver
+
+# Build web server only
+build-webserver:
+	@echo "Building web server..."
+	@mkdir -p $(BUILD_DIR)
+	@$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/webserver ./cmd/webserver/main.go
+	@echo "Build complete! Binary: $(BUILD_DIR)/webserver"
+
 # Install required external tools for RAW image processing
 install-tools:
 	@echo "Installing external tools for RAW image processing..."
@@ -170,6 +184,8 @@ help:
 	@echo "  package-macos        - Create a macOS .app package (ARM64-only)"
 	@echo "  create-dmg           - Create a distributable DMG file"
 	@echo "  build-all            - Install dependencies, tools, and build the application"
+	@echo "  webserver            - Build and run the web interface on port 8012"
+	@echo "  build-webserver      - Build the web server binary only"
 	@echo "  clean                - Remove build artifacts"
 	@echo "  test                 - Run tests"
 	@echo "  deps                 - Install Go dependencies"

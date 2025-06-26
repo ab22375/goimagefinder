@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,39 +15,55 @@
         <div class="main-content">
             <div class="left-panel">
                 <div class="config-section">
-                    <h2>Configurazione Database</h2>
+                    <h2>Database Configuration</h2>
                     <div class="input-group">
-                        <input type="text" id="dbPath" placeholder="/path/to/database.db" value="~/goimagefinder.db">
+                        <input type="text" id="dbPath" placeholder="/path/to/database.db" value="{{.DatabasePath}}">
                         <button class="browse-btn" onclick="browsePath('db')">...</button>
                     </div>
+                    <div class="db-info" id="dbInfo"></div>
                 </div>
 
                 <div class="config-section">
-                    <h2>Cartella Immagini</h2>
+                    <h2>Scan Images</h2>
                     <div class="input-group">
-                        <input type="text" id="folderPath" placeholder="/path/to/images/">
+                        <input type="text" id="folderPath" placeholder="/path/to/images/" value="{{.FolderPath}}">
                         <button class="browse-btn" onclick="browsePath('folder')">...</button>
                     </div>
-                    <button class="scan-btn" onclick="startScan()">Scansiona</button>
+                    
+                    <div class="scan-options">
+                        <div class="option-group">
+                            <label for="prefix">Source Prefix:</label>
+                            <input type="text" id="prefix" placeholder="Optional prefix" value="{{.Prefix}}">
+                        </div>
+                        
+                        <div class="option-group">
+                            <label>
+                                <input type="checkbox" id="forceRewrite" {{if .ForceRewrite}}checked{{end}}>
+                                Force Rewrite
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button class="scan-btn" onclick="startScan()">Scan</button>
                 </div>
 
                 <div class="search-section">
-                    <h2>Cerca Immagine Simile</h2>
+                    <h2>Search Similar Images</h2>
                     <div class="file-selector">
                         <input type="file" id="imageFile" accept="image/*" style="display: none" onchange="handleFileSelect(event)">
-                        <button class="select-btn" onclick="document.getElementById('imageFile').click()">Seleziona</button>
+                        <button class="select-btn" onclick="document.getElementById('imageFile').click()">Select Image</button>
                         <div id="selectedImage" class="selected-image"></div>
                     </div>
                     
                     <div class="threshold-control">
                         <label>Threshold:</label>
                         <div class="slider-container">
-                            <input type="range" id="threshold" min="0" max="100" value="75" oninput="updateThreshold()">
-                            <span id="thresholdValue">0.75</span>
+                            <input type="range" id="threshold" min="0" max="100" value="{{mul .Threshold 100}}" oninput="updateThreshold()">
+                            <span id="thresholdValue">{{.Threshold}}</span>
                         </div>
                     </div>
                     
-                    <button class="search-btn" onclick="searchImages()">Cerca</button>
+                    <button class="search-btn" onclick="searchImages()">Search</button>
                 </div>
 
                 <div id="progressBar" class="progress-bar" style="display: none;">
@@ -57,11 +73,12 @@
             </div>
 
             <div class="right-panel">
-                <h2>Risultati</h2>
+                <h2>Results</h2>
                 <div class="results-header">
-                    <span class="col-preview">Anteprima</span>
-                    <span class="col-path">Percorso</span>
+                    <span class="col-preview">Preview</span>
+                    <span class="col-path">Path</span>
                     <span class="col-score">Score</span>
+                    <span class="col-actions">Actions</span>
                 </div>
                 <div id="results" class="results-container">
                     <!-- Results will be populated here -->

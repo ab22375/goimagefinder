@@ -26,12 +26,16 @@ var templateFS embed.FS
 var staticFS embed.FS
 
 type Server struct {
-	tmpl *template.Template
+	tmpl       *template.Template
+	config     *Config
+	configPath string
 }
 
 type ScanRequest struct {
 	DatabasePath string `json:"databasePath"`
 	FolderPath   string `json:"folderPath"`
+	Prefix       string `json:"prefix"`
+	ForceRewrite bool   `json:"forceRewrite"`
 }
 
 type SearchRequest struct {
@@ -53,18 +57,34 @@ type ScanProgress struct {
 }
 
 func NewServer() (*Server, error) {
-	tmpl, err := template.ParseFS(templateFS, "templates/*.html")
+	// Define template functions
+	funcMap := template.FuncMap{
+		"mul": func(a, b float64) float64 {
+			return a * b
+		},
+	}
+	
+	tmpl, err := template.New("").Funcs(funcMap).ParseFS(templateFS, "templates/*.html")
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse templates: %w", err)
 	}
 
+	configPath := GetConfigPath()
+	config, err := LoadConfig(configPath)
+	if err != nil {
+		log.Printf("Failed to load config: %v, using defaults", err)
+		config = DefaultConfig()
+	}
+
 	return &Server{
-		tmpl: tmpl,
+		tmpl:       tmpl,
+		config:     config,
+		configPath: configPath,
 	}, nil
 }
 
 func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
-	if err := s.tmpl.ExecuteTemplate(w, "index.html", nil); err != nil {
+	if err := s.tmpl.ExecuteTemplate(w, "index.html", s.config); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
@@ -112,8 +132,8 @@ func (s *Server) handleScan(w http.ResponseWriter, r *http.Request) {
 	go func() {
 		options := scanner.ScanOptions{
 			FolderPath:   folderPath,
-			SourcePrefix: "",
-			ForceRewrite: false,
+			SourcePrefix: req.Prefix,
+			ForceRewrite: req.ForceRewrite,
 			MaxWorkers:   8,
 			DebugMode:    true,
 		}
@@ -311,6 +331,8 @@ func (s *Server) handleSearch(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleFile(w http.ResponseWriter, r *http.Request) {
 	filePath := r.URL.Query().Get("path")
+	thumbnail := r.URL.Query().Get("thumbnail") == "true"
+	
 	if filePath == "" {
 		http.Error(w, "Missing path parameter", http.StatusBadRequest)
 		return
@@ -323,7 +345,30 @@ func (s *Server) handleFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if it's an image
-	ext := filepath.Ext(filePath)
+	ext := strings.ToLower(filepath.Ext(filePath))
+	
+	// For thumbnails or raw formats, generate a JPEG thumbnail
+	if thumbnail || isRawFormat(ext) {
+		// Load image and generate thumbnail
+		img, err := imageprocessor.LoadImage(filePath)
+		if err != nil {
+			// If we can't load the image, return a placeholder
+			http.Error(w, "Failed to generate thumbnail", http.StatusInternalServerError)
+			return
+		}
+		
+		// Return JPEG thumbnail
+		w.Header().Set("Content-Type", "image/jpeg")
+		w.Header().Set("Cache-Control", "max-age=3600")
+		
+		// Write thumbnail directly to response
+		if err := imageprocessor.WriteJPEGThumbnail(w, img, 200); err != nil {
+			http.Error(w, "Failed to write thumbnail", http.StatusInternalServerError)
+		}
+		return
+	}
+	
+	// For regular image formats, serve the file directly
 	contentType := ""
 	switch ext {
 	case ".jpg", ".jpeg":
@@ -340,7 +385,18 @@ func (s *Server) handleFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", contentType)
+	w.Header().Set("Cache-Control", "max-age=3600")
 	http.ServeFile(w, r, filePath)
+}
+
+func isRawFormat(ext string) bool {
+	rawExts := []string{".cr2", ".cr3", ".nef", ".arw", ".dng", ".orf", ".rw2", ".raf", ".srw"}
+	for _, rawExt := range rawExts {
+		if ext == rawExt {
+			return true
+		}
+	}
+	return false
 }
 
 func expandPath(path string) string {
@@ -352,6 +408,164 @@ func expandPath(path string) string {
 		return filepath.Join(home, path[1:])
 	}
 	return path
+}
+
+func (s *Server) handleConfig(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(s.config)
+		
+	case http.MethodPost:
+		var newConfig Config
+		if err := json.NewDecoder(r.Body).Decode(&newConfig); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		
+		// Update server config
+		s.config = &newConfig
+		
+		// Save to file
+		if err := SaveConfig(s.configPath, s.config); err != nil {
+			log.Printf("Failed to save config: %v", err)
+		}
+		
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]string{"status": "saved"})
+		
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+func (s *Server) handleDatabaseInfo(w http.ResponseWriter, r *http.Request) {
+	dbPath := r.URL.Query().Get("path")
+	if dbPath == "" {
+		http.Error(w, "Missing database path", http.StatusBadRequest)
+		return
+	}
+	
+	dbPath = expandPath(dbPath)
+	
+	// Check if database exists
+	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"exists": false,
+			"count":  0,
+		})
+		return
+	}
+	
+	// Open database
+	db, err := database.OpenDatabase(dbPath)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Failed to open database: %v", err), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+	
+	// Get record count
+	var count int
+	err = db.QueryRow("SELECT COUNT(*) FROM images").Scan(&count)
+	if err != nil {
+		count = 0
+	}
+	
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"exists": true,
+		"count":  count,
+	})
+}
+
+func (s *Server) handleBrowse(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Query().Get("path")
+	browseType := r.URL.Query().Get("type") // "file" or "folder"
+	
+	if path == "" {
+		// Start from home directory if no path provided
+		homeDir, _ := os.UserHomeDir()
+		path = homeDir
+	}
+	
+	path = expandPath(path)
+	
+	// Ensure the path exists
+	info, err := os.Stat(path)
+	if err != nil {
+		// If path doesn't exist, try parent directory
+		path = filepath.Dir(path)
+		info, err = os.Stat(path)
+		if err != nil {
+			http.Error(w, "Invalid path", http.StatusBadRequest)
+			return
+		}
+	}
+	
+	// If it's a file and we're browsing for folders, use parent directory
+	if !info.IsDir() && browseType == "folder" {
+		path = filepath.Dir(path)
+	}
+	
+	// List directory contents
+	entries, err := os.ReadDir(path)
+	if err != nil {
+		http.Error(w, "Failed to read directory", http.StatusInternalServerError)
+		return
+	}
+	
+	type FileEntry struct {
+		Name     string `json:"name"`
+		Path     string `json:"path"`
+		IsDir    bool   `json:"isDir"`
+		Size     int64  `json:"size"`
+		Modified string `json:"modified"`
+	}
+	
+	var result struct {
+		CurrentPath string       `json:"currentPath"`
+		ParentPath  string       `json:"parentPath"`
+		Entries     []FileEntry  `json:"entries"`
+	}
+	
+	result.CurrentPath = path
+	result.ParentPath = filepath.Dir(path)
+	result.Entries = make([]FileEntry, 0)
+	
+	// Add entries
+	for _, entry := range entries {
+		// Skip hidden files/folders (starting with .)
+		if strings.HasPrefix(entry.Name(), ".") && entry.Name() != ".." {
+			continue
+		}
+		
+		info, err := entry.Info()
+		if err != nil {
+			continue
+		}
+		
+		// For file browsing, only show directories and .db files
+		if browseType == "file" && !entry.IsDir() {
+			if !strings.HasSuffix(strings.ToLower(entry.Name()), ".db") {
+				continue
+			}
+		}
+		
+		fe := FileEntry{
+			Name:     entry.Name(),
+			Path:     filepath.Join(path, entry.Name()),
+			IsDir:    entry.IsDir(),
+			Size:     info.Size(),
+			Modified: info.ModTime().Format("2006-01-02 15:04"),
+		}
+		
+		result.Entries = append(result.Entries, fe)
+	}
+	
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
 }
 
 func main() {
@@ -373,6 +587,9 @@ func main() {
 	http.HandleFunc("/api/search", server.handleSearch)
 	http.HandleFunc("/api/upload-search", server.handleUploadAndSearch)
 	http.HandleFunc("/api/file", server.handleFile)
+	http.HandleFunc("/api/config", server.handleConfig)
+	http.HandleFunc("/api/database-info", server.handleDatabaseInfo)
+	http.HandleFunc("/api/browse", server.handleBrowse)
 	
 	// Static files
 	http.Handle("/static/", http.FileServer(http.FS(staticFS)))

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This program is a command-line tool designed to **scan, index, and search** for similar images based on perceptual and average hash comparisons. It supports various image formats, including **JPG, PNG, TIFF, RAW (e.g., NEF, CR2), and HEIC**.
+This program is a command-line tool designed to **scan, index, and search** for similar images based on perceptual and average hash comparisons. It supports various image formats, including **JPG, PNG, TIFF, RAW (e.g., NEF, CR2), and HEIC**. The tool now includes a **web-based graphical interface** for easier interaction.
 
 The program uses **SQLite** for database storage and **OpenCV (GoCV)** for image processing, allowing users to:
 
@@ -18,6 +18,8 @@ The program uses **SQLite** for database storage and **OpenCV (GoCV)** for image
 - **Multi-threaded processing**: Efficiently processes images in parallel
 - **Specialized format handling**: Format-specific loaders for different camera RAW formats
 - **Detailed logging**: Comprehensive debug logging system
+- **Web interface**: Browser-based GUI for easy image browsing and similarity search
+- **CR3 support**: Full support for Canon CR3 RAW format with optimized processing
 
 ## Dependencies
 
@@ -103,6 +105,21 @@ I="/path/to/image/to/search.jpg"
 L="/path/to/log/file.log"
 goimagefinder search --database=$D --debug --logfile=$L --image=$I
 ```
+
+### Web Interface (Graphical UI)
+
+To launch the web-based graphical interface:
+
+```bash
+./build/webserver
+```
+
+This will start a web server on port 8080. Open your browser and navigate to `http://localhost:8080` to access the graphical interface. The web UI provides:
+
+- Visual browsing of indexed images
+- Point-and-click similarity search
+- Real-time preview of search results
+- Easy database selection and management
 
 ## Example Workflow
 
@@ -208,6 +225,16 @@ The application is organized into several packages:
 * `logging/`: Debug and error logging
 * `types/`: Shared data structures
 * `utils/`: Utility functions for argument parsing, etc.
+
+## Recent Updates
+
+### Version 2.0 (2025)
+- Added web-based graphical user interface for easier interaction
+- Improved CR3 format support with better error handling and fallback mechanisms
+- Enhanced RAW image processing with multiple conversion strategies
+- Optimized memory usage for large-scale image processing
+- Added comprehensive debug logging for troubleshooting
+- Improved similarity scoring algorithm with filename boost feature
 
 ## License
 

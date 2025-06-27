@@ -1,164 +1,161 @@
-# Image Similarity Indexing and Search Tool
+# GoImageFinder
 
-## Overview
+A Go-based image similarity detection and management system that indexes images using perceptual hashing and provides both command-line and web interfaces for searching duplicate or similar images.
 
-This program is a command-line tool designed to **scan, index, and search** for similar images based on perceptual and average hash comparisons. It supports various image formats, including **JPG, PNG, TIFF, RAW (e.g., NEF, CR2), and HEIC**. The tool now includes a **web-based graphical interface** for easier interaction.
+## Technologies
 
-The program uses **SQLite** for database storage and **OpenCV (GoCV)** for image processing, allowing users to:
-
-- Scan a folder of images and store metadata and hash values in a database.
-- Search for similar images by comparing a query image against the indexed database using **hash matching and similarity scoring**.
-
-## Features
-
-- **Multi-format support**: Handles standard (JPG, PNG), RAW (NEF, CR2, RAF, ARW, CR3, DNG), and TIFF formats
-- **Robust hash algorithms**: Uses average hash (aHash) and perceptual hash (pHash) for image comparison
-- **Smart image similarity**: Computes weighted similarity scores with filename matching boosts
-- **Incremental scanning**: Avoids reprocessing unchanged files to save time
-- **Multi-threaded processing**: Efficiently processes images in parallel
-- **Specialized format handling**: Format-specific loaders for different camera RAW formats
-- **Detailed logging**: Comprehensive debug logging system
-- **Web interface**: Browser-based GUI for easy image browsing and similarity search
-- **CR3 support**: Full support for Canon CR3 RAW format with optimized processing
+- **Go 1.18+** - Main programming language
+- **SQLite3** - Database for storing image metadata and hashes
+- **GoCV** - OpenCV bindings for image processing
+- **go-exiftool** - EXIF metadata extraction from RAW files
+- **HTML/CSS/JavaScript** - Web interface frontend
 
 ## Dependencies
 
-To use this tool, you need to install:
-
-- **Go** (Golang) 1.18+
-- **GoCV** (OpenCV bindings for Go): `go get gocv.io/x/gocv`
-- **SQLite3**: `go get github.com/mattn/go-sqlite3`
-
-### External Tools (Optional)
-
-Some advanced features require external tools:
-
-- **exiftool**: For extracting preview images from RAW files
-- **dcraw**: For converting RAW images
-- **rawtherapee-cli**: Alternative RAW processor
-- **ImageMagick/VIPS/GDAL**: For advanced TIFF processing
-
-## Installation for Mac Silicon (ARM64)
-
-**Download the DMG from:**
-
-https://github.com/ab22375/search_image/tree/main/dist
-
-After installing, create a symlink in your PATH:
-
+### Go Packages
 ```bash
-sudo rm -f /usr/local/bin/goimagefinder
-echo '#!/bin/bash' | sudo tee /usr/local/bin/goimagefinder > /dev/null
-echo 'exec /Applications/goimagefinder.app/Contents/MacOS/goimagefinder "$@"' | sudo tee -a /usr/local/bin/goimagefinder > /dev/null
-sudo chmod +x /usr/local/bin/goimagefinder
+go get github.com/mattn/go-sqlite3
+go get gocv.io/x/gocv
+go get github.com/barasher/go-exiftool
+go get golang.org/x/image
 ```
 
-## Usage
+### External Tools
+- **dcraw** - RAW image conversion
+- **exiftool** - Metadata extraction
+- **libraw** - RAW image processing library
+- **rawtherapee-cli** (optional) - Alternative RAW processor
 
-### Indexing Images
+## Installation
 
-To scan and index a directory of images:
+### From Source
+```bash
+git clone https://github.com/yourusername/goimagefinder
+cd goimagefinder
+make build
+```
+
+### macOS DMG
+Download the DMG from releases and install. Then create a command-line symlink:
+```bash
+sudo ln -sf /Applications/goimagefinder.app/Contents/MacOS/goimagefinder /usr/local/bin/goimagefinder
+```
+
+## Command Line Usage
+
+### Scan Images
+Index a directory of images into a SQLite database:
 
 ```bash
 goimagefinder scan --folder=/path/to/images [options]
 ```
 
 Options:
+- `--database=PATH` or `--db=PATH` - Database file path (default: ./images.db)
+- `--prefix=NAME` - Source prefix for organizing images from different sources
+- `--force` - Force rewrite of existing entries
+- `--debug` - Enable debug logging
+- `--logfile=PATH` - Custom log file path (default: imagefinder.log)
 
-* `--database=PATH` or `--db=PATH`: Path to database file (default: executable's directory/images.db)
-* `--prefix=NAME`: Source prefix for scanning (e.g., "ExternalDrive1")
-* `--force`: Force rewrite existing entries
-* `--debug`: Enable debug mode with detailed logging
-* `--logfile=PATH`: Specify custom log file path (default: imagefinder.log)
-
-Terminal convenience example:
-
+Example:
 ```bash
-F="/path/to/folder/to/scan"
-L="/path/to/log/file.log"
-D="/path/to/sqlite/database.db"
-P="prefix-name"
-goimagefinder scan --folder=$F --database=$D --prefix=$P --debug --logfile=$L
+goimagefinder scan --folder=/Users/photos --db=photos.db --prefix=MacBook --debug
 ```
 
-### Searching for Similar Images
-
-To search for images similar to a query image:
+### Search Similar Images
+Find images similar to a query image:
 
 ```bash
 goimagefinder search --image=/path/to/query.jpg [options]
 ```
 
 Options:
+- `--database=PATH` or `--db=PATH` - Database file path
+- `--threshold=VALUE` - Similarity threshold 0.0-1.0 (default: 0.8)
+- `--prefix=NAME` - Filter results by source prefix
+- `--debug` - Enable debug logging
+- `--logfile=PATH` - Custom log file path
 
-* `--database=PATH` or `--db=PATH`: Path to database file (default: executable's directory/images.db)
-* `--threshold=VALUE`: Similarity threshold (0.0-1.0, default: 0.8)
-* `--prefix=NAME`: Source prefix for filtering results
-* `--debug`: Enable debug mode with detailed logging
-* `--logfile=PATH`: Specify custom log file path (default: imagefinder.log)
-
-Terminal convenience example:
-
+Example:
 ```bash
-D="/path/to/sqlite/database.db"
-I="/path/to/image/to/search.jpg"
-L="/path/to/log/file.log"
-goimagefinder search --database=$D --debug --logfile=$L --image=$I
+goimagefinder search --image=vacation.jpg --db=photos.db --threshold=0.75
 ```
 
-### Web Interface (Graphical UI)
+## Web Interface Usage
 
-To launch the web-based graphical interface:
-
+### Start Web Server
 ```bash
-./build/webserver
+goimagefinder webserver [port]
 ```
 
-This will start a web server on port 8080. Open your browser and navigate to `http://localhost:8080` to access the graphical interface. The web UI provides:
+Or run directly:
+```bash
+go run cmd/webserver/main.go cmd/webserver/config.go [port]
+```
 
-- Visual browsing of indexed images
-- Point-and-click similarity search
-- Real-time preview of search results
-- Easy database selection and management
+Default port is 8012. Access at `http://localhost:8012`
 
-## Example Workflow
+### Features
 
-1. **Index a directory of images**
+- **Configuration**: Settings persist in `~/.goimagefinder/webserver.json`
+- **Database Management**: File browser for database selection, real-time record count
+- **Image Scanning**: Visual folder selection, progress tracking, scan options
+- **Similarity Search**: Drag-and-drop query images, adjustable threshold, thumbnail previews
+- **Results**: Clickable thumbnails and paths, copy-to-clipboard, similarity scores
 
-   ```bash
-   goimagefinder scan --folder=/home/user/photos --database=photos.db --prefix=DSLR --force
-   ```
+### Web Interface Example Workflow
 
-2. **Find similar images to a given file**
+1. Open browser to `http://localhost:8012`
+2. Click "..." next to Database path to select or create a database
+3. Click "..." next to folder path to select images directory
+4. Optional: Set source prefix (e.g., "ExternalDrive1")
+5. Click "Scan" to index images
+6. Select an image file and click "Search" to find similar images
 
-   ```bash
-   goimagefinder search --image=/home/user/photos/query.jpg --database=photos.db --threshold=0.85
-   ```
+## Project Structure
 
-## Technical Details
+```
+goimagefinder/
+├── cmd/webserver/        # Web interface application
+│   ├── main.go          # Web server entry point
+│   ├── config.go        # Configuration management
+│   ├── static/          # JavaScript and CSS
+│   └── templates/       # HTML templates
+├── database/            # SQLite database operations
+├── imageprocessor/      # Image loading and hashing
+│   ├── image_processing.go
+│   ├── thumbnail.go
+│   └── format_*.go      # Format-specific loaders
+├── scanner/             # Directory scanning and indexing
+├── logging/             # Debug and error logging
+├── types/               # Common type definitions
+├── utils/               # Utility functions
+├── main.go              # CLI entry point
+└── Makefile            # Build scripts
+```
 
-### Image Processing
+## Supported Image Formats
 
-The tool uses multiple approaches for image similarity detection:
+- **Standard**: JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP
+- **RAW**: CR2, CR3, NEF, ARW, DNG, ORF, RW2, RAF, SRW
+- **HEIC**: Apple HEIC format
 
-- **Average Hash (aHash)**: Calculates an 8x8 pixel grayscale representation and compares each pixel to the mean brightness.
-- **Perceptual Hash (pHash)**: Uses a **32x32** DCT-based transformation and median filtering for robust comparisons.
-- **Filename similarity**: Adds a small boost when filenames are similar (e.g., IMG_1234.JPG and IMG_1234.CR2).
+## Image Similarity Algorithm
 
-### RAW Image Handling
+The system uses two perceptual hashing algorithms:
 
-The program implements specialized loaders for various RAW formats:
+1. **Average Hash (aHash)**: 8x8 grayscale representation comparing pixels to mean brightness
+2. **Perceptual Hash (pHash)**: 32x32 DCT-based transformation with median filtering
 
-- Uses embedded preview extraction when possible (via exiftool)
-- Falls back to dcraw/rawtherapee for RAW conversion
-- Supports format-specific optimizations for RAF, NEF, ARW, CR2, CR3, and DNG files
+Similarity score calculation:
+- Hamming distance between hashes
+- Filename similarity boost for related files (e.g., IMG_1234.JPG and IMG_1234.CR2)
+- Weighted combination of aHash and pHash scores
 
-### Database Schema
-
-The SQLite database stores image metadata and hash values:
+## Database Schema
 
 ```sql
-CREATE TABLE IF NOT EXISTS images (
+CREATE TABLE images (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     path TEXT NOT NULL,
     source_prefix TEXT,
@@ -173,68 +170,48 @@ CREATE TABLE IF NOT EXISTS images (
     features BLOB,
     UNIQUE(path, source_prefix)
 );
+
+CREATE INDEX idx_path ON images(path);
+CREATE INDEX idx_average_hash ON images(average_hash);
+CREATE INDEX idx_perceptual_hash ON images(perceptual_hash);
 ```
 
-Indexes are created for fast lookup:
+## Build Commands
 
-```sql
-CREATE INDEX IF NOT EXISTS idx_path ON images(path);
-CREATE INDEX IF NOT EXISTS idx_average_hash ON images(average_hash);
-CREATE INDEX IF NOT EXISTS idx_perceptual_hash ON images(perceptual_hash);
+```bash
+make build              # Build for current platform
+make build-macos-arm64  # Build for Apple Silicon
+make webserver          # Build and run web interface
+make clean              # Remove build artifacts
+make package-macos      # Create macOS .app bundle
+make create-dmg         # Create distributable DMG
+make test               # Run tests
 ```
-
-## Performance Considerations
-
-- **Concurrency**: Uses a semaphore to limit the number of concurrent processing threads (default: optimal for your CPU).
-- **Incremental updates**: Skips unchanged images unless `--force` is specified.
-- **Optimized queries**: Uses SQLite indexes to speed up searches.
-- **Specialized loaders**: Format-specific handling improves processing efficiency.
 
 ## Debug Mode
 
-When using the `--debug` flag, the application will create a detailed log file with information about:
+Enable debug logging with `--debug` flag. Log includes:
+- Image processing details
+- Hash computation values
+- Error diagnostics
+- Processing statistics
+- Search match details
 
-* Image processing workflow
-* Hash computation details
-* Errors and their causes
-* Processing statistics for different file types
-* Search matches and near-matches
-
-Example debug log output:
-
+Example debug output:
 ```
-2025/03/15 10:15:23 --- ImageFinder Debug Log Started at 2025-03-15T10:15:23Z ---
-2025/03/15 10:15:23 Starting image scan on folder: /home/user/photos
-2025/03/15 10:15:23 Force rewrite: false, Source prefix: myCollection
-2025/03/15 10:15:24 Found 1283 image files to process (123 RAW files, 45 TIF files)
-2025/03/15 10:15:25 PROCESSED: /home/user/photos/img001.jpg
-2025/03/15 10:15:25 FAILED: /home/user/photos/corrupted.jpg - Error: failed to load image
-2025/03/15 10:15:25 PROCESSED: /home/user/photos/img002.jpg
-...
-2025/03/15 10:20:45 Scan completed in 5m22s. Processed: 1283, Errors: 7, RAW files: 123, RAW errors: 2
+2025/06/27 10:15:23 Starting scan on folder: /Users/photos
+2025/06/27 10:15:24 Found 1283 image files to process
+2025/06/27 10:15:25 PROCESSED: /Users/photos/img001.jpg
+2025/06/27 10:15:26 Hash values - aHash: 3e7a73fff6fe0604, pHash: 84840b9f3efed512
 ```
 
-## Project Structure
+## Performance Notes
 
-The application is organized into several packages:
-
-* `main.go`: Entry point and command handling
-* `database/`: Database operations and schema management
-* `imageprocessor/`: Image loading, hashing, and comparison
-* `scanner/`: Directory traversal and processing
-* `logging/`: Debug and error logging
-* `types/`: Shared data structures
-* `utils/`: Utility functions for argument parsing, etc.
-
-## Recent Updates
-
-### Version 2.0 (2025)
-- Added web-based graphical user interface for easier interaction
-- Improved CR3 format support with better error handling and fallback mechanisms
-- Enhanced RAW image processing with multiple conversion strategies
-- Optimized memory usage for large-scale image processing
-- Added comprehensive debug logging for troubleshooting
-- Improved similarity scoring algorithm with filename boost feature
+- Concurrent processing with configurable worker threads
+- Incremental scanning skips unchanged files
+- SQLite indexes optimize search queries
+- RAW preview extraction for faster processing
+- Thumbnail caching for web interface
 
 ## License
 
@@ -242,10 +219,8 @@ MIT License
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create feature branch (`git checkout -b feature/new-feature`)
+3. Commit changes (`git commit -m 'Add new feature'`)
+4. Push branch (`git push origin feature/new-feature`)
+5. Open Pull Request

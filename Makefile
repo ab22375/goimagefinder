@@ -105,8 +105,24 @@ clean:
 # Run tests
 test:
 	@echo "Running tests..."
-	@$(GOTEST) ./...
+	@$(GOTEST) -v ./tests/...
 	@echo "Tests complete"
+
+# Run tests with coverage
+test-coverage:
+	@echo "Running tests with coverage..."
+	@$(GOTEST) -v -cover ./tests/... -coverprofile=coverage.out
+	@go tool cover -html=coverage.out -o coverage.html
+	@echo "Coverage report generated: coverage.html"
+
+# Run benchmarks
+test-bench:
+	@echo "Running benchmarks..."
+	@$(GOTEST) -bench=. -benchmem ./tests/integration
+
+# Run all tests using test runner script
+test-all:
+	@cd tests && ./run_tests.sh
 
 # Install dependencies
 deps:

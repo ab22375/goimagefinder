@@ -156,7 +156,8 @@ setup:
 # Build and run web server
 webserver:
 	@echo "Building web server..."
-	@$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/webserver ./cmd/webserver/main.go
+	@mkdir -p $(BUILD_DIR)
+	@$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/webserver ./cmd/webserver/
 	@echo "Starting web server on port 8012..."
 	@$(BUILD_DIR)/webserver
 
@@ -164,7 +165,7 @@ webserver:
 build-webserver:
 	@echo "Building web server..."
 	@mkdir -p $(BUILD_DIR)
-	@$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/webserver ./cmd/webserver/main.go
+	@$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/webserver ./cmd/webserver/
 	@echo "Build complete! Binary: $(BUILD_DIR)/webserver"
 
 # Install required external tools for RAW image processing

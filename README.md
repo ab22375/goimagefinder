@@ -1,18 +1,19 @@
 # GoImageFinder
 
-A Go-based image similarity detection and management system that indexes images using perceptual hashing and provides both command-line and web interfaces for searching duplicate or similar images.
+A Go-based image similarity detection tool that indexes images using perceptual hashing and provides both CLI and web interfaces for finding duplicate or similar images.
 
-## Technologies
+## Features
 
-- **Go 1.18+** - Main programming language
-- **SQLite3** - Database for storing image metadata and hashes
-- **GoCV** - OpenCV bindings for image processing
-- **go-exiftool** - EXIF metadata extraction from RAW files
-- **HTML/CSS/JavaScript** - Web interface frontend
+- **Multi-format support**: JPG, PNG, TIFF, RAW (NEF, CR2, CR3, RAF, ARW, DNG), and HEIC
+- **Perceptual hashing**: Average hash (aHash) and perceptual hash (pHash) for robust comparison
+- **Smart similarity scoring**: Weighted hash comparison with filename matching boost
+- **Incremental scanning**: Skips unchanged files unless forced
+- **Concurrent processing**: Multi-threaded for optimal performance
+- **Web interface**: Browser-based GUI with drag-and-drop search
 
-## Dependencies
+## Requirements
 
-### Go Packages
+### Go Dependencies
 ```bash
 go get github.com/mattn/go-sqlite3
 go get gocv.io/x/gocv
@@ -21,10 +22,20 @@ go get golang.org/x/image
 ```
 
 ### External Tools
+- **exiftool** - Metadata and preview extraction
 - **dcraw** - RAW image conversion
-- **exiftool** - Metadata extraction
-- **libraw** - RAW image processing library
+- **libraw** - RAW image processing
 - **rawtherapee-cli** (optional) - Alternative RAW processor
+
+Install on macOS:
+```bash
+brew install dcraw exiftool libraw rawtherapee
+```
+
+Or use make:
+```bash
+make install-tools
+```
 
 ## Installation
 
@@ -32,13 +43,21 @@ go get golang.org/x/image
 ```bash
 git clone https://github.com/yourusername/goimagefinder
 cd goimagefinder
-make build
+make build            # Build CLI tool
+make build-webserver  # Build web interface
 ```
 
+Binaries are created in `./build/`:
+- `./build/goimagefinder` - CLI tool
+- `./build/webserver` - Web interface
+
 ### macOS DMG
-Download the DMG from releases and install. Then create a command-line symlink:
+Download the DMG from releases, install, then create a symlink:
 ```bash
-sudo ln -sf /Applications/goimagefinder.app/Contents/MacOS/goimagefinder /usr/local/bin/goimagefinder
+sudo rm -f /usr/local/bin/goimagefinder
+echo '#!/bin/bash' | sudo tee /usr/local/bin/goimagefinder > /dev/null
+echo 'exec /Applications/goimagefinder.app/Contents/MacOS/goimagefinder "$@"' | sudo tee -a /usr/local/bin/goimagefinder > /dev/null
+sudo chmod +x /usr/local/bin/goimagefinder
 ```
 
 ## Command Line Usage
@@ -50,12 +69,13 @@ Index a directory of images into a SQLite database:
 goimagefinder scan --folder=/path/to/images [options]
 ```
 
-Options:
-- `--database=PATH` or `--db=PATH` - Database file path (default: ./images.db)
-- `--prefix=NAME` - Source prefix for organizing images from different sources
-- `--force` - Force rewrite of existing entries
-- `--debug` - Enable debug logging
-- `--logfile=PATH` - Custom log file path (default: imagefinder.log)
+| Option | Description |
+|--------|-------------|
+| `--database=PATH` | Database file path (default: ./images.db) |
+| `--prefix=NAME` | Source prefix for organizing images |
+| `--force` | Force rewrite of existing entries |
+| `--debug` | Enable debug logging |
+| `--logfile=PATH` | Custom log file path |
 
 Example:
 ```bash
@@ -69,91 +89,125 @@ Find images similar to a query image:
 goimagefinder search --image=/path/to/query.jpg [options]
 ```
 
-Options:
-- `--database=PATH` or `--db=PATH` - Database file path
-- `--threshold=VALUE` - Similarity threshold 0.0-1.0 (default: 0.8)
-- `--prefix=NAME` - Filter results by source prefix
-- `--debug` - Enable debug logging
-- `--logfile=PATH` - Custom log file path
+| Option | Description |
+|--------|-------------|
+| `--database=PATH` | Database file path |
+| `--threshold=VALUE` | Similarity threshold 0.0-1.0 (default: 0.8) |
+| `--prefix=NAME` | Filter results by source prefix |
+| `--debug` | Enable debug logging |
+| `--logfile=PATH` | Custom log file path |
 
 Example:
 ```bash
 goimagefinder search --image=vacation.jpg --db=photos.db --threshold=0.75
 ```
 
-## Web Interface Usage
+## Web Interface
 
-### Start Web Server
+### Start the Server
 ```bash
-goimagefinder webserver [port]
+./build/webserver [port]
 ```
 
-Or run directly:
+Or run without building:
 ```bash
-go run cmd/webserver/main.go cmd/webserver/config.go [port]
+go run ./cmd/webserver/ [port]
+```
+
+Or build and run in one step:
+```bash
+make webserver
 ```
 
 Default port is 8012. Access at `http://localhost:8012`
 
-### Features
+### Web Interface Features
 
-- **Configuration**: Settings persist in `~/.goimagefinder/webserver.json`
-- **Database Management**: File browser for database selection, real-time record count
-- **Image Scanning**: Visual folder selection, progress tracking, scan options
-- **Similarity Search**: Drag-and-drop query images, adjustable threshold, thumbnail previews
-- **Results**: Clickable thumbnails and paths, copy-to-clipboard, similarity scores
+**Configuration**
+- Settings persist in `~/.goimagefinder/webserver.json`
+- Remembers database path, folder, and scan options between sessions
 
-### Web Interface Example Workflow
+**Database Management**
+- Visual file browser for database selection
+- Real-time record count display
+- Automatic database creation
 
-1. Open browser to `http://localhost:8012`
-2. Click "..." next to Database path to select or create a database
-3. Click "..." next to folder path to select images directory
-4. Optional: Set source prefix (e.g., "ExternalDrive1")
+**Image Scanning**
+- Folder selection with built-in file browser
+- Source prefix configuration
+- Force rewrite option
+- Real-time progress tracking
+
+**Similarity Search**
+- Drag-and-drop or click to select query images
+- Adjustable similarity threshold slider
+- Thumbnail previews for all formats including RAW
+- Clickable paths and copy-to-clipboard buttons
+- Similarity scores for each match
+
+### Workflow
+1. Open `http://localhost:8012`
+2. Select or create a database using "..." button
+3. Select images folder using "..." button
+4. (Optional) Set source prefix
 5. Click "Scan" to index images
-6. Select an image file and click "Search" to find similar images
+6. Select a query image and click "Search"
 
 ## Project Structure
 
 ```
 goimagefinder/
-├── cmd/webserver/        # Web interface application
-│   ├── main.go          # Web server entry point
-│   ├── config.go        # Configuration management
-│   ├── static/          # JavaScript and CSS
-│   └── templates/       # HTML templates
-├── database/            # SQLite database operations
-├── imageprocessor/      # Image loading and hashing
-│   ├── image_processing.go
-│   ├── thumbnail.go
-│   └── format_*.go      # Format-specific loaders
-├── scanner/             # Directory scanning and indexing
-├── logging/             # Debug and error logging
-├── types/               # Common type definitions
-├── utils/               # Utility functions
-├── main.go              # CLI entry point
-└── Makefile            # Build scripts
+├── cmd/webserver/          # Web interface
+│   ├── main.go             # Server entry point
+│   ├── config.go           # Configuration management
+│   ├── static/             # JavaScript and CSS
+│   └── templates/          # HTML templates
+├── database/               # SQLite operations
+├── imageprocessor/         # Image loading and hashing
+│   ├── formats.go          # Format detection
+│   ├── loaders.go          # Loader interfaces
+│   └── format_*.go         # Format-specific loaders
+├── scanner/                # Directory scanning
+│   └── processor/          # Scanner adapter
+├── logging/                # Debug and error logging
+├── types/                  # Common type definitions
+├── utils/                  # Utility functions
+├── main.go                 # CLI entry point
+└── Makefile                # Build scripts
 ```
 
-## Supported Image Formats
+## Build Commands
 
-- **Standard**: JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP
-- **RAW**: CR2, CR3, NEF, ARW, DNG, ORF, RW2, RAF, SRW
-- **HEIC**: Apple HEIC format
+```bash
+make build              # Build for current platform
+make build-macos-arm64  # Build for Apple Silicon
+make webserver          # Build and run web interface
+make build-webserver    # Build web server only
+make clean              # Remove build artifacts
+make package-macos      # Create macOS .app bundle
+make create-dmg         # Create distributable DMG
+make test               # Run tests
+make install-tools      # Install external RAW tools
+make help               # Show all targets
+```
 
-## Image Similarity Algorithm
+## Debug Mode
 
-The system uses two perceptual hashing algorithms:
+Enable with `--debug` flag. Logs include:
+- Image processing details
+- Hash computation values
+- Error diagnostics
+- Processing statistics
+- Search match details
 
-1. **Average Hash (aHash)**: 8x8 grayscale representation comparing pixels to mean brightness
-2. **Perceptual Hash (pHash)**: 32x32 DCT-based transformation with median filtering
+## Technical Details
 
-Similarity score calculation:
-- Hamming distance between hashes
-- Filename similarity boost for related files (e.g., IMG_1234.JPG and IMG_1234.CR2)
-- Weighted combination of aHash and pHash scores
+### Similarity Algorithm
+1. **Average Hash (aHash)**: 8x8 grayscale, compares pixels to mean brightness
+2. **Perceptual Hash (pHash)**: 32x32 DCT-based with median filtering
+3. **Filename boost**: Similar filenames (e.g., IMG_1234.JPG and IMG_1234.CR2) get a score boost
 
-## Database Schema
-
+### Database Schema
 ```sql
 CREATE TABLE images (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -170,48 +224,7 @@ CREATE TABLE images (
     features BLOB,
     UNIQUE(path, source_prefix)
 );
-
-CREATE INDEX idx_path ON images(path);
-CREATE INDEX idx_average_hash ON images(average_hash);
-CREATE INDEX idx_perceptual_hash ON images(perceptual_hash);
 ```
-
-## Build Commands
-
-```bash
-make build              # Build for current platform
-make build-macos-arm64  # Build for Apple Silicon
-make webserver          # Build and run web interface
-make clean              # Remove build artifacts
-make package-macos      # Create macOS .app bundle
-make create-dmg         # Create distributable DMG
-make test               # Run tests
-```
-
-## Debug Mode
-
-Enable debug logging with `--debug` flag. Log includes:
-- Image processing details
-- Hash computation values
-- Error diagnostics
-- Processing statistics
-- Search match details
-
-Example debug output:
-```
-2025/06/27 10:15:23 Starting scan on folder: /Users/photos
-2025/06/27 10:15:24 Found 1283 image files to process
-2025/06/27 10:15:25 PROCESSED: /Users/photos/img001.jpg
-2025/06/27 10:15:26 Hash values - aHash: 3e7a73fff6fe0604, pHash: 84840b9f3efed512
-```
-
-## Performance Notes
-
-- Concurrent processing with configurable worker threads
-- Incremental scanning skips unchanged files
-- SQLite indexes optimize search queries
-- RAW preview extraction for faster processing
-- Thumbnail caching for web interface
 
 ## License
 

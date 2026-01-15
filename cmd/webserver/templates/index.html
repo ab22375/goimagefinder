@@ -50,11 +50,15 @@
                 <div class="search-section">
                     <h2>Search Similar Images</h2>
                     <div class="file-selector">
-                        <input type="file" id="imageFile" accept="image/*" style="display: none" onchange="handleFileSelect(event)">
-                        <button class="select-btn" onclick="document.getElementById('imageFile').click()">Select Image</button>
-                        <div id="selectedImage" class="selected-image"></div>
+                        <input type="file" id="imageFile" accept="image/*" multiple style="display: none" onchange="handleFileSelect(event)">
+                        <div class="select-actions">
+                            <button class="select-btn" onclick="document.getElementById('imageFile').click()">Select Images</button>
+                            <button class="clear-btn" onclick="clearSelectedImages()" style="display: none" id="clearBtn">Clear All</button>
+                        </div>
+                        <div id="selectedImagesInfo" class="selected-images-info"></div>
+                        <div id="selectedImages" class="selected-images-grid"></div>
                     </div>
-                    
+
                     <div class="threshold-control">
                         <label>Threshold:</label>
                         <div class="slider-container">
@@ -62,8 +66,8 @@
                             <span id="thresholdValue">{{.Threshold}}</span>
                         </div>
                     </div>
-                    
-                    <button class="search-btn" onclick="searchImages()">Search</button>
+
+                    <button class="search-btn" id="searchBtn" onclick="searchImages()">Search</button>
                 </div>
 
                 <div id="progressBar" class="progress-bar" style="display: none;">

@@ -4,6 +4,47 @@ This file records improvements and changes made to the project over time.
 
 ---
 
+## 2026-01 - Batch Image Search (v2.2)
+
+### New Features
+- **Multi-image search**: Search for up to 20 images in a single request
+- **Grouped results display**: Results organized by query image with collapsible sections
+- **Batch summary statistics**: Shows total matches, successes, and failures at a glance
+- **Multi-select file picker**: Select multiple images with preview grid and remove buttons
+- **Per-image error handling**: Failed images don't block successful searches
+
+### Technical Implementation
+
+**Backend (`cmd/webserver/main.go`)**
+- Added `BatchSearchResult` type for grouped response structure
+- New `/api/batch-search` endpoint accepting multipart form with multiple images
+- Single database connection reused for all queries in batch
+- Enforces 20-image limit and 50MB max upload size
+
+**Frontend (`cmd/webserver/static/`)**
+- Multi-file input with `multiple` attribute
+- Preview grid with hover-to-remove functionality
+- Dynamic search button text showing selected count
+- Collapsible result groups with query thumbnails
+- Summary bar with success/error/empty counts
+
+### Files Changed
+- `cmd/webserver/main.go` - Added batch search handler and types
+- `cmd/webserver/templates/index.html` - Multi-file input and preview grid
+- `cmd/webserver/static/script.js` - Batch selection and grouped results display
+- `cmd/webserver/static/style.css` - Styles for preview grid and result groups
+- `cmd/webserver/batch_search_test.go` - 10 unit and integration tests
+
+### Test Coverage
+- Request/response structure validation
+- Empty request handling
+- Maximum image limit enforcement
+- Partial failure scenarios
+- Database integration
+- Handler integration test
+
+---
+
 ## 2025-06 - Web Interface Enhancement (v2.1)
 
 ### New Features
@@ -79,6 +120,8 @@ Modified:
 
 ## Future Improvements
 
-- Add unit tests for refactored functionality
 - Further consolidation of specialized format handlers
 - Enhanced error handling and logging in core imageprocessor
+- Progress streaming for batch search (SSE)
+- Drag-and-drop support for batch image selection
+- Export search results to CSV/JSON

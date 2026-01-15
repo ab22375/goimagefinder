@@ -1,4 +1,5 @@
-let selectedImageFile = null;
+let selectedImageFiles = [];
+const MAX_IMAGES = 20;
 let config = {};
 
 function updateThreshold() {
@@ -138,16 +139,97 @@ function formatSize(bytes) {
 }
 
 function handleFileSelect(event) {
-    const file = event.target.files[0];
-    if (file) {
-        selectedImageFile = file;
+    const files = Array.from(event.target.files);
+    if (files.length === 0) return;
+
+    // Check limit
+    const remainingSlots = MAX_IMAGES - selectedImageFiles.length;
+    const filesToAdd = files.slice(0, remainingSlots);
+
+    if (files.length > remainingSlots) {
+        showError(`Only ${remainingSlots} more images can be added (max ${MAX_IMAGES})`);
+    }
+
+    // Add files to selection
+    filesToAdd.forEach(file => {
+        selectedImageFiles.push(file);
+    });
+
+    updateSelectedImagesUI();
+    updateSearchButton();
+
+    // Reset file input so same file can be selected again
+    event.target.value = '';
+}
+
+function updateSelectedImagesUI() {
+    const grid = document.getElementById('selectedImages');
+    const info = document.getElementById('selectedImagesInfo');
+    const clearBtn = document.getElementById('clearBtn');
+
+    grid.innerHTML = '';
+
+    if (selectedImageFiles.length === 0) {
+        info.textContent = '';
+        clearBtn.style.display = 'none';
+        return;
+    }
+
+    info.textContent = `${selectedImageFiles.length} image${selectedImageFiles.length > 1 ? 's' : ''} selected`;
+    clearBtn.style.display = 'block';
+
+    selectedImageFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'selected-image-item';
+
+        const img = document.createElement('img');
         const reader = new FileReader();
         reader.onload = function(e) {
-            document.getElementById('selectedImage').innerHTML = 
-                `<img src="${e.target.result}" alt="Selected image">
-                 <p style="font-size: 12px; margin-top: 5px;">${file.name}</p>`;
+            img.src = e.target.result;
         };
         reader.readAsDataURL(file);
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.innerHTML = '&times;';
+        removeBtn.onclick = (e) => {
+            e.stopPropagation();
+            removeSelectedImage(index);
+        };
+
+        const nameLabel = document.createElement('div');
+        nameLabel.className = 'image-name';
+        nameLabel.textContent = file.name;
+
+        item.appendChild(img);
+        item.appendChild(removeBtn);
+        item.appendChild(nameLabel);
+        grid.appendChild(item);
+    });
+}
+
+function removeSelectedImage(index) {
+    selectedImageFiles.splice(index, 1);
+    updateSelectedImagesUI();
+    updateSearchButton();
+}
+
+function clearSelectedImages() {
+    selectedImageFiles = [];
+    updateSelectedImagesUI();
+    updateSearchButton();
+}
+
+function updateSearchButton() {
+    const btn = document.getElementById('searchBtn');
+    const count = selectedImageFiles.length;
+
+    if (count === 0) {
+        btn.textContent = 'Search';
+    } else if (count === 1) {
+        btn.textContent = 'Search';
+    } else {
+        btn.textContent = `Search ${count} Images`;
     }
 }
 
@@ -248,39 +330,74 @@ async function searchImages() {
         return;
     }
 
-    if (!selectedImageFile) {
-        alert('Please select an image to search');
+    if (selectedImageFiles.length === 0) {
+        alert('Please select at least one image to search');
         return;
     }
-    
+
     // Save config
     saveConfig();
 
     // Show loading
     const resultsContainer = document.getElementById('results');
+    const searchBtn = document.getElementById('searchBtn');
     resultsContainer.innerHTML = '<p style="text-align: center; color: #666;">Searching...</p>';
+    searchBtn.disabled = true;
 
-    // Prepare form data for upload
-    const formData = new FormData();
-    formData.append('image', selectedImageFile);
-    formData.append('databasePath', dbPath);
-    formData.append('threshold', threshold);
+    // Use batch search for multiple images, single search for one
+    if (selectedImageFiles.length === 1) {
+        // Single image search (legacy endpoint)
+        const formData = new FormData();
+        formData.append('image', selectedImageFiles[0]);
+        formData.append('databasePath', dbPath);
+        formData.append('threshold', threshold);
 
-    try {
-        const response = await fetch('/api/upload-search', {
-            method: 'POST',
-            body: formData
+        try {
+            const response = await fetch('/api/upload-search', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
+            const results = await response.json();
+            displayResults(results);
+        } catch (error) {
+            showError('Error during search: ' + error.message);
+            resultsContainer.innerHTML = '<p style="text-align: center; color: #f00;">Search failed</p>';
+        } finally {
+            searchBtn.disabled = false;
+        }
+    } else {
+        // Batch search for multiple images
+        const formData = new FormData();
+        formData.append('databasePath', dbPath);
+        formData.append('threshold', threshold);
+
+        selectedImageFiles.forEach(file => {
+            formData.append('images', file);
         });
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+        try {
+            const response = await fetch('/api/batch-search', {
+                method: 'POST',
+                body: formData
+            });
 
-        const results = await response.json();
-        displayResults(results);
-    } catch (error) {
-        showError('Error during search: ' + error.message);
-        resultsContainer.innerHTML = '<p style="text-align: center; color: #f00;">Search failed</p>';
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
+            const results = await response.json();
+            displayBatchResults(results);
+        } catch (error) {
+            showError('Error during batch search: ' + error.message);
+            resultsContainer.innerHTML = '<p style="text-align: center; color: #f00;">Search failed</p>';
+        } finally {
+            searchBtn.disabled = false;
+        }
     }
 }
 
@@ -314,6 +431,126 @@ function displayResults(results) {
         `;
         
         resultsContainer.appendChild(resultItem);
+    });
+}
+
+function displayBatchResults(batchResults) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = '';
+
+    if (!batchResults || batchResults.length === 0) {
+        resultsContainer.innerHTML = '<p style="text-align: center; color: #666;">No results</p>';
+        return;
+    }
+
+    // Calculate stats
+    let totalMatches = 0;
+    let successCount = 0;
+    let errorCount = 0;
+    let emptyCount = 0;
+
+    batchResults.forEach(result => {
+        if (result.error) {
+            errorCount++;
+        } else if (result.results.length === 0) {
+            emptyCount++;
+        } else {
+            successCount++;
+            totalMatches += result.results.length;
+        }
+    });
+
+    // Create summary
+    const summary = document.createElement('div');
+    summary.className = 'batch-results-summary';
+    summary.innerHTML = `
+        <span class="summary-text">${batchResults.length} images searched</span>
+        <div class="summary-stats">
+            <span class="stat-item stat-success">${successCount} with matches (${totalMatches} total)</span>
+            ${emptyCount > 0 ? `<span class="stat-item stat-empty">${emptyCount} no matches</span>` : ''}
+            ${errorCount > 0 ? `<span class="stat-item stat-error">${errorCount} failed</span>` : ''}
+        </div>
+    `;
+    resultsContainer.appendChild(summary);
+
+    // Create container for groups
+    const groupsContainer = document.createElement('div');
+    groupsContainer.className = 'batch-results-container';
+    resultsContainer.appendChild(groupsContainer);
+
+    // Create result groups
+    batchResults.forEach((result, index) => {
+        const group = document.createElement('div');
+        group.className = 'batch-result-group';
+
+        // Find matching file for thumbnail
+        const matchingFile = selectedImageFiles.find(f => f.name === result.queryImage);
+
+        // Header
+        const header = document.createElement('div');
+        header.className = 'batch-result-header';
+        header.innerHTML = `
+            <div class="query-thumbnail" id="thumb-${index}"></div>
+            <div class="query-info">
+                <div class="query-name">${result.queryImage}</div>
+                <div class="match-count">${result.error ? 'Error' : (result.results.length === 0 ? 'No matches' : `${result.results.length} match${result.results.length > 1 ? 'es' : ''}`)}</div>
+            </div>
+            <span class="toggle-icon">&#9660;</span>
+        `;
+
+        // Load thumbnail
+        if (matchingFile) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const thumbDiv = document.getElementById(`thumb-${index}`);
+                if (thumbDiv) {
+                    thumbDiv.innerHTML = `<img src="${e.target.result}" alt="${result.queryImage}">`;
+                }
+            };
+            reader.readAsDataURL(matchingFile);
+        }
+
+        // Content
+        const content = document.createElement('div');
+        content.className = 'batch-result-content';
+
+        if (result.error) {
+            content.innerHTML = `
+                <div class="batch-result-error">
+                    <span class="error-icon">&#9888;</span>
+                    <span>${result.error}</span>
+                </div>
+            `;
+        } else if (result.results.length === 0) {
+            content.innerHTML = '<div class="batch-result-empty">No similar images found</div>';
+        } else {
+            // Create results table
+            const resultsHTML = result.results.map(match => `
+                <div class="result-item">
+                    <div class="result-preview" onclick="openFile('${match.path.replace(/'/g, "\\'")}')">
+                        <img src="/api/file?path=${encodeURIComponent(match.path)}&thumbnail=true"
+                             alt="Result"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\"color:#999;font-size:12px\\">No preview</span>'">
+                    </div>
+                    <div class="result-path" title="${match.path}" onclick="openFile('${match.path.replace(/'/g, "\\'")}')">${match.path}</div>
+                    <div class="result-score">${match.score.toFixed(2)}</div>
+                    <div class="result-actions">
+                        <button class="action-btn copy" onclick="copyPath('${match.path.replace(/'/g, "\\'")}', this)">Copy</button>
+                    </div>
+                </div>
+            `).join('');
+            content.innerHTML = resultsHTML;
+        }
+
+        // Toggle functionality
+        header.onclick = () => {
+            header.classList.toggle('collapsed');
+            content.classList.toggle('hidden');
+        };
+
+        group.appendChild(header);
+        group.appendChild(content);
+        groupsContainer.appendChild(group);
     });
 }
 

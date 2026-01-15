@@ -50,6 +50,13 @@ type SearchResult struct {
 	Thumbnail string  `json:"thumbnail"`
 }
 
+// BatchSearchResult represents search results for a single query image
+type BatchSearchResult struct {
+	QueryImage string         `json:"queryImage"`
+	Results    []SearchResult `json:"results"`
+	Error      string         `json:"error,omitempty"`
+}
+
 type ScanProgress struct {
 	Current int    `json:"current"`
 	Total   int    `json:"total"`
@@ -277,6 +284,118 @@ func (s *Server) handleUploadAndSearch(w http.ResponseWriter, r *http.Request) {
 			Path:  match.Path,
 			Score: match.SSIMScore,
 		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(results)
+}
+
+func (s *Server) handleBatchSearch(w http.ResponseWriter, r *http.Request) {
+	const maxImages = 20
+	const maxFormSize = 50 << 20 // 50MB
+
+	// Parse multipart form
+	if err := r.ParseMultipartForm(maxFormSize); err != nil {
+		http.Error(w, "Failed to parse form: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Get form values
+	dbPath := expandPath(r.FormValue("databasePath"))
+	threshold, _ := strconv.ParseFloat(r.FormValue("threshold"), 64)
+	if threshold == 0 {
+		threshold = 0.75
+	}
+
+	// Get uploaded files
+	files := r.MultipartForm.File["images"]
+	if len(files) == 0 {
+		http.Error(w, "No images provided", http.StatusBadRequest)
+		return
+	}
+
+	// Enforce max images limit
+	if len(files) > maxImages {
+		files = files[:maxImages]
+	}
+
+	log.Printf("Batch search: %d images, threshold=%.2f, db=%s", len(files), threshold, dbPath)
+
+	// Open database once for all searches
+	db, err := database.OpenDatabase(dbPath)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Failed to open database: %v", err), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	// Process each image and collect results
+	results := make([]BatchSearchResult, len(files))
+
+	for i, fileHeader := range files {
+		result := BatchSearchResult{
+			QueryImage: fileHeader.Filename,
+			Results:    []SearchResult{},
+		}
+
+		// Open uploaded file
+		file, err := fileHeader.Open()
+		if err != nil {
+			result.Error = fmt.Sprintf("Failed to open file: %v", err)
+			results[i] = result
+			continue
+		}
+
+		// Create temp file
+		tempFile, err := os.CreateTemp("", "batch-search-*."+filepath.Ext(fileHeader.Filename))
+		if err != nil {
+			file.Close()
+			result.Error = fmt.Sprintf("Failed to create temp file: %v", err)
+			results[i] = result
+			continue
+		}
+		tempPath := tempFile.Name()
+
+		// Copy uploaded file to temp
+		_, err = io.Copy(tempFile, file)
+		file.Close()
+		tempFile.Close()
+
+		if err != nil {
+			os.Remove(tempPath)
+			result.Error = fmt.Sprintf("Failed to save file: %v", err)
+			results[i] = result
+			continue
+		}
+
+		// Search for similar images
+		searchOptions := imageprocessor.SearchOptions{
+			QueryPath:    tempPath,
+			Threshold:    threshold,
+			DebugMode:    false,
+			SourcePrefix: "",
+		}
+
+		matches, err := imageprocessor.FindSimilarImages(db, searchOptions)
+		os.Remove(tempPath) // Clean up temp file
+
+		if err != nil {
+			result.Error = fmt.Sprintf("Search failed: %v", err)
+			results[i] = result
+			continue
+		}
+
+		// Convert to response format
+		result.Results = make([]SearchResult, len(matches))
+		for j, match := range matches {
+			result.Results[j] = SearchResult{
+				Path:  match.Path,
+				Score: match.SSIMScore,
+			}
+		}
+
+		results[i] = result
+		log.Printf("  Image %d (%s): %d matches", i+1, fileHeader.Filename, len(matches))
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -586,6 +705,7 @@ func main() {
 	http.HandleFunc("/api/scan", server.handleScan)
 	http.HandleFunc("/api/search", server.handleSearch)
 	http.HandleFunc("/api/upload-search", server.handleUploadAndSearch)
+	http.HandleFunc("/api/batch-search", server.handleBatchSearch)
 	http.HandleFunc("/api/file", server.handleFile)
 	http.HandleFunc("/api/config", server.handleConfig)
 	http.HandleFunc("/api/database-info", server.handleDatabaseInfo)

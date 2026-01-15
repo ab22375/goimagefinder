@@ -140,10 +140,12 @@ Default port is 8012. Access at `http://localhost:8012`
 
 **Similarity Search**
 - Drag-and-drop or click to select query images
+- **Batch search**: Select up to 20 images at once
 - Adjustable similarity threshold slider
 - Thumbnail previews for all formats including RAW
 - Clickable paths and copy-to-clipboard buttons
 - Similarity scores for each match
+- Grouped results view for batch searches with collapsible sections
 
 ### Workflow
 1. Open `http://localhost:8012`
@@ -151,7 +153,31 @@ Default port is 8012. Access at `http://localhost:8012`
 3. Select images folder using "..." button
 4. (Optional) Set source prefix
 5. Click "Scan" to index images
-6. Select a query image and click "Search"
+6. Select one or more query images and click "Search"
+
+### Batch Search
+The web interface supports searching for multiple images at once:
+
+1. Click "Select Images" and choose multiple files (Cmd/Ctrl+click)
+2. Preview grid shows all selected images with remove buttons
+3. Click "Search N Images" to search all at once
+4. Results are grouped by query image in collapsible sections
+5. Summary shows total matches, successes, and any errors
+
+**Limits**: Maximum 20 images per batch, 50MB total upload size
+
+### API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/scan` | POST | Scan folder for images (SSE progress) |
+| `/api/search` | POST | Search with image path (JSON) |
+| `/api/upload-search` | POST | Search with uploaded image (multipart) |
+| `/api/batch-search` | POST | Search multiple images at once (multipart) |
+| `/api/file` | GET | Serve image file or thumbnail |
+| `/api/config` | GET/POST | Get/save configuration |
+| `/api/database-info` | GET | Get database info and record count |
+| `/api/browse` | GET | Browse filesystem for file picker |
 
 ## Project Structure
 
@@ -160,6 +186,7 @@ goimagefinder/
 ├── cmd/webserver/          # Web interface
 │   ├── main.go             # Server entry point
 │   ├── config.go           # Configuration management
+│   ├── batch_search_test.go # Batch search tests
 │   ├── static/             # JavaScript and CSS
 │   └── templates/          # HTML templates
 ├── database/               # SQLite operations

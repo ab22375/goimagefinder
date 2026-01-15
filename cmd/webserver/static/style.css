@@ -569,3 +569,233 @@ input[type="range"]::-moz-range-thumb {
 .browse-select:hover {
     background-color: #0052a3;
 }
+
+/* Multi-image selection styles */
+.select-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.clear-btn {
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.clear-btn:hover {
+    background-color: #ee5a5a;
+}
+
+.selected-images-info {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.selected-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.selected-image-item {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.selected-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.selected-image-item .remove-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.selected-image-item:hover .remove-btn {
+    opacity: 1;
+}
+
+.selected-image-item .image-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 10px;
+    padding: 2px 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Batch results styles */
+.batch-results-container {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.batch-result-group {
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.batch-result-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    background-color: #f0f0f5;
+    cursor: pointer;
+    user-select: none;
+}
+
+.batch-result-header:hover {
+    background-color: #e8e8f0;
+}
+
+.batch-result-header .query-thumbnail {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.batch-result-header .query-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.batch-result-header .query-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.batch-result-header .query-name {
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.batch-result-header .match-count {
+    font-size: 13px;
+    color: #666;
+}
+
+.batch-result-header .toggle-icon {
+    font-size: 18px;
+    color: #666;
+    transition: transform 0.2s;
+}
+
+.batch-result-header.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.batch-result-content {
+    border-top: 1px solid #e0e0e0;
+}
+
+.batch-result-content.hidden {
+    display: none;
+}
+
+.batch-result-error {
+    padding: 15px;
+    background-color: #fff5f5;
+    color: #c00;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.batch-result-error .error-icon {
+    font-size: 20px;
+}
+
+.batch-result-empty {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.batch-results-summary {
+    padding: 15px;
+    background-color: #f8f8fb;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.batch-results-summary .summary-text {
+    font-weight: 500;
+    color: #333;
+}
+
+.batch-results-summary .summary-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.batch-results-summary .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.batch-results-summary .stat-success {
+    color: #28a745;
+}
+
+.batch-results-summary .stat-error {
+    color: #dc3545;
+}
+
+.batch-results-summary .stat-empty {
+    color: #6c757d;
+}
+
+/* Search button disabled state */
+.search-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

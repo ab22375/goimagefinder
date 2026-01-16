@@ -1,0 +1,15 @@
+{
+  "allowedTools": [
+    "Task",
+    "Bash",
+    "Glob",
+    "Grep",
+    "LS",
+    "Read",
+    "Edit",
+    "MultiEdit",
+    "Write",
+    "WebFetch",
+    "WebSearch"
+  ]
+}

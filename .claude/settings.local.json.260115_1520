@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(make:*)",
+      "Bash(go build:*)",
+      "Bash(mkdir:*)",
+      "Bash(sqlite3:*)",
+      "Bash(ls:*)",
+      "Bash(rm:*)",
+      "Bash(open http://localhost:8012)",
+      "Bash(pkill:*)",
+      "Bash(go run:*)",
+      "Bash(kill:*)",
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(go test:*)",
+      "Bash(./run_tests.sh)",
+      "Bash(git add:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": []
+  }
+}

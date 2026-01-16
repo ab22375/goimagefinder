@@ -8,22 +8,26 @@ import (
 
 // Config represents the webserver configuration
 type Config struct {
+	Port         int     `json:"port"`
 	DatabasePath string  `json:"databasePath"`
 	FolderPath   string  `json:"folderPath"`
 	Threshold    float64 `json:"threshold"`
 	Prefix       string  `json:"prefix"`
 	ForceRewrite bool    `json:"forceRewrite"`
+	OpenBrowser  bool    `json:"openBrowser"`
 }
 
 // DefaultConfig returns the default configuration
 func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	return &Config{
+		Port:         8012,
 		DatabasePath: filepath.Join(homeDir, "goimagefinder.db"),
 		FolderPath:   "",
 		Threshold:    0.75,
 		Prefix:       "",
 		ForceRewrite: false,
+		OpenBrowser:  true,
 	}
 }
 

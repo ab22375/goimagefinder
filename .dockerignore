@@ -1,0 +1,34 @@
+# Git
+.git
+.gitignore
+
+# Build artifacts
+build/
+dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and databases
+*.log
+*.db
+logfile*.log
+
+# Test files
+tests/
+*_test.go
+coverage.*
+
+# Documentation
+*.md
+!CLAUDE.md
+
+# Private
+private/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -4,6 +4,90 @@ This file records improvements and changes made to the project over time.
 
 ---
 
+## 2026-01 - Docker & macOS App Distribution (v2.3)
+
+### New Features
+- **Docker support**: Full containerized deployment with docker-compose
+- **macOS App bundle**: Native .app with auto-browser launch
+- **Configurable port**: Server port now configurable via config file
+- **Auto-browser launch**: Opens browser automatically on startup (configurable)
+
+### Docker Implementation
+
+**Dockerfile**
+- Multi-stage build for minimal image size
+- Debian bookworm base with OpenCV runtime libraries
+- Includes dcraw and exiftool for RAW processing
+- Health check endpoint for container orchestration
+- Volumes for persistent data and photo mounting
+
+**docker-compose.yml**
+- Named volume for database persistence
+- Environment variable for custom port (`PORT=9000`)
+- Read-only photo mounts for security
+- Automatic restart policy
+
+### macOS App Bundle
+
+**Launcher Script (`resources/launcher.sh`)**
+- Reads port from config file
+- Starts webserver in background
+- Waits for server readiness (up to 30s)
+- Opens default browser to correct URL
+- Maintains process for Dock presence
+- Logs to `~/.goimagefinder/logs/webserver.log`
+
+**Info.plist Configuration**
+- Bundle identifier: `com.goimagefinder.webserver`
+- Executes launcher.sh instead of binary directly
+- NSHighResolutionCapable for Retina displays
+
+### Configuration Updates
+
+**New config fields in `~/.goimagefinder/webserver.json`:**
+```json
+{
+  "port": 8012,
+  "openBrowser": true
+}
+```
+
+### New Makefile Targets
+- `package-webserver-macos` - Creates GoImageFinder.app (web interface)
+- `create-webserver-dmg` - Creates GoImageFinder.dmg (web interface with auto-browser)
+- `package-macos` - Creates goimagefinder.app (CLI only)
+- `create-dmg` - Creates goimagefinder.dmg (CLI only)
+- `docker-build` - Builds Docker image
+- `docker-run` - Runs Docker container
+- `docker-compose-up` - Starts with docker-compose
+- `docker-compose-down` - Stops docker-compose services
+
+### Two DMG Types
+| Command | Output | Contains |
+|---------|--------|----------|
+| `make create-webserver-dmg` | GoImageFinder.dmg | Web server + launcher (double-click to start) |
+| `make create-dmg` | goimagefinder.dmg | CLI tool only (terminal use) |
+
+### macOS Gatekeeper Note
+Since the app is not signed with an Apple Developer certificate, users must:
+1. Right-click the app → Select "Open"
+2. Click "Open" in the security dialog
+This only needs to be done once per installation.
+
+### Files Added
+- `Dockerfile`
+- `docker-compose.yml`
+- `.dockerignore`
+- `resources/launcher.sh`
+
+### Files Modified
+- `cmd/webserver/config.go` - Added Port and OpenBrowser fields
+- `cmd/webserver/main.go` - Added openBrowser function, config-based port
+- `Makefile` - Added Docker and webserver packaging targets
+- `README.md` - Updated installation documentation
+
+---
+
 ## 2026-01 - Batch Image Search (v2.2)
 
 ### New Features
@@ -125,3 +209,7 @@ Modified:
 - Progress streaming for batch search (SSE)
 - Drag-and-drop support for batch image selection
 - Export search results to CSV/JSON
+- Code signing for macOS distribution (notarization)
+- Linux AppImage or Flatpak packaging
+- Windows installer (MSI/NSIS)
+- Kubernetes Helm chart for enterprise deployment

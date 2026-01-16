@@ -51,13 +51,71 @@ Binaries are created in `./build/`:
 - `./build/goimagefinder` - CLI tool
 - `./build/webserver` - Web interface
 
-### macOS DMG
-Download the DMG from releases, install, then create a symlink:
+### macOS App (Recommended)
+Build and install the web interface as a native macOS application:
+
 ```bash
-sudo rm -f /usr/local/bin/goimagefinder
-echo '#!/bin/bash' | sudo tee /usr/local/bin/goimagefinder > /dev/null
-echo 'exec /Applications/goimagefinder.app/Contents/MacOS/goimagefinder "$@"' | sudo tee -a /usr/local/bin/goimagefinder > /dev/null
-sudo chmod +x /usr/local/bin/goimagefinder
+make create-webserver-dmg
+```
+
+This creates `dist/GoImageFinder.dmg`.
+
+**Installation:**
+1. Open `dist/GoImageFinder.dmg`
+2. Drag **GoImageFinder** to the Applications folder
+3. **First launch only:** Right-click the app → Select "Open" → Click "Open" in the dialog
+   (Required because the app is not signed with an Apple Developer certificate)
+
+**What happens when you double-click:**
+1. Starts the web server on port 8012 (configurable)
+2. Waits for server to be ready
+3. Automatically opens `http://localhost:8012` in your default browser
+4. App icon appears in Dock while running
+
+**To stop:** Quit the app from the Dock or close the terminal window
+
+**Note:** There are two different DMGs:
+- `make create-webserver-dmg` → **GoImageFinder.dmg** (web interface with auto-browser launch)
+- `make create-dmg` → **goimagefinder.dmg** (CLI tool only, no GUI)
+
+### Docker (Cross-Platform)
+The easiest way to run GoImageFinder on any platform:
+
+```bash
+# Using docker-compose (recommended)
+docker-compose up -d --build
+
+# Or build and run manually
+docker build -t goimagefinder .
+docker run -d -p 8012:8012 \
+  -v goimagefinder_data:/data \
+  -v ~/Pictures:/photos:ro \
+  goimagefinder
+```
+
+Access at `http://localhost:8012`
+
+**Docker Compose with custom settings:**
+```bash
+# Custom port
+PORT=9000 docker-compose up -d
+
+# Stop
+docker-compose down
+```
+
+Mount your photo directories by editing `docker-compose.yml`:
+```yaml
+volumes:
+  - /path/to/your/photos:/photos:ro
+```
+
+### macOS CLI (Legacy)
+For the CLI tool only:
+```bash
+make create-dmg
+# Install from dist/goimagefinder.dmg
+sudo ln -sf /Applications/goimagefinder.app/Contents/MacOS/goimagefinder /usr/local/bin/goimagefinder
 ```
 
 ## Command Line Usage
@@ -121,11 +179,35 @@ make webserver
 
 Default port is 8012. Access at `http://localhost:8012`
 
+### Configuration File
+
+Settings are stored in `~/.goimagefinder/webserver.json`:
+
+```json
+{
+  "port": 8012,
+  "databasePath": "/Users/you/goimagefinder.db",
+  "folderPath": "",
+  "threshold": 0.75,
+  "prefix": "",
+  "forceRewrite": false,
+  "openBrowser": true
+}
+```
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `port` | Web server port | 8012 |
+| `databasePath` | Default database file | `~/goimagefinder.db` |
+| `threshold` | Similarity threshold (0.0-1.0) | 0.75 |
+| `openBrowser` | Auto-open browser on start | true |
+
 ### Web Interface Features
 
 **Configuration**
 - Settings persist in `~/.goimagefinder/webserver.json`
 - Remembers database path, folder, and scan options between sessions
+- Port and auto-browser configurable
 
 **Database Management**
 - Visual file browser for database selection
@@ -199,23 +281,40 @@ goimagefinder/
 ├── logging/                # Debug and error logging
 ├── types/                  # Common type definitions
 ├── utils/                  # Utility functions
+├── resources/              # App resources
+│   └── launcher.sh         # macOS app launcher script
 ├── main.go                 # CLI entry point
-└── Makefile                # Build scripts
+├── Makefile                # Build scripts
+├── Dockerfile              # Docker build configuration
+└── docker-compose.yml      # Docker Compose configuration
 ```
 
 ## Build Commands
 
 ```bash
-make build              # Build for current platform
-make build-macos-arm64  # Build for Apple Silicon
-make webserver          # Build and run web interface
-make build-webserver    # Build web server only
-make clean              # Remove build artifacts
-make package-macos      # Create macOS .app bundle
-make create-dmg         # Create distributable DMG
-make test               # Run tests
-make install-tools      # Install external RAW tools
-make help               # Show all targets
+# Building
+make build                  # Build for current platform
+make build-macos-arm64      # Build for Apple Silicon
+make build-webserver        # Build web server only
+make webserver              # Build and run web interface
+
+# macOS Distribution
+make create-webserver-dmg   # Create GoImageFinder.dmg (web UI, recommended)
+make create-dmg             # Create goimagefinder.dmg (CLI only)
+make package-webserver-macos # Create .app bundle for web interface
+make package-macos          # Create .app bundle for CLI
+
+# Docker
+make docker-build           # Build Docker image
+make docker-run             # Run Docker container
+make docker-compose-up      # Start with docker-compose
+make docker-compose-down    # Stop docker-compose services
+
+# Other
+make clean                  # Remove build artifacts
+make test                   # Run tests
+make install-tools          # Install external RAW tools
+make help                   # Show all targets
 ```
 
 ## Debug Mode

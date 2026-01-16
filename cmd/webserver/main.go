@@ -9,7 +9,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -687,17 +689,37 @@ func (s *Server) handleBrowse(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
+// openBrowser opens the specified URL in the default browser
+func openBrowser(url string) error {
+	var cmd *exec.Cmd
+	switch runtime.GOOS {
+	case "darwin":
+		cmd = exec.Command("open", url)
+	case "linux":
+		cmd = exec.Command("xdg-open", url)
+	case "windows":
+		cmd = exec.Command("rundll32", "url.dll,FileProtocolHandler", url)
+	default:
+		return fmt.Errorf("unsupported platform")
+	}
+	return cmd.Start()
+}
+
 func main() {
-	port := 8012
+	server, err := NewServer()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Get port from config, allow command-line override
+	port := server.config.Port
+	if port == 0 {
+		port = 8012
+	}
 	if len(os.Args) > 1 {
 		if p, err := strconv.Atoi(os.Args[1]); err == nil {
 			port = p
 		}
-	}
-
-	server, err := NewServer()
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	// Routes
@@ -710,11 +732,24 @@ func main() {
 	http.HandleFunc("/api/config", server.handleConfig)
 	http.HandleFunc("/api/database-info", server.handleDatabaseInfo)
 	http.HandleFunc("/api/browse", server.handleBrowse)
-	
+
 	// Static files
 	http.Handle("/static/", http.FileServer(http.FS(staticFS)))
 
 	addr := fmt.Sprintf(":%d", port)
-	log.Printf("Starting GoImageFinder web server on http://localhost%s", addr)
+	url := fmt.Sprintf("http://localhost:%d", port)
+	log.Printf("Starting GoImageFinder web server on %s", url)
+
+	// Open browser if configured (default: true)
+	if server.config.OpenBrowser {
+		go func() {
+			// Wait a moment for the server to start
+			time.Sleep(500 * time.Millisecond)
+			if err := openBrowser(url); err != nil {
+				log.Printf("Failed to open browser: %v", err)
+			}
+		}()
+	}
+
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

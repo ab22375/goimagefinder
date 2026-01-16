@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  goimagefinder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: goimagefinder
+    ports:
+      - "${PORT:-8012}:8012"
+    volumes:
+      # Persistent database storage
+      - goimagefinder_data:/data
+      # Mount your photo directories (read-only for safety)
+      # Uncomment and modify the paths below:
+      # - /path/to/your/photos:/photos:ro
+      # - ~/Pictures:/photos/pictures:ro
+    environment:
+      - TZ=${TZ:-UTC}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8012/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  goimagefinder_data:
+    driver: local
+
+# Example usage:
+#
+# 1. Build and start:
+#    docker-compose up -d --build
+#
+# 2. View logs:
+#    docker-compose logs -f
+#
+# 3. Stop:
+#    docker-compose down
+#
+# 4. With custom port:
+#    PORT=9000 docker-compose up -d
+#
+# 5. Mount your photos folder:
+#    Edit the volumes section above to add your photo paths

@@ -82,6 +82,70 @@ package-macos:
 </plist>" > $(DIST_DIR)/$(APP_NAME).app/Contents/Info.plist
 	@echo "Application package created: $(DIST_DIR)/$(APP_NAME).app"
 
+# Package webserver as macOS application
+package-webserver-macos:
+	@echo "Building webserver for Apple Silicon..."
+	@mkdir -p $(DIST_DIR)/macos-arm64
+	@GOOS=darwin GOARCH=arm64 CGO_ENABLED=1 $(GOBUILD) $(LDFLAGS) -o $(DIST_DIR)/macos-arm64/goimagefinder-webserver ./cmd/webserver/
+	@echo "Packaging GoImageFinder Web application..."
+	@mkdir -p $(DIST_DIR)/GoImageFinder.app/Contents/MacOS
+	@mkdir -p $(DIST_DIR)/GoImageFinder.app/Contents/Resources
+	@cp $(DIST_DIR)/macos-arm64/goimagefinder-webserver $(DIST_DIR)/GoImageFinder.app/Contents/MacOS/
+	@cp ./resources/launcher.sh $(DIST_DIR)/GoImageFinder.app/Contents/MacOS/
+	@chmod +x $(DIST_DIR)/GoImageFinder.app/Contents/MacOS/launcher.sh
+
+	@# Copy icon if exists
+	@if [ -f ./resources/AppIcon.icns ]; then \
+		cp ./resources/AppIcon.icns $(DIST_DIR)/GoImageFinder.app/Contents/Resources/; \
+	else \
+		echo "No icon file found at ./resources/AppIcon.icns"; \
+		touch $(DIST_DIR)/GoImageFinder.app/Contents/Resources/AppIcon.icns; \
+	fi
+
+	@echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
+<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n\
+<plist version=\"1.0\">\n\
+<dict>\n\
+\t<key>CFBundleExecutable</key>\n\
+\t<string>launcher.sh</string>\n\
+\t<key>CFBundleIdentifier</key>\n\
+\t<string>com.goimagefinder.webserver</string>\n\
+\t<key>CFBundleName</key>\n\
+\t<string>GoImageFinder</string>\n\
+\t<key>CFBundleDisplayName</key>\n\
+\t<string>GoImageFinder</string>\n\
+\t<key>CFBundleIconFile</key>\n\
+\t<string>AppIcon</string>\n\
+\t<key>CFBundleShortVersionString</key>\n\
+\t<string>1.0</string>\n\
+\t<key>CFBundleInfoDictionaryVersion</key>\n\
+\t<string>6.0</string>\n\
+\t<key>CFBundlePackageType</key>\n\
+\t<string>APPL</string>\n\
+\t<key>CFBundleVersion</key>\n\
+\t<string>1</string>\n\
+\t<key>NSHighResolutionCapable</key>\n\
+\t<true/>\n\
+\t<key>LSUIElement</key>\n\
+\t<false/>\n\
+</dict>\n\
+</plist>" > $(DIST_DIR)/GoImageFinder.app/Contents/Info.plist
+	@echo "Application package created: $(DIST_DIR)/GoImageFinder.app"
+
+# Create webserver DMG for distribution
+create-webserver-dmg: package-webserver-macos
+	@echo "Creating DMG for GoImageFinder Web..."
+	@if ! command -v create-dmg > /dev/null; then \
+		echo "create-dmg tool not found, installing via Homebrew..."; \
+		brew install create-dmg || { echo "Error: Failed to install create-dmg. Please install manually."; exit 1; }; \
+	fi
+	@rm -f "$(DIST_DIR)/GoImageFinder.dmg"
+	create-dmg --volname "GoImageFinder Installer" \
+		--window-pos 200 120 --window-size 800 400 --icon-size 100 --icon "GoImageFinder.app" 200 190 \
+		--hide-extension "GoImageFinder.app" --app-drop-link 600 185 \
+		"$(DIST_DIR)/GoImageFinder.dmg" "$(DIST_DIR)/GoImageFinder.app"
+	@echo "DMG created: $(DIST_DIR)/GoImageFinder.dmg"
+
 # Create a DMG for distribution (requires create-dmg tool)
 create-dmg: package-macos
 	@echo "Creating DMG for distribution..."
@@ -193,22 +257,56 @@ install-tools:
 build-all: deps install-tools build
 	@echo "Complete build with all dependencies finished!"
 
+# Docker targets
+docker-build:
+	@echo "Building Docker image..."
+	docker build -t goimagefinder:latest .
+	@echo "Docker image built: goimagefinder:latest"
+
+docker-run:
+	@echo "Running Docker container..."
+	docker run -d --name goimagefinder \
+		-p 8012:8012 \
+		-v goimagefinder_data:/data \
+		goimagefinder:latest
+	@echo "Container started. Access at http://localhost:8012"
+
+docker-stop:
+	@echo "Stopping Docker container..."
+	docker stop goimagefinder || true
+	docker rm goimagefinder || true
+	@echo "Container stopped"
+
+docker-compose-up:
+	@echo "Starting with docker-compose..."
+	docker-compose up -d --build
+	@echo "Started. Access at http://localhost:8012"
+
+docker-compose-down:
+	@echo "Stopping docker-compose services..."
+	docker-compose down
+	@echo "Stopped"
+
 # Help target
 help:
 	@echo "Available targets:"
-	@echo "  build                - Build the application for current platform"
-	@echo "  build-macos-arm64    - Build for macOS ARM64 (Apple Silicon)"
-	@echo "  package-macos        - Create a macOS .app package (ARM64-only)"
-	@echo "  create-dmg           - Create a distributable DMG file"
-	@echo "  build-all            - Install dependencies, tools, and build the application"
-	@echo "  webserver            - Build and run the web interface on port 8012"
-	@echo "  build-webserver      - Build the web server binary only"
-	@echo "  clean                - Remove build artifacts"
-	@echo "  test                 - Run tests"
-	@echo "  deps                 - Install Go dependencies"
-	@echo "  install-tools        - Install external tools for RAW image processing"
-	@echo "  run-debug-scan       - Run the scan command with debug enabled"
-	@echo "  run-debug-search     - Run the search command with debug enabled"
-	@echo "  init                 - Initialize the Go module (run once)"
-	@echo "  setup                - Create project directory structure"
-	@echo "  help                 - Show this help message"
+	@echo "  build                  - Build the application for current platform"
+	@echo "  build-macos-arm64      - Build for macOS ARM64 (Apple Silicon)"
+	@echo "  package-macos          - Create a macOS .app package (ARM64-only)"
+	@echo "  create-dmg             - Create a distributable DMG file"
+	@echo "  package-webserver-macos - Create a macOS .app for the web interface"
+	@echo "  create-webserver-dmg   - Create a DMG for the web interface"
+	@echo "  build-all              - Install dependencies, tools, and build the application"
+	@echo "  webserver              - Build and run the web interface on port 8012"
+	@echo "  build-webserver        - Build the web server binary only"
+	@echo "  docker-build           - Build Docker image"
+	@echo "  docker-run             - Run Docker container"
+	@echo "  clean                  - Remove build artifacts"
+	@echo "  test                   - Run tests"
+	@echo "  deps                   - Install Go dependencies"
+	@echo "  install-tools          - Install external tools for RAW image processing"
+	@echo "  run-debug-scan         - Run the scan command with debug enabled"
+	@echo "  run-debug-search       - Run the search command with debug enabled"
+	@echo "  init                   - Initialize the Go module (run once)"
+	@echo "  setup                  - Create project directory structure"
+	@echo "  help                   - Show this help message"

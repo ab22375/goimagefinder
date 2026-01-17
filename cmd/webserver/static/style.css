@@ -21,12 +21,56 @@ header {
     padding: 20px;
     border-radius: 10px 10px 0 0;
     margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 h1 {
     font-size: 2em;
     font-weight: 600;
     color: #2c2c2c;
+}
+
+.quit-btn {
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.quit-btn:hover {
+    background-color: #c82333;
+}
+
+.results-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.results-title-row h2 {
+    margin-bottom: 0;
+}
+
+.export-btn {
+    padding: 6px 14px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.export-btn:hover {
+    background-color: #218838;
 }
 
 .main-content {

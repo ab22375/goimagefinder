@@ -604,6 +604,24 @@ func (s *Server) handleDatabaseInfo(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// handleQuit gracefully shuts down the server
+func (s *Server) handleQuit(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "shutting down"})
+
+	// Shutdown in a goroutine to allow the response to be sent
+	go func() {
+		time.Sleep(500 * time.Millisecond)
+		log.Println("Quit requested via web UI, shutting down...")
+		os.Exit(0)
+	}()
+}
+
 // handleRoots returns the list of available browse roots for the UI
 func (s *Server) handleRoots(w http.ResponseWriter, r *http.Request) {
 	type RootInfo struct {
@@ -774,6 +792,7 @@ func main() {
 	http.HandleFunc("/api/database-info", server.handleDatabaseInfo)
 	http.HandleFunc("/api/browse", server.handleBrowse)
 	http.HandleFunc("/api/roots", server.handleRoots)
+	http.HandleFunc("/api/quit", server.handleQuit)
 
 	// Static files
 	http.Handle("/static/", http.FileServer(http.FS(staticFS)))

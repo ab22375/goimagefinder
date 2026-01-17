@@ -1,6 +1,7 @@
 let selectedImageFiles = [];
 const MAX_IMAGES = 20;
 let config = {};
+let currentResults = null; // Store results for export
 
 function updateThreshold() {
     const slider = document.getElementById('threshold');
@@ -403,12 +404,19 @@ async function searchImages() {
 
 function displayResults(results) {
     const resultsContainer = document.getElementById('results');
+    const exportBtn = document.getElementById('exportBtn');
     resultsContainer.innerHTML = '';
+
+    // Store results for export
+    currentResults = { type: 'single', data: results };
 
     if (results.length === 0) {
         resultsContainer.innerHTML = '<p style="text-align: center; color: #666;">No similar images found</p>';
+        exportBtn.style.display = 'none';
         return;
     }
+
+    exportBtn.style.display = 'inline-block';
 
     results.forEach(result => {
         const resultItem = document.createElement('div');
@@ -436,12 +444,19 @@ function displayResults(results) {
 
 function displayBatchResults(batchResults) {
     const resultsContainer = document.getElementById('results');
+    const exportBtn = document.getElementById('exportBtn');
     resultsContainer.innerHTML = '';
+
+    // Store results for export
+    currentResults = { type: 'batch', data: batchResults };
 
     if (!batchResults || batchResults.length === 0) {
         resultsContainer.innerHTML = '<p style="text-align: center; color: #666;">No results</p>';
+        exportBtn.style.display = 'none';
         return;
     }
+
+    exportBtn.style.display = 'inline-block';
 
     // Calculate stats
     let totalMatches = 0;
@@ -689,4 +704,88 @@ async function copyPath(path, button) {
         }
         document.body.removeChild(textArea);
     }
+}
+
+// Quit application
+async function quitApp() {
+    if (!confirm('Are you sure you want to quit GoImageFinder?')) {
+        return;
+    }
+
+    try {
+        await fetch('/api/quit', { method: 'POST' });
+        document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;color:#666;"><div style="text-align:center;"><h2>GoImageFinder has been shut down</h2><p>You can close this browser tab.</p></div></div>';
+    } catch (error) {
+        // Server is already down, which is expected
+        document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;color:#666;"><div style="text-align:center;"><h2>GoImageFinder has been shut down</h2><p>You can close this browser tab.</p></div></div>';
+    }
+}
+
+// Export search results to text file
+function exportResults() {
+    if (!currentResults || !currentResults.data) {
+        alert('No results to export');
+        return;
+    }
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+    const threshold = document.getElementById('thresholdValue').textContent;
+    let content = '';
+
+    if (currentResults.type === 'single') {
+        // Single image search results
+        const results = currentResults.data;
+        content = `GoImageFinder Search Results\n`;
+        content += `Generated: ${new Date().toLocaleString()}\n`;
+        content += `Threshold: ${threshold}\n`;
+        content += `Total matches: ${results.length}\n`;
+        content += `${'='.repeat(60)}\n\n`;
+
+        results.forEach((result, index) => {
+            content += `${index + 1}. Score: ${result.score.toFixed(4)}\n`;
+            content += `   Path: ${result.path}\n\n`;
+        });
+    } else {
+        // Batch search results
+        const batchResults = currentResults.data;
+        let totalMatches = 0;
+        batchResults.forEach(r => {
+            if (r.results) totalMatches += r.results.length;
+        });
+
+        content = `GoImageFinder Batch Search Results\n`;
+        content += `Generated: ${new Date().toLocaleString()}\n`;
+        content += `Threshold: ${threshold}\n`;
+        content += `Query images: ${batchResults.length}\n`;
+        content += `Total matches: ${totalMatches}\n`;
+        content += `${'='.repeat(60)}\n\n`;
+
+        batchResults.forEach((batch, batchIndex) => {
+            content += `Query ${batchIndex + 1}: ${batch.queryImage}\n`;
+            content += `${'-'.repeat(40)}\n`;
+
+            if (batch.error) {
+                content += `  Error: ${batch.error}\n\n`;
+            } else if (!batch.results || batch.results.length === 0) {
+                content += `  No matches found\n\n`;
+            } else {
+                batch.results.forEach((result, index) => {
+                    content += `  ${index + 1}. Score: ${result.score.toFixed(4)}\n`;
+                    content += `     Path: ${result.path}\n`;
+                });
+                content += `\n`;
+            }
+        });
+    }
+
+    // Create and download file
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `goimagefinder-results-${timestamp}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }

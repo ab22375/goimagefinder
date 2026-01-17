@@ -321,6 +321,10 @@ Settings are stored in `~/.goimagefinder/webserver.json`:
 - Clickable paths and copy-to-clipboard buttons
 - Similarity scores for each match
 - Grouped results view for batch searches with collapsible sections
+- **Export results**: Download search results as a text file
+
+**Application Control**
+- **Quit button**: Gracefully shut down the application from the web UI
 
 ### Workflow
 1. Open `http://localhost:8012`
@@ -329,6 +333,8 @@ Settings are stored in `~/.goimagefinder/webserver.json`:
 4. (Optional) Set source prefix
 5. Click "Scan" to index images
 6. Select one or more query images and click "Search"
+7. (Optional) Click "Export" to save results to a text file
+8. Click "Quit" button (top-right) to shut down when done
 
 ### Batch Search
 The web interface supports searching for multiple images at once:
@@ -354,6 +360,7 @@ The web interface supports searching for multiple images at once:
 | `/api/database-info` | GET | Get database info and record count |
 | `/api/browse` | GET | Browse filesystem for file picker |
 | `/api/roots` | GET | List available browse root paths |
+| `/api/quit` | POST | Shut down the application |
 
 ## Project Structure
 

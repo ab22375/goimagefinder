@@ -28,6 +28,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Environment variables reference
   - Common Docker commands
 
+- **Quit button**: Added a "Quit" button in the web UI header to gracefully shut down the application.
+  - Displays confirmation dialog before quitting
+  - Shows shutdown message after the server stops
+  - New `/api/quit` endpoint (POST) for programmatic shutdown
+
+- **Export results**: Added an "Export" button to download search results as a text file.
+  - Appears after a successful search with matches
+  - Exports to `goimagefinder-results-TIMESTAMP.txt`
+  - Includes timestamp, threshold, scores, and file paths
+  - Supports both single and batch search results
+
 ### Changed
 
 - `browseRoot` (singular) is now deprecated in favor of `browseRoots` (array). The old field still works for backward compatibility.

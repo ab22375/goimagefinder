@@ -85,6 +85,9 @@ func NewServer() (*Server, error) {
 		config = DefaultConfig()
 	}
 
+	// Apply environment variable overrides (takes precedence over config file)
+	ApplyEnvironmentOverrides(config)
+
 	return &Server{
 		tmpl:       tmpl,
 		config:     config,
@@ -601,14 +604,52 @@ func (s *Server) handleDatabaseInfo(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// handleRoots returns the list of available browse roots for the UI
+func (s *Server) handleRoots(w http.ResponseWriter, r *http.Request) {
+	type RootInfo struct {
+		Path   string `json:"path"`
+		Name   string `json:"name"`
+		Exists bool   `json:"exists"`
+	}
+
+	roots := s.config.GetEffectiveBrowseRoots()
+	result := make([]RootInfo, 0, len(roots))
+
+	for _, root := range roots {
+		// Check if path exists
+		_, err := os.Stat(root)
+		exists := err == nil
+
+		// Generate a friendly name from the path
+		name := filepath.Base(root)
+		if name == "/" || name == "" {
+			name = root
+		}
+
+		result = append(result, RootInfo{
+			Path:   root,
+			Name:   name,
+			Exists: exists,
+		})
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
+}
+
 func (s *Server) handleBrowse(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Query().Get("path")
 	browseType := r.URL.Query().Get("type") // "file" or "folder"
-	
+
 	if path == "" {
-		// Start from home directory if no path provided
-		homeDir, _ := os.UserHomeDir()
-		path = homeDir
+		// Start from first browse root
+		roots := s.config.GetEffectiveBrowseRoots()
+		if len(roots) > 0 {
+			path = roots[0]
+		} else {
+			homeDir, _ := os.UserHomeDir()
+			path = homeDir
+		}
 	}
 	
 	path = expandPath(path)
@@ -732,6 +773,7 @@ func main() {
 	http.HandleFunc("/api/config", server.handleConfig)
 	http.HandleFunc("/api/database-info", server.handleDatabaseInfo)
 	http.HandleFunc("/api/browse", server.handleBrowse)
+	http.HandleFunc("/api/roots", server.handleRoots)
 
 	// Static files
 	http.Handle("/static/", http.FileServer(http.FS(staticFS)))
@@ -739,6 +781,8 @@ func main() {
 	addr := fmt.Sprintf(":%d", port)
 	url := fmt.Sprintf("http://localhost:%d", port)
 	log.Printf("Starting GoImageFinder web server on %s", url)
+	log.Printf("Database path: %s", server.config.DatabasePath)
+	log.Printf("Browse roots: %v", server.config.GetEffectiveBrowseRoots())
 
 	// Open browser if configured (default: true)
 	if server.config.OpenBrowser {

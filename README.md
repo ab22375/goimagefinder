@@ -79,35 +79,124 @@ This creates `dist/GoImageFinder.dmg`.
 - `make create-dmg` → **goimagefinder.dmg** (CLI tool only, no GUI)
 
 ### Docker (Cross-Platform)
-The easiest way to run GoImageFinder on any platform:
+The easiest way to run GoImageFinder on any platform.
 
+#### Quick Start (Single Photo Folder)
+
+**Step 1: Pull the image**
 ```bash
-# Using docker-compose (recommended)
-docker-compose up -d --build
-
-# Or build and run manually
-docker build -t goimagefinder .
-docker run -d -p 8012:8012 \
-  -v goimagefinder_data:/data \
-  -v ~/Pictures:/photos:ro \
-  goimagefinder
+docker pull ab22375/goimagefinder
 ```
 
-Access at `http://localhost:8012`
-
-**Docker Compose with custom settings:**
+**Step 2: Run with your photo folder**
 ```bash
-# Custom port
-PORT=9000 docker-compose up -d
+docker run -d -p 8012:8012 \
+  -v /path/to/your/photos:/photos \
+  -v goimagefinder_data:/data \
+  ab22375/goimagefinder
+```
 
-# Stop
+**Step 3: Open browser**
+```
+http://localhost:8012
+```
+
+#### Multiple Photo Folders
+
+To browse and scan photos from multiple locations (internal drive, external SSD, backup drive, etc.):
+
+**Step 1: Pull the image**
+```bash
+docker pull ab22375/goimagefinder
+```
+
+**Step 2: Run with multiple volume mounts and set browse roots**
+```bash
+docker run -d -p 8012:8012 \
+  -v /Users/me/Pictures:/photos \
+  -v /Volumes/ExternalSSD:/external \
+  -v /Volumes/Backup:/backup \
+  -v goimagefinder_data:/data \
+  -e GOIMAGEFINDER_BROWSE_ROOTS="/photos,/external,/backup" \
+  ab22375/goimagefinder
+```
+
+**Step 3: Open browser** - All mounted locations will be available in the web UI
+```
+http://localhost:8012
+```
+
+#### Using Docker Compose (Recommended)
+
+**Step 1: Create or edit `docker-compose.yml`**
+```yaml
+version: '3.8'
+services:
+  goimagefinder:
+    image: ab22375/goimagefinder
+    container_name: goimagefinder
+    ports:
+      - "8012:8012"
+    volumes:
+      - goimagefinder_data:/data
+      # Add your photo folders here:
+      - /Users/me/Pictures:/photos:ro
+      - /Volumes/ExternalSSD:/external:ro
+      - /Volumes/Backup:/backup:ro
+    environment:
+      # List all container paths you mounted above:
+      - GOIMAGEFINDER_BROWSE_ROOTS=/photos,/external,/backup
+    restart: unless-stopped
+
+volumes:
+  goimagefinder_data:
+```
+
+**Step 2: Start**
+```bash
+docker-compose up -d
+```
+
+**Step 3: View logs (optional)**
+```bash
+docker-compose logs -f
+```
+
+**Step 4: Stop**
+```bash
 docker-compose down
 ```
 
-Mount your photo directories by editing `docker-compose.yml`:
-```yaml
-volumes:
-  - /path/to/your/photos:/photos:ro
+#### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `GOIMAGEFINDER_PORT` | HTTP server port | 8012 |
+| `GOIMAGEFINDER_DATABASE_PATH` | SQLite database path | /data/goimagefinder.db |
+| `GOIMAGEFINDER_BROWSE_ROOTS` | Comma-separated paths to browse | /photos |
+| `GOIMAGEFINDER_THRESHOLD` | Similarity threshold (0.0-1.0) | 0.75 |
+| `GOIMAGEFINDER_OPEN_BROWSER` | Auto-open browser on start | false |
+
+#### Docker Commands Reference
+
+```bash
+# Pull latest image
+docker pull ab22375/goimagefinder
+
+# Stop running container
+docker stop goimagefinder
+
+# Remove container
+docker rm goimagefinder
+
+# View logs
+docker logs goimagefinder
+
+# Custom port
+docker run -d -p 9000:8012 \
+  -v /path/to/photos:/photos \
+  -v goimagefinder_data:/data \
+  ab22375/goimagefinder
 ```
 
 ### macOS CLI (Legacy)
@@ -191,7 +280,8 @@ Settings are stored in `~/.goimagefinder/webserver.json`:
   "threshold": 0.75,
   "prefix": "",
   "forceRewrite": false,
-  "openBrowser": true
+  "openBrowser": true,
+  "browseRoots": ["/photos", "/external"]
 }
 ```
 
@@ -201,6 +291,9 @@ Settings are stored in `~/.goimagefinder/webserver.json`:
 | `databasePath` | Default database file | `~/goimagefinder.db` |
 | `threshold` | Similarity threshold (0.0-1.0) | 0.75 |
 | `openBrowser` | Auto-open browser on start | true |
+| `browseRoots` | List of paths available in file browser | `[home directory]` |
+
+**Note:** Environment variables override config file values. See Docker section for available environment variables.
 
 ### Web Interface Features
 
@@ -260,6 +353,7 @@ The web interface supports searching for multiple images at once:
 | `/api/config` | GET/POST | Get/save configuration |
 | `/api/database-info` | GET | Get database info and record count |
 | `/api/browse` | GET | Browse filesystem for file picker |
+| `/api/roots` | GET | List available browse root paths |
 
 ## Project Structure
 

@@ -2,21 +2,28 @@ version: '3.8'
 
 services:
   goimagefinder:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ab22375/goimagefinder
+    # Or build locally:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: goimagefinder
     ports:
       - "${PORT:-8012}:8012"
     volumes:
       # Persistent database storage
       - goimagefinder_data:/data
-      # Mount your photo directories (read-only for safety)
-      # Uncomment and modify the paths below:
-      # - /path/to/your/photos:/photos:ro
-      # - ~/Pictures:/photos/pictures:ro
+      # Mount your photo directories - add as many as you need
+      # The container path names will appear in the web UI for selection
+      - /Users/z/Downloads/media:/photos:ro
+      # - /Volumes/ExternalSSD:/external:ro
+      # - /Volumes/Backup:/backup:ro
     environment:
       - TZ=${TZ:-UTC}
+      # List all mounted photo paths (comma-separated) for browsing in web UI
+      - GOIMAGEFINDER_BROWSE_ROOTS=/photos
+      # Add more roots when you mount more volumes:
+      # - GOIMAGEFINDER_BROWSE_ROOTS=/photos,/external,/backup
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8012/"]
@@ -29,19 +36,39 @@ volumes:
   goimagefinder_data:
     driver: local
 
-# Example usage:
+# =============================================================================
+# USAGE EXAMPLES
+# =============================================================================
 #
-# 1. Build and start:
-#    docker-compose up -d --build
+# BASIC - Start with single photo folder:
+#   docker-compose up -d
 #
-# 2. View logs:
-#    docker-compose logs -f
+# VIEW LOGS:
+#   docker-compose logs -f
 #
-# 3. Stop:
-#    docker-compose down
+# STOP:
+#   docker-compose down
 #
-# 4. With custom port:
-#    PORT=9000 docker-compose up -d
+# CUSTOM PORT:
+#   PORT=9000 docker-compose up -d
 #
-# 5. Mount your photos folder:
-#    Edit the volumes section above to add your photo paths
+# -----------------------------------------------------------------------------
+# MULTIPLE PHOTO FOLDERS EXAMPLE:
+# -----------------------------------------------------------------------------
+# To scan photos from multiple locations (e.g., internal drive + external SSD):
+#
+# 1. Add volume mounts for each location:
+#      volumes:
+#        - goimagefinder_data:/data
+#        - /Users/me/Pictures:/photos:ro
+#        - /Volumes/ExternalSSD/Photos:/external:ro
+#        - /Volumes/Backup/Photos:/backup:ro
+#
+# 2. Set GOIMAGEFINDER_BROWSE_ROOTS to list all paths:
+#      environment:
+#        - GOIMAGEFINDER_BROWSE_ROOTS=/photos,/external,/backup
+#
+# 3. Restart: docker-compose up -d
+#
+# The web UI will show all roots as options to browse and scan.
+# =============================================================================

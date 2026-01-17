@@ -63,16 +63,27 @@ This creates `dist/GoImageFinder.dmg`.
 **Installation:**
 1. Open `dist/GoImageFinder.dmg`
 2. Drag **GoImageFinder** to the Applications folder
-3. **First launch only:** Right-click the app → Select "Open" → Click "Open" in the dialog
-   (Required because the app is not signed with an Apple Developer certificate)
+3. **First launch only** (required because the app is not signed):
 
-**What happens when you double-click:**
+   **Option A - System Preferences:**
+   - Double-click the app (it will be blocked silently)
+   - Open **System Settings → Privacy & Security**
+   - Scroll down to find "GoImageFinder was blocked"
+   - Click **Open Anyway** → Enter password → Click **Open**
+
+   **Option B - Terminal (faster):**
+   ```bash
+   xattr -cr /Applications/GoImageFinder.app
+   ```
+   Then double-click the app normally.
+
+**What happens when you launch:**
 1. Starts the web server on port 8012 (configurable)
 2. Waits for server to be ready
 3. Automatically opens `http://localhost:8012` in your default browser
 4. App icon appears in Dock while running
 
-**To stop:** Quit the app from the Dock or close the terminal window
+**To stop:** Click "Quit" in the web UI, or quit the app from the Dock
 
 **Note:** There are two different DMGs:
 - `make create-webserver-dmg` → **GoImageFinder.dmg** (web interface with auto-browser launch)

@@ -87,6 +87,11 @@ func GetConfigPath() string {
 //   - GOIMAGEFINDER_THRESHOLD: Similarity threshold 0-1 (e.g., "0.75")
 //   - GOIMAGEFINDER_OPEN_BROWSER: Whether to open browser on start ("true" or "false")
 func ApplyEnvironmentOverrides(config *Config) {
+	// Ensure port is valid (use default if 0 or negative)
+	if config.Port <= 0 {
+		config.Port = 8012
+	}
+
 	if port := os.Getenv("GOIMAGEFINDER_PORT"); port != "" {
 		if p, err := strconv.Atoi(port); err == nil && p > 0 {
 			config.Port = p

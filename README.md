@@ -85,6 +85,11 @@ This creates `dist/GoImageFinder.dmg`.
 
 **To stop:** Click "Quit" in the web UI, or quit the app from the Dock
 
+**Troubleshooting:**
+- If the app doesn't open or browser doesn't launch, check `~/.goimagefinder/webserver.json`
+- Ensure `port` is set to `8012` (not `0`) and `openBrowser` is `true`
+- View logs at `~/.goimagefinder/logs/webserver.log`
+
 **Note:** There are two different DMGs:
 - `make create-webserver-dmg` → **GoImageFinder.dmg** (web interface with auto-browser launch)
 - `make create-dmg` → **goimagefinder.dmg** (CLI tool only, no GUI)

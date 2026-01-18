@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - File browser now correctly uses the first configured browse root when multiple are available.
+- **Invalid port handling**: Server now defaults to port 8012 if config has port 0 or negative value.
+- **macOS launch instructions**: Updated README with correct steps for opening unsigned apps on modern macOS (System Settings → Privacy & Security → Open Anyway).
 
 ---
 

@@ -50,6 +50,7 @@ var formatExtensions = map[string]FormatType{
 	".raf":  FormatRAW,
 	".nrw":  FormatRAW,
 	".srf":  FormatRAW,
+	".rwl":  FormatRAW, // Leica RAW format
 }
 
 // IsImageFile checks if a file is a supported image based on extension

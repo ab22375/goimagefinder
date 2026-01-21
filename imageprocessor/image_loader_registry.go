@@ -68,6 +68,7 @@ func (r *ImageLoaderRegistry) registerSpecializedLoaders() {
 	r.RegisterLoader(".raw", simpleRawLoader)
 	r.RegisterLoader(".nrw", simpleRawLoader)
 	r.RegisterLoader(".srf", simpleRawLoader)
+	r.RegisterLoader(".rwl", simpleRawLoader) // Leica RAW format
 
 	// Register specialized CR3 loader if available
 	if checkExiftoolCommandAvailable() {

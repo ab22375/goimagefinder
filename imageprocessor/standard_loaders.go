@@ -151,9 +151,10 @@ func tryExiftoolPreviewExtraction(path, outputPath string) error {
 
 	err = cmd.Run()
 	if err != nil || !hasFileContent(outputPath) {
-		// If the largest preview extraction failed, try the standard preview
-		logging.LogWarning("Largest preview extraction failed for %s, trying standard preview", path)
-		cmd = exec.Command("exiftool", "-b", "-PreviewImage", path)
+		// If the largest preview extraction failed, try JpgFromRaw first
+		// JpgFromRaw is often the highest quality embedded JPEG (used by CR3, NEF, RWL)
+		logging.LogWarning("Largest preview extraction failed for %s, trying JpgFromRaw", path)
+		cmd = exec.Command("exiftool", "-b", "-JpgFromRaw", path)
 		outFile, err = os.Create(outputPath)
 		if err != nil {
 			return fmt.Errorf("failed to create output file: %v", err)
@@ -165,9 +166,9 @@ func tryExiftoolPreviewExtraction(path, outputPath string) error {
 
 		err = cmd.Run()
 		if err != nil || !hasFileContent(outputPath) {
-			// If standard preview failed, try thumbnail
-			logging.LogWarning("Standard preview extraction failed for %s, trying thumbnail", path)
-			cmd = exec.Command("exiftool", "-b", "-ThumbnailImage", path)
+			// If JpgFromRaw failed, try standard PreviewImage (used by RAF, CR2)
+			logging.LogWarning("JpgFromRaw extraction failed for %s, trying PreviewImage", path)
+			cmd = exec.Command("exiftool", "-b", "-PreviewImage", path)
 			outFile, err = os.Create(outputPath)
 			if err != nil {
 				return fmt.Errorf("failed to create output file: %v", err)
@@ -179,7 +180,22 @@ func tryExiftoolPreviewExtraction(path, outputPath string) error {
 
 			err = cmd.Run()
 			if err != nil || !hasFileContent(outputPath) {
-				return fmt.Errorf("all exiftool preview extraction methods failed: %v", err)
+				// If PreviewImage failed, try thumbnail as last resort
+				logging.LogWarning("PreviewImage extraction failed for %s, trying thumbnail", path)
+				cmd = exec.Command("exiftool", "-b", "-ThumbnailImage", path)
+				outFile, err = os.Create(outputPath)
+				if err != nil {
+					return fmt.Errorf("failed to create output file: %v", err)
+				}
+				defer outFile.Close()
+
+				cmd.Stdout = outFile
+				cmd.Stderr = &stderr
+
+				err = cmd.Run()
+				if err != nil || !hasFileContent(outputPath) {
+					return fmt.Errorf("all exiftool preview extraction methods failed: %v", err)
+				}
 			}
 		}
 	}

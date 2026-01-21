@@ -53,13 +53,13 @@ func (l *CR3ExiftoolLoader) LoadImage(path string) (image.Image, error) {
 		return nil, fileInfo.Err
 	}
 
-	// Get available preview tags
+	// Get available preview tags - order by quality (highest first)
 	previewTags := []string{
 		"LargestImagePreview",
-		"PreviewImage",
+		"JpgFromRaw",    // Full-size JPEG (2.5MB for CR3, much better than PreviewImage)
+		"PreviewImage",  // Smaller preview (only 213KB for CR3)
 		"OtherImage",
 		"ThumbnailImage",
-		"JpgFromRaw",
 	}
 
 	// Try to extract preview images and return the first successful one
@@ -108,12 +108,12 @@ func (l *CR3ExiftoolLoader) extractPreview(path, outputPath, tag string) error {
 
 // extractUsingExiftoolCommand tries multiple exiftool commands to extract previews
 func extractUsingExiftoolCommand(path, outputPath string) error {
-	// Alternative exiftool command variations
+	// Alternative exiftool command variations - order by quality (highest first)
 	commands := [][]string{
-		{"-b", "-PreviewImage", path},
-		{"-b", "-JpgFromRaw", path},
-		{"-b", "-ThumbnailImage", path},
 		{"-b", "-LargestImagePreview", path},
+		{"-b", "-JpgFromRaw", path},    // Full-size JPEG (2.5MB for CR3)
+		{"-b", "-PreviewImage", path},  // Smaller preview (213KB for CR3)
+		{"-b", "-ThumbnailImage", path},
 		// Special command for CR3
 		{"-b", "-ifd0:all", path},
 	}

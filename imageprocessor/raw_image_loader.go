@@ -31,8 +31,8 @@ func NewRawImageLoader() *RawImageLoader {
 
 func (l *RawImageLoader) CanLoad(path string) bool {
 	ext := strings.ToLower(filepath.Ext(path))
-	// Explicitly include all requested formats: DNG, RAF, ARW, NEF, CR2, CR3
-	rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf"}
+	// Explicitly include all requested formats: DNG, RAF, ARW, NEF, CR2, CR3, RWL
+	rawFormats := []string{".dng", ".raf", ".arw", ".nef", ".cr2", ".cr3", ".nrw", ".srf", ".rwl"}
 	for _, format := range rawFormats {
 		if ext == format {
 			// Check if file exists and is readable

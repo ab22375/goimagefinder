@@ -1,0 +1,544 @@
+2026/01/21 21:24:55 --- ImageFinder Debug Log Started at 2026-01-21T21:24:55+09:00 ---
+2026/01/21 21:24:59 --- ImageFinder Debug Log Started at 2026-01-21T21:24:59+09:00 ---
+2026/01/21 21:24:59 INFO: Registered specialized CR3ExiftoolLoader
+2026/01/21 21:24:59 Starting image scan on folder: /Users/z/Downloads/VB/RAW/Leica
+2026/01/21 21:24:59 Force rewrite: false, Source prefix: 
+2026/01/21 21:24:59 Found 3 image files to process (3 RAW files, 0 TIF files)
+2026/01/21 21:24:59 Starting walkAndProcessFiles - folder: /Users/z/Downloads/VB/RAW/Leica, debug: true, semaphore capacity: 7
+2026/01/21 21:24:59 INFO: Registered specialized CR3ExiftoolLoader
+2026/01/21 21:24:59 Image processor created
+2026/01/21 21:24:59 INFO: Registered specialized CR3ExiftoolLoader
+2026/01/21 21:24:59 Image loader registry created
+2026/01/21 21:24:59 Created results buffer with size: 1000
+2026/01/21 21:24:59 Starting directory scan to collect files: /Users/z/Downloads/VB/RAW/Leica
+2026/01/21 21:24:59 Directory scan completed in 24.333µs, found 3 files to process
+2026/01/21 21:24:59 Processing 3 files in chunks of 100
+2026/01/21 21:24:59 Processing chunk 1-3 of 3 files
+2026/01/21 21:24:59 Waiting for chunk workers to complete...
+2026/01/21 21:24:59 Result forwarder goroutine started
+2026/01/21 21:24:59 Starting worker for file #2: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:24:59 Worker #2 waiting for semaphore
+2026/01/21 21:24:59 Worker #2 acquired semaphore
+2026/01/21 21:24:59 Processing file #2: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:24:59 Starting worker for file #3: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:24:59 Worker #3 waiting for semaphore
+2026/01/21 21:24:59 Worker #3 acquired semaphore
+2026/01/21 21:24:59 Processing file #3: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:24:59 Starting worker for file #1: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:24:59 Worker #1 waiting for semaphore
+2026/01/21 21:24:59 Worker #1 acquired semaphore
+2026/01/21 21:24:59 Processing file #1: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:24:59 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL, trying standard preview
+2026/01/21 21:24:59 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL, trying standard preview
+2026/01/21 21:24:59 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL, trying standard preview
+2026/01/21 21:24:59 WARNING: Standard preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL, trying JpgFromRaw
+2026/01/21 21:24:59 WARNING: Standard preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL, trying JpgFromRaw
+2026/01/21 21:24:59 WARNING: Standard preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL, trying JpgFromRaw
+2026/01/21 21:24:59 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:24:59 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:24:59 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:24:59 raw image hashes - /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL - avgHash: ffffff2100000000, pHash: 8581911f1f2ebe3c
+2026/01/21 21:24:59 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:24:59 Completed processing file #3: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL, success: true
+2026/01/21 21:24:59 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:24:59 Worker #3 attempting to send result to buffer
+2026/01/21 21:24:59 Worker #3 successfully sent to buffer (attempt 1, after 7.333µs)
+2026/01/21 21:24:59 Worker for file #3: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL completed in 277.94975ms
+2026/01/21 21:24:59 Worker #3 released semaphore
+2026/01/21 21:24:59 Attempting to forward result #1 for: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:24:59 Successfully forwarded result #1 for: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:24:59 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:24:59 raw image hashes - /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL - avgHash: ffff404040080000, pHash: c0e69fd960594b66
+2026/01/21 21:24:59 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:24:59 Completed processing file #1: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL, success: true
+2026/01/21 21:24:59 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:24:59 Worker #1 attempting to send result to buffer
+2026/01/21 21:24:59 Worker #1 successfully sent to buffer (attempt 1, after 3.167µs)
+2026/01/21 21:24:59 Worker for file #1: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL completed in 280.85225ms
+2026/01/21 21:24:59 Worker #1 released semaphore
+2026/01/21 21:24:59 Attempting to forward result #2 for: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:24:59 Successfully forwarded result #2 for: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:24:59 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:24:59 raw image hashes - /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL - avgHash: f7e0c0e0c3000000, pHash: f1f0e3a3870b0eac
+2026/01/21 21:24:59 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:24:59 Completed processing file #2: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL, success: true
+2026/01/21 21:24:59 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:24:59 Worker #2 attempting to send result to buffer
+2026/01/21 21:24:59 Worker #2 successfully sent to buffer (attempt 1, after 8.292µs)
+2026/01/21 21:24:59 Worker for file #2: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL completed in 285.496458ms
+2026/01/21 21:24:59 Worker #2 released semaphore
+2026/01/21 21:24:59 Attempting to forward result #3 for: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:24:59 Successfully forwarded result #3 for: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:24:59 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:24:59 Chunk processing completed in 285.527458ms
+2026/01/21 21:24:59 All file processors completed
+2026/01/21 21:24:59 Signaling result forwarder to stop
+2026/01/21 21:24:59 Closing results buffer
+2026/01/21 21:24:59 Waiting for result forwarder to complete
+2026/01/21 21:24:59 Received stop signal in forwarder
+2026/01/21 21:24:59 Result forwarder finished. Forwarded: 3, Timeouts: 0
+2026/01/21 21:24:59 Result forwarder goroutine completed
+2026/01/21 21:24:59 Result forwarder completed normally
+2026/01/21 21:24:59 Walk completed with stats:
+  Files: Found=3, Processed=3, Skipped=0, Errors=0
+  Types: RAW=3, TIF=0
+  Results: Sent=3, Forwarded=3, Timeouts=0, Dropped=0
+  Semaphore: Acquired=3, Released=3, Diff=0, Timeouts=0, Abandonments=0
+2026/01/21 21:24:59 Scan completed in 386.72825ms. Processed: 3, Errors: 0, RAW files: 3, RAW errors: 0, TIF files: 0, TIF errors: 0
+2026/01/21 21:29:15 --- ImageFinder Debug Log Started at 2026-01-21T21:29:15+09:00 ---
+2026/01/21 21:29:15 INFO: Registered specialized CR3ExiftoolLoader
+2026/01/21 21:29:15 Starting image scan on folder: /Users/z/Downloads/VB/RAW
+2026/01/21 21:29:15 Force rewrite: false, Source prefix: 
+2026/01/21 21:29:15 Found 25 image files to process (18 RAW files, 4 TIF files)
+2026/01/21 21:29:15 Starting walkAndProcessFiles - folder: /Users/z/Downloads/VB/RAW, debug: true, semaphore capacity: 7
+2026/01/21 21:29:15 INFO: Registered specialized CR3ExiftoolLoader
+2026/01/21 21:29:15 Image processor created
+2026/01/21 21:29:15 INFO: Registered specialized CR3ExiftoolLoader
+2026/01/21 21:29:15 Image loader registry created
+2026/01/21 21:29:15 Created results buffer with size: 1000
+2026/01/21 21:29:15 Starting directory scan to collect files: /Users/z/Downloads/VB/RAW
+2026/01/21 21:29:15 Result forwarder goroutine started
+2026/01/21 21:29:15 Directory scan completed in 185.875µs, found 25 files to process
+2026/01/21 21:29:15 Processing 25 files in chunks of 100
+2026/01/21 21:29:15 Processing chunk 1-25 of 25 files
+2026/01/21 21:29:15 Currently 10 active worker goroutines
+2026/01/21 21:29:15 Currently 20 active worker goroutines
+2026/01/21 21:29:15 Waiting for chunk workers to complete...
+2026/01/21 21:29:15 Starting worker for file #25: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif
+2026/01/21 21:29:15 Worker #25 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #10: /Users/z/Downloads/VB/RAW/Fuji/3.raf
+2026/01/21 21:29:15 Worker #10 waiting for semaphore
+2026/01/21 21:29:15 Worker #25 acquired semaphore
+2026/01/21 21:29:15 Starting worker for file #19: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF
+2026/01/21 21:29:15 Worker #19 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #18: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF
+2026/01/21 21:29:15 Worker #18 waiting for semaphore
+2026/01/21 21:29:15 Worker #18 acquired semaphore
+2026/01/21 21:29:15 Processing file #18: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF
+2026/01/21 21:29:15 Starting worker for file #20: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF
+2026/01/21 21:29:15 Worker #20 waiting for semaphore
+2026/01/21 21:29:15 Worker #20 acquired semaphore
+2026/01/21 21:29:15 Starting worker for file #1: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2
+2026/01/21 21:29:15 Worker #1 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #7: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:15 Worker #7 waiting for semaphore
+2026/01/21 21:29:15 Worker #7 acquired semaphore
+2026/01/21 21:29:15 Processing file #7: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:15 Starting worker for file #2: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2
+2026/01/21 21:29:15 Worker #2 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #16: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:29:15 Worker #16 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #14: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG
+2026/01/21 21:29:15 Worker #14 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #5: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:15 Worker #5 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #6: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:15 Worker #6 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #3: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2
+2026/01/21 21:29:15 Worker #3 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #13: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG
+2026/01/21 21:29:15 Worker #13 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #12: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG
+2026/01/21 21:29:15 Worker #12 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #4: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:15 Worker #4 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #17: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:29:15 Worker #17 waiting for semaphore
+2026/01/21 21:29:15 Worker #10 acquired semaphore
+2026/01/21 21:29:15 Processing file #10: /Users/z/Downloads/VB/RAW/Fuji/3.raf
+2026/01/21 21:29:15 Starting worker for file #11: /Users/z/Downloads/VB/RAW/Fuji/6.raf
+2026/01/21 21:29:15 Worker #11 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #8: /Users/z/Downloads/VB/RAW/Fuji/1.raf
+2026/01/21 21:29:15 Worker #8 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #9: /Users/z/Downloads/VB/RAW/Fuji/2.raf
+2026/01/21 21:29:15 Worker #9 waiting for semaphore
+2026/01/21 21:29:15 Processing file #25: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif
+2026/01/21 21:29:15 Starting worker for file #23: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif
+2026/01/21 21:29:15 Worker #23 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #21: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF
+2026/01/21 21:29:15 INFO: Loading CR3 image with go-exiftool: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:15 Worker #21 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #15: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:29:15 Worker #15 waiting for semaphore
+2026/01/21 21:29:15 Starting worker for file #22: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif
+2026/01/21 21:29:15 Worker #22 waiting for semaphore
+2026/01/21 21:29:15 Worker #19 acquired semaphore
+2026/01/21 21:29:15 Processing file #19: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF
+2026/01/21 21:29:15 Processing file #20: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF
+2026/01/21 21:29:15 Worker #1 acquired semaphore
+2026/01/21 21:29:15 Processing file #1: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2
+2026/01/21 21:29:15 Starting worker for file #24: /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif
+2026/01/21 21:29:15 Worker #24 waiting for semaphore
+2026/01/21 21:29:15 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Fuji/3.raf, trying JpgFromRaw
+2026/01/21 21:29:15 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2, trying JpgFromRaw
+2026/01/21 21:29:15 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF, trying JpgFromRaw
+2026/01/21 21:29:15 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF, trying JpgFromRaw
+2026/01/21 21:29:15 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF, trying JpgFromRaw
+2026/01/21 21:29:15 WARNING: JpgFromRaw extraction failed for /Users/z/Downloads/VB/RAW/Fuji/3.raf, trying PreviewImage
+2026/01/21 21:29:15 WARNING: JpgFromRaw extraction failed for /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2, trying PreviewImage
+2026/01/21 21:29:15 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Fuji/3.raf
+2026/01/21 21:29:15 raw image hashes - /Users/z/Downloads/VB/RAW/Fuji/3.raf - avgHash: 9cddf9fbc3010000, pHash: 99991b97668f606a
+2026/01/21 21:29:15 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Fuji/3.raf
+2026/01/21 21:29:15 Completed processing file #10: /Users/z/Downloads/VB/RAW/Fuji/3.raf, success: true
+2026/01/21 21:29:15 PROCESSED: /Users/z/Downloads/VB/RAW/Fuji/3.raf
+2026/01/21 21:29:15 Worker #10 attempting to send result to buffer
+2026/01/21 21:29:15 Worker #10 successfully sent to buffer (attempt 1, after 20.875µs)
+2026/01/21 21:29:15 Worker for file #10: /Users/z/Downloads/VB/RAW/Fuji/3.raf completed in 474.180042ms
+2026/01/21 21:29:15 Worker #10 released semaphore
+2026/01/21 21:29:15 Worker #2 acquired semaphore
+2026/01/21 21:29:15 Processing file #2: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2
+2026/01/21 21:29:15 Attempting to forward result #1 for: /Users/z/Downloads/VB/RAW/Fuji/3.raf
+2026/01/21 21:29:15 Successfully forwarded result #1 for: /Users/z/Downloads/VB/RAW/Fuji/3.raf
+2026/01/21 21:29:15 PROCESSED: /Users/z/Downloads/VB/RAW/Fuji/3.raf
+2026/01/21 21:29:16 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2
+2026/01/21 21:29:16 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2, trying JpgFromRaw
+2026/01/21 21:29:16 cr2 image hashes - /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2 - avgHash: fffffc0000000000, pHash: cef3b8a72329464a
+2026/01/21 21:29:16 Successfully indexed cr2 image: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2
+2026/01/21 21:29:16 Completed processing file #1: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2, success: true
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2
+2026/01/21 21:29:16 Worker #1 attempting to send result to buffer
+2026/01/21 21:29:16 Worker #1 successfully sent to buffer (attempt 1, after 11.417µs)
+2026/01/21 21:29:16 Worker for file #1: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2 completed in 655.11275ms
+2026/01/21 21:29:16 Worker #1 released semaphore
+2026/01/21 21:29:16 Attempting to forward result #2 for: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2
+2026/01/21 21:29:16 Successfully forwarded result #2 for: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-01.cr2
+2026/01/21 21:29:16 Worker #16 acquired semaphore
+2026/01/21 21:29:16 Processing file #16: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:29:16 WARNING: JpgFromRaw extraction failed for /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2, trying PreviewImage
+2026/01/21 21:29:16 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL, trying JpgFromRaw
+2026/01/21 21:29:16 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF
+2026/01/21 21:29:16 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF
+2026/01/21 21:29:16 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:29:16 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF
+2026/01/21 21:29:16 raw image hashes - /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL - avgHash: f7e0c0e0c3000000, pHash: f1f0e3a3870b0eac
+2026/01/21 21:29:16 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:29:16 Completed processing file #16: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL, success: true
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:29:16 Worker #16 attempting to send result to buffer
+2026/01/21 21:29:16 Worker #16 successfully sent to buffer (attempt 1, after 8µs)
+2026/01/21 21:29:16 Worker for file #16: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL completed in 1.089737083s
+2026/01/21 21:29:16 Worker #16 released semaphore
+2026/01/21 21:29:16 Worker #14 acquired semaphore
+2026/01/21 21:29:16 Processing file #14: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG
+2026/01/21 21:29:16 Attempting to forward result #3 for: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:29:16 Successfully forwarded result #3 for: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-02.RWL
+2026/01/21 21:29:16 nef image hashes - /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF - avgHash: f8787c6c7c7c7826, pHash: c3fb3cc8bc83a684
+2026/01/21 21:29:16 Successfully indexed nef image: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF
+2026/01/21 21:29:16 Completed processing file #19: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF, success: true
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF
+2026/01/21 21:29:16 Worker #19 attempting to send result to buffer
+2026/01/21 21:29:16 Worker #19 successfully sent to buffer (attempt 1, after 8.916µs)
+2026/01/21 21:29:16 Worker for file #19: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF completed in 1.155635166s
+2026/01/21 21:29:16 Worker #19 released semaphore
+2026/01/21 21:29:16 Worker #5 acquired semaphore
+2026/01/21 21:29:16 Processing file #5: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:16 INFO: Loading CR3 image with go-exiftool: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:16 Attempting to forward result #4 for: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF
+2026/01/21 21:29:16 Successfully forwarded result #4 for: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/Nikon/NEF-02.NEF
+2026/01/21 21:29:16 nef image hashes - /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF - avgHash: ff1d198081c3c3fb, pHash: fd9a83e0f3e3e004
+2026/01/21 21:29:16 Successfully indexed nef image: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF
+2026/01/21 21:29:16 Completed processing file #20: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF, success: true
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF
+2026/01/21 21:29:16 Worker #20 attempting to send result to buffer
+2026/01/21 21:29:16 Worker #20 successfully sent to buffer (attempt 1, after 2.709µs)
+2026/01/21 21:29:16 Worker for file #20: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF completed in 1.166084666s
+2026/01/21 21:29:16 Worker #20 released semaphore
+2026/01/21 21:29:16 Worker #6 acquired semaphore
+2026/01/21 21:29:16 Processing file #6: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:16 INFO: Loading CR3 image with go-exiftool: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:16 Attempting to forward result #5 for: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF
+2026/01/21 21:29:16 Successfully forwarded result #5 for: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/Nikon/NEF-03.NEF
+2026/01/21 21:29:16 nef image hashes - /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF - avgHash: 3d193d243c383c08, pHash: 8eda98cf33c30ccc
+2026/01/21 21:29:16 Successfully indexed nef image: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF
+2026/01/21 21:29:16 Completed processing file #18: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF, success: true
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF
+2026/01/21 21:29:16 Worker #18 attempting to send result to buffer
+2026/01/21 21:29:16 Worker #18 successfully sent to buffer (attempt 1, after 17.625µs)
+2026/01/21 21:29:16 Worker for file #18: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF completed in 1.213791s
+2026/01/21 21:29:16 Worker #18 released semaphore
+2026/01/21 21:29:16 Worker #3 acquired semaphore
+2026/01/21 21:29:16 Processing file #3: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2
+2026/01/21 21:29:16 Attempting to forward result #6 for: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF
+2026/01/21 21:29:16 Successfully forwarded result #6 for: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/Nikon/NEF-01.NEF
+2026/01/21 21:29:16 Successfully loaded standard format image: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG
+2026/01/21 21:29:16 Completed processing file #14: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG, success: true
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG
+2026/01/21 21:29:16 Worker #14 attempting to send result to buffer
+2026/01/21 21:29:16 Worker #14 successfully sent to buffer (attempt 1, after 19.584µs)
+2026/01/21 21:29:16 Worker for file #14: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG completed in 1.335128708s
+2026/01/21 21:29:16 Worker #14 released semaphore
+2026/01/21 21:29:16 Worker #13 acquired semaphore
+2026/01/21 21:29:16 Processing file #13: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG
+2026/01/21 21:29:16 Attempting to forward result #7 for: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG
+2026/01/21 21:29:16 Successfully forwarded result #7 for: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/JPG/jpg-03.JPG
+2026/01/21 21:29:16 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2, trying JpgFromRaw
+2026/01/21 21:29:16 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2
+2026/01/21 21:29:16 WARNING: JpgFromRaw extraction failed for /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2, trying PreviewImage
+2026/01/21 21:29:16 cr2 image hashes - /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2 - avgHash: 7cfcf8bc18180084, pHash: dfc1f60933017d25
+2026/01/21 21:29:16 Successfully indexed cr2 image: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2
+2026/01/21 21:29:16 Completed processing file #2: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2, success: true
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2
+2026/01/21 21:29:16 Worker #2 attempting to send result to buffer
+2026/01/21 21:29:16 Worker #2 successfully sent to buffer (attempt 1, after 22.583µs)
+2026/01/21 21:29:16 Worker for file #2: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2 completed in 1.474646333s
+2026/01/21 21:29:16 Worker #2 released semaphore
+2026/01/21 21:29:16 Worker #12 acquired semaphore
+2026/01/21 21:29:16 Processing file #12: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG
+2026/01/21 21:29:16 Attempting to forward result #8 for: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2
+2026/01/21 21:29:16 Successfully forwarded result #8 for: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2
+2026/01/21 21:29:16 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-02.CR2
+2026/01/21 21:29:16 Successfully loaded standard format image: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG
+2026/01/21 21:29:17 Completed processing file #13: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG, success: true
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG
+2026/01/21 21:29:17 Worker #13 attempting to send result to buffer
+2026/01/21 21:29:17 Worker #13 successfully sent to buffer (attempt 1, after 10.333µs)
+2026/01/21 21:29:17 Worker for file #13: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG completed in 1.565260334s
+2026/01/21 21:29:17 Worker #13 released semaphore
+2026/01/21 21:29:17 Worker #4 acquired semaphore
+2026/01/21 21:29:17 Processing file #4: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:17 Attempting to forward result #9 for: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG
+2026/01/21 21:29:17 Successfully forwarded result #9 for: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/JPG/jpg-02.JPG
+2026/01/21 21:29:17 INFO: Loading CR3 image with go-exiftool: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:17 Successfully loaded TIFF format image: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif
+2026/01/21 21:29:17 Successfully loaded standard format image: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG
+2026/01/21 21:29:17 tiff image hashes - /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif - avgHash: f07070381030fef8, pHash: c7c3e1781e9e0e85
+2026/01/21 21:29:17 Successfully indexed tiff image: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif
+2026/01/21 21:29:17 Completed processing file #25: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif, success: true
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif
+2026/01/21 21:29:17 Worker #25 attempting to send result to buffer
+2026/01/21 21:29:17 Worker #25 successfully sent to buffer (attempt 1, after 15.791µs)
+2026/01/21 21:29:17 Worker for file #25: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif completed in 1.882126375s
+2026/01/21 21:29:17 Worker #25 released semaphore
+2026/01/21 21:29:17 Worker #17 acquired semaphore
+2026/01/21 21:29:17 Processing file #17: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:29:17 Attempting to forward result #10 for: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif
+2026/01/21 21:29:17 Successfully forwarded result #10 for: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/Tiff/TIF-04.tif
+2026/01/21 21:29:17 Completed processing file #12: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG, success: true
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG
+2026/01/21 21:29:17 Worker #12 attempting to send result to buffer
+2026/01/21 21:29:17 Worker #12 successfully sent to buffer (attempt 1, after 32.209µs)
+2026/01/21 21:29:17 Worker for file #12: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG completed in 1.887631292s
+2026/01/21 21:29:17 Worker #12 released semaphore
+2026/01/21 21:29:17 Worker #11 acquired semaphore
+2026/01/21 21:29:17 Processing file #11: /Users/z/Downloads/VB/RAW/Fuji/6.raf
+2026/01/21 21:29:17 Attempting to forward result #11 for: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG
+2026/01/21 21:29:17 Successfully forwarded result #11 for: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/JPG/jpg-01.JPG
+2026/01/21 21:29:17 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL, trying JpgFromRaw
+2026/01/21 21:29:17 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Fuji/6.raf, trying JpgFromRaw
+2026/01/21 21:29:17 WARNING: JpgFromRaw extraction failed for /Users/z/Downloads/VB/RAW/Fuji/6.raf, trying PreviewImage
+2026/01/21 21:29:17 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:29:17 raw image hashes - /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL - avgHash: ffffff2100000000, pHash: 8581911f1f2ebe3c
+2026/01/21 21:29:17 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:29:17 Completed processing file #17: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL, success: true
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:29:17 Worker #17 attempting to send result to buffer
+2026/01/21 21:29:17 Worker #17 successfully sent to buffer (attempt 1, after 13.208µs)
+2026/01/21 21:29:17 Worker for file #17: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL completed in 2.123854875s
+2026/01/21 21:29:17 Worker #17 released semaphore
+2026/01/21 21:29:17 Worker #8 acquired semaphore
+2026/01/21 21:29:17 Processing file #8: /Users/z/Downloads/VB/RAW/Fuji/1.raf
+2026/01/21 21:29:17 Attempting to forward result #12 for: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:29:17 Successfully forwarded result #12 for: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-03.RWL
+2026/01/21 21:29:17 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Fuji/1.raf, trying JpgFromRaw
+2026/01/21 21:29:17 WARNING: JpgFromRaw extraction failed for /Users/z/Downloads/VB/RAW/Fuji/1.raf, trying PreviewImage
+2026/01/21 21:29:17 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Fuji/6.raf
+2026/01/21 21:29:17 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2
+2026/01/21 21:29:17 raw image hashes - /Users/z/Downloads/VB/RAW/Fuji/6.raf - avgHash: 80f870c0c0f8f8f0, pHash: f0384dfe3e0723c4
+2026/01/21 21:29:17 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Fuji/6.raf
+2026/01/21 21:29:17 Completed processing file #11: /Users/z/Downloads/VB/RAW/Fuji/6.raf, success: true
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/Fuji/6.raf
+2026/01/21 21:29:17 Worker #11 attempting to send result to buffer
+2026/01/21 21:29:17 Worker #11 successfully sent to buffer (attempt 1, after 11.208µs)
+2026/01/21 21:29:17 Worker for file #11: /Users/z/Downloads/VB/RAW/Fuji/6.raf completed in 2.477318958s
+2026/01/21 21:29:17 Worker #11 released semaphore
+2026/01/21 21:29:17 Worker #9 acquired semaphore
+2026/01/21 21:29:17 Processing file #9: /Users/z/Downloads/VB/RAW/Fuji/2.raf
+2026/01/21 21:29:17 Attempting to forward result #13 for: /Users/z/Downloads/VB/RAW/Fuji/6.raf
+2026/01/21 21:29:17 Successfully forwarded result #13 for: /Users/z/Downloads/VB/RAW/Fuji/6.raf
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/Fuji/6.raf
+2026/01/21 21:29:17 cr2 image hashes - /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2 - avgHash: fcffcfc5c08181ff, pHash: ead0854cf033dd4d
+2026/01/21 21:29:17 Successfully indexed cr2 image: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2
+2026/01/21 21:29:17 Completed processing file #3: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2, success: true
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2
+2026/01/21 21:29:17 Worker #3 attempting to send result to buffer
+2026/01/21 21:29:17 Worker #3 successfully sent to buffer (attempt 1, after 16.208µs)
+2026/01/21 21:29:17 Worker for file #3: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2 completed in 2.535119125s
+2026/01/21 21:29:17 Worker #3 released semaphore
+2026/01/21 21:29:17 Worker #23 acquired semaphore
+2026/01/21 21:29:17 Processing file #23: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif
+2026/01/21 21:29:17 Attempting to forward result #14 for: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2
+2026/01/21 21:29:17 Successfully forwarded result #14 for: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2
+2026/01/21 21:29:17 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR2/cr2-03.cr2
+2026/01/21 21:29:17 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Fuji/2.raf, trying JpgFromRaw
+2026/01/21 21:29:18 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Fuji/1.raf
+2026/01/21 21:29:18 WARNING: JpgFromRaw extraction failed for /Users/z/Downloads/VB/RAW/Fuji/2.raf, trying PreviewImage
+2026/01/21 21:29:18 raw image hashes - /Users/z/Downloads/VB/RAW/Fuji/1.raf - avgHash: ffffffc7c1c02000, pHash: ec98cd4a3c9643e3
+2026/01/21 21:29:18 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Fuji/1.raf
+2026/01/21 21:29:18 Completed processing file #8: /Users/z/Downloads/VB/RAW/Fuji/1.raf, success: true
+2026/01/21 21:29:18 PROCESSED: /Users/z/Downloads/VB/RAW/Fuji/1.raf
+2026/01/21 21:29:18 Worker #8 attempting to send result to buffer
+2026/01/21 21:29:18 Worker #8 successfully sent to buffer (attempt 1, after 12.292µs)
+2026/01/21 21:29:18 Worker for file #8: /Users/z/Downloads/VB/RAW/Fuji/1.raf completed in 2.680705333s
+2026/01/21 21:29:18 Worker #8 released semaphore
+2026/01/21 21:29:18 Attempting to forward result #15 for: /Users/z/Downloads/VB/RAW/Fuji/1.raf
+2026/01/21 21:29:18 Successfully forwarded result #15 for: /Users/z/Downloads/VB/RAW/Fuji/1.raf
+2026/01/21 21:29:18 PROCESSED: /Users/z/Downloads/VB/RAW/Fuji/1.raf
+2026/01/21 21:29:18 Worker #21 acquired semaphore
+2026/01/21 21:29:18 Processing file #21: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF
+2026/01/21 21:29:18 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF, trying JpgFromRaw
+2026/01/21 21:29:18 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Fuji/2.raf
+2026/01/21 21:29:18 INFO: Successfully extracted CR3 preview using alternate method
+2026/01/21 21:29:18 raw image hashes - /Users/z/Downloads/VB/RAW/Fuji/2.raf - avgHash: ff7878787f7f010d, pHash: 89d97ea4b46e522c
+2026/01/21 21:29:18 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Fuji/2.raf
+2026/01/21 21:29:18 Completed processing file #9: /Users/z/Downloads/VB/RAW/Fuji/2.raf, success: true
+2026/01/21 21:29:18 PROCESSED: /Users/z/Downloads/VB/RAW/Fuji/2.raf
+2026/01/21 21:29:18 Worker #9 attempting to send result to buffer
+2026/01/21 21:29:18 Worker #9 successfully sent to buffer (attempt 1, after 6.625µs)
+2026/01/21 21:29:18 Worker for file #9: /Users/z/Downloads/VB/RAW/Fuji/2.raf completed in 2.962043s
+2026/01/21 21:29:18 Worker #9 released semaphore
+2026/01/21 21:29:18 Worker #15 acquired semaphore
+2026/01/21 21:29:18 Processing file #15: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:29:18 Attempting to forward result #16 for: /Users/z/Downloads/VB/RAW/Fuji/2.raf
+2026/01/21 21:29:18 Successfully forwarded result #16 for: /Users/z/Downloads/VB/RAW/Fuji/2.raf
+2026/01/21 21:29:18 PROCESSED: /Users/z/Downloads/VB/RAW/Fuji/2.raf
+2026/01/21 21:29:18 ERROR: Worker #24 timed out waiting for semaphore (attempt 1/3)
+2026/01/21 21:29:18 ERROR: Worker #22 timed out waiting for semaphore (attempt 1/3)
+2026/01/21 21:29:18 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:18 WARNING: Largest preview extraction failed for /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL, trying JpgFromRaw
+2026/01/21 21:29:18 cr3 image hashes - /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3 - avgHash: fffffff040000000, pHash: e18f9c324b6a9d25
+2026/01/21 21:29:18 Successfully indexed cr3 image: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:18 Completed processing file #7: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3, success: true
+2026/01/21 21:29:18 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:18 Worker #7 attempting to send result to buffer
+2026/01/21 21:29:18 Worker #7 successfully sent to buffer (attempt 1, after 6.917µs)
+2026/01/21 21:29:18 Worker for file #7: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3 completed in 3.129960709s
+2026/01/21 21:29:18 Worker #7 released semaphore
+2026/01/21 21:29:18 Worker #24 acquired semaphore
+2026/01/21 21:29:18 Processing file #24: /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif
+2026/01/21 21:29:18 Attempting to forward result #17 for: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:18 Successfully forwarded result #17 for: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:18 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR3/cr3-01.CR3
+2026/01/21 21:29:18 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:29:18 raw image hashes - /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL - avgHash: ffff404040080000, pHash: c0e69fd960594b66
+2026/01/21 21:29:18 Successfully indexed raw image: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:29:18 Completed processing file #15: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL, success: true
+2026/01/21 21:29:18 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:29:18 Worker #15 attempting to send result to buffer
+2026/01/21 21:29:18 Worker #15 successfully sent to buffer (attempt 1, after 8.625µs)
+2026/01/21 21:29:18 Worker for file #15: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL completed in 3.203619917s
+2026/01/21 21:29:18 Worker #15 released semaphore
+2026/01/21 21:29:18 Worker #22 acquired semaphore
+2026/01/21 21:29:18 Processing file #22: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif
+2026/01/21 21:29:18 Attempting to forward result #18 for: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:29:18 Successfully forwarded result #18 for: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:29:18 PROCESSED: /Users/z/Downloads/VB/RAW/Leica/RWL-01.RWL
+2026/01/21 21:29:18 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF
+2026/01/21 21:29:19 Successfully loaded TIFF format image: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif
+2026/01/21 21:29:19 nef image hashes - /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF - avgHash: 7ddf17070707217f, pHash: a6dccb079949966a
+2026/01/21 21:29:19 Successfully indexed nef image: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF
+2026/01/21 21:29:19 Completed processing file #21: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF, success: true
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF
+2026/01/21 21:29:19 Worker #21 attempting to send result to buffer
+2026/01/21 21:29:19 Worker #21 successfully sent to buffer (attempt 1, after 4.667µs)
+2026/01/21 21:29:19 Worker for file #21: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF completed in 3.710523084s
+2026/01/21 21:29:19 Worker #21 released semaphore
+2026/01/21 21:29:19 Attempting to forward result #19 for: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF
+2026/01/21 21:29:19 Successfully forwarded result #19 for: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/Nikon/NEF-04.NEF
+2026/01/21 21:29:19 tiff image hashes - /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif - avgHash: fff3f3f3f0c00000, pHash: e6e41dd89a3f2151
+2026/01/21 21:29:19 Successfully indexed tiff image: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif
+2026/01/21 21:29:19 Completed processing file #22: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif, success: true
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif
+2026/01/21 21:29:19 Worker #22 attempting to send result to buffer
+2026/01/21 21:29:19 Worker #22 successfully sent to buffer (attempt 1, after 8.209µs)
+2026/01/21 21:29:19 Worker for file #22: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif completed in 3.770440625s
+2026/01/21 21:29:19 Worker #22 released semaphore
+2026/01/21 21:29:19 Attempting to forward result #20 for: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif
+2026/01/21 21:29:19 Successfully forwarded result #20 for: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/Tiff/TIF-01.tif
+2026/01/21 21:29:19 Successfully loaded TIFF format image: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif
+2026/01/21 21:29:19 INFO: Successfully extracted CR3 preview using alternate method
+2026/01/21 21:29:19 INFO: Successfully extracted CR3 preview using alternate method
+2026/01/21 21:29:19 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:19 INFO: Successfully extracted CR3 preview using alternate method
+2026/01/21 21:29:19 tiff image hashes - /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif - avgHash: 071311393c18187f, pHash: 8c24b5179337949f
+2026/01/21 21:29:19 Successfully indexed tiff image: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif
+2026/01/21 21:29:19 Completed processing file #23: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif, success: true
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif
+2026/01/21 21:29:19 Worker #23 attempting to send result to buffer
+2026/01/21 21:29:19 Worker #23 successfully sent to buffer (attempt 1, after 4.584µs)
+2026/01/21 21:29:19 Worker for file #23: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif completed in 4.06439175s
+2026/01/21 21:29:19 Worker #23 released semaphore
+2026/01/21 21:29:19 Attempting to forward result #21 for: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif
+2026/01/21 21:29:19 Successfully forwarded result #21 for: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/Tiff/TIF-02.tif
+2026/01/21 21:29:19 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:19 Successfully loaded RAW format image: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:19 cr3 image hashes - /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3 - avgHash: c0e0f0f070780809, pHash: c8f63cf47e38c00d
+2026/01/21 21:29:19 Successfully indexed cr3 image: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:19 Completed processing file #6: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3, success: true
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:19 Worker #6 attempting to send result to buffer
+2026/01/21 21:29:19 Worker #6 successfully sent to buffer (attempt 1, after 3.208µs)
+2026/01/21 21:29:19 Worker for file #6: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3 completed in 4.224529291s
+2026/01/21 21:29:19 Worker #6 released semaphore
+2026/01/21 21:29:19 Attempting to forward result #22 for: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:19 Successfully forwarded result #22 for: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-04.CR3
+2026/01/21 21:29:19 cr3 image hashes - /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3 - avgHash: 0000060f3f3f3edf, pHash: 95675ca4b914679a
+2026/01/21 21:29:19 Successfully indexed cr3 image: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:19 Completed processing file #4: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3, success: true
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:19 Worker #4 attempting to send result to buffer
+2026/01/21 21:29:19 Worker #4 successfully sent to buffer (attempt 1, after 5µs)
+2026/01/21 21:29:19 Worker for file #4: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3 completed in 4.258153292s
+2026/01/21 21:29:19 Worker #4 released semaphore
+2026/01/21 21:29:19 Attempting to forward result #23 for: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:19 Successfully forwarded result #23 for: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-02.CR3
+2026/01/21 21:29:19 cr3 image hashes - /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3 - avgHash: fffff7c480000000, pHash: f0f6870969da8a9a
+2026/01/21 21:29:19 Successfully indexed cr3 image: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:19 Completed processing file #5: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3, success: true
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:19 Worker #5 attempting to send result to buffer
+2026/01/21 21:29:19 Worker #5 successfully sent to buffer (attempt 1, after 7.292µs)
+2026/01/21 21:29:19 Worker for file #5: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3 completed in 4.271188s
+2026/01/21 21:29:19 Worker #5 released semaphore
+2026/01/21 21:29:19 Attempting to forward result #24 for: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:19 Successfully forwarded result #24 for: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/CanonCR3/cr2-03.CR3
+2026/01/21 21:29:19 Successfully loaded TIFF format image: /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif
+2026/01/21 21:29:19 tiff image hashes - /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif - avgHash: 3f1f1e00303e7e5c, pHash: 853c90c768b4d5cf
+2026/01/21 21:29:19 Successfully indexed tiff image: /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif
+2026/01/21 21:29:19 Completed processing file #24: /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif, success: true
+2026/01/21 21:29:19 PROCESSED: /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif
+2026/01/21 21:29:19 Worker #24 attempting to send result to buffer
+2026/01/21 21:29:19 Worker #24 successfully sent to buffer (attempt 1, after 11.125µs)
+2026/01/21 21:29:19 Worker for file #24: /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif completed in 4.42533825s
+2026/01/21 21:29:19 Worker #24 released semaphore
+2026/01/21 21:29:19 Chunk processing completed in 4.425410583s
+2026/01/21 21:29:19 All file processors completed
+2026/01/21 21:29:19 Signaling result forwarder to stop
+2026/01/21 21:29:19 Closing results buffer
+2026/01/21 21:29:19 Waiting for result forwarder to complete
+2026/01/21 21:29:19 Attempting to forward result #25 for: /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif
+2026/01/21 21:29:19 Received stop signal in forwarder while forwarding /Users/z/Downloads/VB/RAW/Tiff/TIF-03.tif
+2026/01/21 21:29:19 Result forwarder finished. Forwarded: 24, Timeouts: 0
+2026/01/21 21:29:19 Result forwarder goroutine completed
+2026/01/21 21:29:19 Result forwarder completed normally
+2026/01/21 21:29:19 Walk completed with stats:
+  Files: Found=25, Processed=25, Skipped=0, Errors=0
+  Types: RAW=18, TIF=4
+  Results: Sent=25, Forwarded=24, Timeouts=0, Dropped=0
+  Semaphore: Acquired=25, Released=25, Diff=0, Timeouts=2, Abandonments=0
+2026/01/21 21:29:19 Scan completed in 4.526885583s. Processed: 24, Errors: 0, RAW files: 18, RAW errors: 0, TIF files: 3, TIF errors: 0

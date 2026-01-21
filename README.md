@@ -4,7 +4,7 @@ A Go-based image similarity detection tool that indexes images using perceptual 
 
 ## Features
 
-- **Multi-format support**: JPG, PNG, TIFF, RAW (NEF, CR2, CR3, RAF, ARW, DNG), and HEIC
+- **Multi-format support**: JPG, PNG, TIFF, RAW (NEF, CR2, CR3, RAF, ARW, DNG, RWL), and HEIC
 - **Perceptual hashing**: Average hash (aHash) and perceptual hash (pHash) for robust comparison
 - **Smart similarity scoring**: Weighted hash comparison with filename matching boost
 - **Incremental scanning**: Skips unchanged files unless forced

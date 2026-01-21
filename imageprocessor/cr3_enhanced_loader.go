@@ -86,12 +86,13 @@ func (l *EnhancedCR3ImageLoader) LoadImage(path string) (image.Image, error) {
 	}
 
 	// Try to extract various preview images with exiftool
+	// Order matters: try highest quality options first
 	previewTags := []string{
 		"LargestImagePreview", // This is often the highest quality preview
-		"PreviewImage",        // Standard preview
+		"JpgFromRaw",          // Full-size JPEG embedded in RAW (2.5MB for CR3, much better than PreviewImage)
+		"PreviewImage",        // Smaller preview (only 213KB for CR3)
 		"OtherImagePreview",   // Additional preview that might be available
-		"ThumbnailImage",      // Lower quality thumbnail
-		"JpgFromRaw",          // JPEG embedded in RAW file
+		"ThumbnailImage",      // Lower quality thumbnail (last resort)
 	}
 
 	for _, tag := range previewTags {

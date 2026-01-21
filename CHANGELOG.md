@@ -7,7 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **RWL (Leica RAW) support**: Added support for Leica RWL raw format files.
+  - Registered `.rwl` extension in format detection
+  - Added to raw image loader registry
+  - Extracts high-quality embedded JPEG via `JpgFromRaw` tag
+
 ### Changed
+
+- **Optimized RAW preview extraction**: Reordered preview extraction to prioritize highest quality embedded images.
+  - Now tries `JpgFromRaw` before `PreviewImage` for formats that support it
+  - CR3 (Canon): Uses 2.5MB `JpgFromRaw` instead of 213KB `PreviewImage` (10x improvement)
+  - NEF (Nikon): Uses 2.6MB `JpgFromRaw` instead of 131KB `PreviewImage` (20x improvement)
+  - RWL (Leica): Uses 707KB `JpgFromRaw` (only available option)
+  - RAF (Fuji) and CR2 (Canon): Continue using `PreviewImage` as they don't have `JpgFromRaw`
+  - Updated extraction order in `standard_loaders.go`, `cr3_enhanced_loader.go`, and `cr3_exiftool_loader.go`
 
 - **Pure Go implementation**: Migrated from CGO dependencies to pure Go for single-binary distribution.
   - Replaced `gocv.io/x/gocv` (OpenCV/CGO) with `github.com/disintegration/imaging` (pure Go)

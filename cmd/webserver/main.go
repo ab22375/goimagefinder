@@ -270,10 +270,10 @@ func (s *Server) handleUploadAndSearch(w http.ResponseWriter, r *http.Request) {
 
 	// Search for similar images
 	searchOptions := imageprocessor.SearchOptions{
-		QueryPath:    tempFile.Name(),
-		Threshold:    threshold,
-		DebugMode:    false,
-		SourcePrefix: "",
+		QueryPath:      tempFile.Name(),
+		Threshold:      threshold,
+		DebugMode:      false,
+		SourcePrefixes: nil,
 	}
 	
 	matches, err := imageprocessor.FindSimilarImages(db, searchOptions)
@@ -375,10 +375,10 @@ func (s *Server) handleBatchSearch(w http.ResponseWriter, r *http.Request) {
 
 		// Search for similar images
 		searchOptions := imageprocessor.SearchOptions{
-			QueryPath:    tempPath,
-			Threshold:    threshold,
-			DebugMode:    false,
-			SourcePrefix: "",
+			QueryPath:      tempPath,
+			Threshold:      threshold,
+			DebugMode:      false,
+			SourcePrefixes: nil,
 		}
 
 		matches, err := imageprocessor.FindSimilarImages(db, searchOptions)
@@ -428,10 +428,10 @@ func (s *Server) handleSearch(w http.ResponseWriter, r *http.Request) {
 
 	// Search for similar images
 	searchOptions := imageprocessor.SearchOptions{
-		QueryPath:    imagePath,
-		Threshold:    req.Threshold,
-		DebugMode:    false,
-		SourcePrefix: "",
+		QueryPath:      imagePath,
+		Threshold:      req.Threshold,
+		DebugMode:      false,
+		SourcePrefixes: nil,
 	}
 	
 	matches, err := imageprocessor.FindSimilarImages(db, searchOptions)

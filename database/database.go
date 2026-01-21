@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 	"time"
 
 	"imagefinder/logging"
@@ -161,18 +162,30 @@ func StoreImageInfo(db *sql.DB, imageInfo types.ImageInfo, forceRewrite bool) er
 	return nil
 }
 
-// QueryPotentialMatches retrieves potential image matches based on source prefix
-func QueryPotentialMatches(db *sql.DB, sourcePrefix string) (*sql.Rows, error) {
+// QueryPotentialMatches retrieves potential image matches based on source prefixes
+// prefixes can be empty (no filter), single value, or multiple values
+func QueryPotentialMatches(db *sql.DB, prefixes []string) (*sql.Rows, error) {
 	var query string
 	var args []interface{}
 
-	if sourcePrefix != "" {
-		// Filter by source prefix if specified
-		query = `SELECT path, source_prefix, average_hash, perceptual_hash FROM images WHERE source_prefix = ?`
-		args = []interface{}{sourcePrefix}
-	} else {
-		// No source prefix filter
+	if len(prefixes) == 0 {
+		// No prefix filter - return all images
 		query = `SELECT path, source_prefix, average_hash, perceptual_hash FROM images`
+	} else if len(prefixes) == 1 {
+		// Single prefix - use simple WHERE clause
+		query = `SELECT path, source_prefix, average_hash, perceptual_hash FROM images WHERE source_prefix = ?`
+		args = []interface{}{prefixes[0]}
+	} else {
+		// Multiple prefixes - use IN clause
+		placeholders := make([]string, len(prefixes))
+		for i, p := range prefixes {
+			placeholders[i] = "?"
+			args = append(args, p)
+		}
+		query = fmt.Sprintf(
+			`SELECT path, source_prefix, average_hash, perceptual_hash FROM images WHERE source_prefix IN (%s)`,
+			strings.Join(placeholders, ", "),
+		)
 	}
 
 	// Query database for potential matches
@@ -187,7 +200,8 @@ type ScanStats struct {
 }
 
 // GetScanStats retrieves statistics about scanned images
-func GetScanStats(db *sql.DB, sourcePrefix string) (*ScanStats, error) {
+// prefixes can be empty (no filter), single value, or multiple values
+func GetScanStats(db *sql.DB, prefixes []string) (*ScanStats, error) {
 	var stats ScanStats
 	var err error
 
@@ -195,11 +209,19 @@ func GetScanStats(db *sql.DB, sourcePrefix string) (*ScanStats, error) {
 	var totalQuery string
 	var args []interface{}
 
-	if sourcePrefix != "" {
-		totalQuery = "SELECT COUNT(*) FROM images WHERE source_prefix = ?"
-		args = append(args, sourcePrefix)
-	} else {
+	if len(prefixes) == 0 {
 		totalQuery = "SELECT COUNT(*) FROM images"
+	} else if len(prefixes) == 1 {
+		totalQuery = "SELECT COUNT(*) FROM images WHERE source_prefix = ?"
+		args = append(args, prefixes[0])
+	} else {
+		placeholders := make([]string, len(prefixes))
+		for i, p := range prefixes {
+			placeholders[i] = "?"
+			args = append(args, p)
+		}
+		totalQuery = fmt.Sprintf("SELECT COUNT(*) FROM images WHERE source_prefix IN (%s)",
+			strings.Join(placeholders, ", "))
 	}
 
 	err = db.QueryRow(totalQuery, args...).Scan(&stats.TotalImages)
@@ -209,10 +231,17 @@ func GetScanStats(db *sql.DB, sourcePrefix string) (*ScanStats, error) {
 
 	// Count unique hashes
 	var hashQuery string
-	if sourcePrefix != "" {
+	if len(prefixes) == 0 {
+		hashQuery = "SELECT COUNT(DISTINCT average_hash) FROM images"
+	} else if len(prefixes) == 1 {
 		hashQuery = "SELECT COUNT(DISTINCT average_hash) FROM images WHERE source_prefix = ?"
 	} else {
-		hashQuery = "SELECT COUNT(DISTINCT average_hash) FROM images"
+		placeholders := make([]string, len(prefixes))
+		for i := range prefixes {
+			placeholders[i] = "?"
+		}
+		hashQuery = fmt.Sprintf("SELECT COUNT(DISTINCT average_hash) FROM images WHERE source_prefix IN (%s)",
+			strings.Join(placeholders, ", "))
 	}
 
 	err = db.QueryRow(hashQuery, args...).Scan(&stats.UniqueHashes)

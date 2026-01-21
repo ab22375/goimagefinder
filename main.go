@@ -233,7 +233,11 @@ func handleScanCommand(args map[string]string, dbPath string, debugMode bool) {
 		fmt.Printf("Database: %s\n", dbPath)
 
 		// Print summary statistics if available
-		stats, err := database.GetScanStats(db, sourcePrefix)
+		var prefixes []string
+		if sourcePrefix != "" {
+			prefixes = []string{sourcePrefix}
+		}
+		stats, err := database.GetScanStats(db, prefixes)
 		if err == nil && stats != nil {
 			fmt.Printf("\nSummary:\n")
 			fmt.Printf("- Total images processed: %d\n", stats.TotalImages)
@@ -261,10 +265,17 @@ func handleSearchCommand(args map[string]string, dbPath string, debugMode bool) 
 		}
 	}
 
-	// Get source prefix for filtering
-	var sourcePrefix string
-	if prefix, ok := args["prefix"]; ok {
-		sourcePrefix = prefix
+	// Get source prefixes for filtering (comma-separated)
+	var sourcePrefixes []string
+	if prefix, ok := args["prefix"]; ok && prefix != "" {
+		// Split by comma and trim whitespace
+		parts := strings.Split(prefix, ",")
+		for _, p := range parts {
+			trimmed := strings.TrimSpace(p)
+			if trimmed != "" {
+				sourcePrefixes = append(sourcePrefixes, trimmed)
+			}
+		}
 	}
 
 	// Verify paths exist
@@ -286,16 +297,16 @@ func handleSearchCommand(args map[string]string, dbPath string, debugMode bool) 
 	defer db.Close()
 
 	fmt.Println("Searching for similar images...")
-	if sourcePrefix != "" {
-		fmt.Printf("Filtering by source prefix: %s\n", sourcePrefix)
+	if len(sourcePrefixes) > 0 {
+		fmt.Printf("Filtering by source prefixes: %s\n", strings.Join(sourcePrefixes, ", "))
 	}
 
 	// Find similar images
 	searchOptions := imageprocessor.SearchOptions{
-		QueryPath:    queryPath,
-		Threshold:    threshold,
-		SourcePrefix: sourcePrefix,
-		DebugMode:    debugMode,
+		QueryPath:      queryPath,
+		Threshold:      threshold,
+		SourcePrefixes: sourcePrefixes,
+		DebugMode:      debugMode,
 	}
 
 	matches, err := imageprocessor.FindSimilarImages(db, searchOptions)

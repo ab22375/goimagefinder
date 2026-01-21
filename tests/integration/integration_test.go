@@ -129,7 +129,7 @@ func TestCompleteWorkflow(t *testing.T) {
 		QueryPath:    filepath.Join(imageDir, "checkerboard1.jpg"),
 		Threshold:    0.7,
 		DebugMode:    true,
-		SourcePrefix: "",
+		SourcePrefixes: nil,
 	}
 	
 	matches, err := imageprocessor.FindSimilarImages(db, searchOptions)
@@ -225,7 +225,7 @@ func TestDuplicateDetection(t *testing.T) {
 		QueryPath:    originalPath,
 		Threshold:    0.99, // Very high threshold for exact matches
 		DebugMode:    true,  // Enable debug mode for more information
-		SourcePrefix: "",
+		SourcePrefixes: nil,
 	}
 	
 	matches, err := imageprocessor.FindSimilarImages(db, searchOptions)
@@ -302,7 +302,7 @@ func TestCrossFormatSimilarity(t *testing.T) {
 		QueryPath:    jpgPath,
 		Threshold:    0.8,
 		DebugMode:    false,
-		SourcePrefix: "",
+		SourcePrefixes: nil,
 	}
 	
 	matches, _ := imageprocessor.FindSimilarImages(db, searchOptions)
@@ -428,7 +428,7 @@ func TestSearchWithSourcePrefix(t *testing.T) {
 		QueryPath:    queryPath,
 		Threshold:    0.7,
 		DebugMode:    false,
-		SourcePrefix: "",
+		SourcePrefixes: nil,
 	}
 	
 	matches1, _ := imageprocessor.FindSimilarImages(db, searchOptions1)
@@ -438,10 +438,10 @@ func TestSearchWithSourcePrefix(t *testing.T) {
 	
 	// Search with prefix - should find only one
 	searchOptions2 := imageprocessor.SearchOptions{
-		QueryPath:    queryPath,
-		Threshold:    0.7,
-		DebugMode:    false,
-		SourcePrefix: "Camera1",
+		QueryPath:      queryPath,
+		Threshold:      0.7,
+		DebugMode:      false,
+		SourcePrefixes: []string{"Camera1"},
 	}
 	
 	matches2, _ := imageprocessor.FindSimilarImages(db, searchOptions2)

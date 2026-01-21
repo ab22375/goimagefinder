@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Multiple prefix filtering**: The `--prefix` option now accepts comma-separated values to filter search results by multiple source prefixes at once.
+  - Example: `--prefix=MacBook,iPhone,Camera`
+  - Uses efficient SQL `IN` clause for database-level filtering
+  - Whitespace around prefixes is automatically trimmed
+
 - **Environment variable configuration for Docker**: All settings can now be configured via environment variables, making Docker deployment much more flexible.
   - `GOIMAGEFINDER_PORT` - HTTP server port
   - `GOIMAGEFINDER_DATABASE_PATH` - SQLite database path

@@ -19,10 +19,10 @@ import (
 
 // SearchOptions defines the options for searching
 type SearchOptions struct {
-	QueryPath    string
-	Threshold    float64
-	SourcePrefix string
-	DebugMode    bool
+	QueryPath      string
+	Threshold      float64
+	SourcePrefixes []string
+	DebugMode      bool
 }
 
 // ImageMatch represents a matching image with similarity score
@@ -112,7 +112,7 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]ImageMatch, error) 
 	logging.LogInfo("Query image hashes: avgHash=%s, pHash=%s", avgHash, pHash)
 
 	// Query the database for potential matches
-	rows, err := database.QueryPotentialMatches(db, options.SourcePrefix)
+	rows, err := database.QueryPotentialMatches(db, options.SourcePrefixes)
 	if err != nil {
 		return nil, fmt.Errorf("database query failed: %v", err)
 	}

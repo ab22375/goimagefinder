@@ -256,13 +256,17 @@ goimagefinder search --image=/path/to/query.jpg [options]
 |--------|-------------|
 | `--database=PATH` | Database file path |
 | `--threshold=VALUE` | Similarity threshold 0.0-1.0 (default: 0.8) |
-| `--prefix=NAME` | Filter results by source prefix |
+| `--prefix=NAME` | Filter results by source prefix (supports comma-separated list) |
 | `--debug` | Enable debug logging |
 | `--logfile=PATH` | Custom log file path |
 
 Example:
 ```bash
-goimagefinder search --image=vacation.jpg --db=photos.db --threshold=0.75
+# Single prefix
+goimagefinder search --image=vacation.jpg --db=photos.db --threshold=0.75 --prefix=MacBook
+
+# Multiple prefixes (comma-separated)
+goimagefinder search --image=vacation.jpg --db=photos.db --prefix=MacBook,iPhone,Camera
 ```
 
 ## Web Interface

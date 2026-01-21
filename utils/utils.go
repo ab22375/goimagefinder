@@ -12,11 +12,11 @@ import (
 func ParseArguments() map[string]string {
 	args := make(map[string]string)
 
-	// First, identify the command (scan/search)
+	// First, identify the command (scan/search/info)
 	command := ""
 	commandIndex := -1
 	for i := 1; i < len(os.Args); i++ {
-		if os.Args[i] == "scan" || os.Args[i] == "search" {
+		if os.Args[i] == "scan" || os.Args[i] == "search" || os.Args[i] == "info" {
 			command = os.Args[i]
 			commandIndex = i
 			break
@@ -80,8 +80,13 @@ func GetDefaultDatabasePath() string {
 // PrintUsage outputs the command-line usage instructions
 func PrintUsage() {
 	fmt.Printf("Usage:\n")
-	fmt.Printf("  %s scan --folder=PATH [--database=PATH] [--prefix=NAME] [--force] [--debug] [--logfile=PATH]\n", os.Args[0])
-	fmt.Printf("  %s search --image=PATH [--database=PATH] [--threshold=VALUE] [--prefix=NAME] [--debug] [--logfile=PATH]\n", os.Args[0])
+	fmt.Printf("  %s scan --folder=PATH [--database=PATH] [--prefix=NAME] [--force] [--json] [--progress] [--debug]\n", os.Args[0])
+	fmt.Printf("  %s search --image=PATH [--database=PATH] [--threshold=VALUE] [--prefix=NAME] [--limit=N] [--json] [--debug]\n", os.Args[0])
+	fmt.Printf("  %s info [--database=PATH] [--json]\n", os.Args[0])
+	fmt.Printf("\nCommands:\n")
+	fmt.Printf("  scan          : Index images in a folder\n")
+	fmt.Printf("  search        : Find similar images to a query image\n")
+	fmt.Printf("  info          : Display database statistics\n")
 	fmt.Printf("\nParameters:\n")
 	fmt.Printf("  --folder      : Path to folder containing images to scan\n")
 	fmt.Printf("  --image       : Path to query image for search\n")
@@ -89,11 +94,17 @@ func PrintUsage() {
 	fmt.Printf("  --prefix      : Source prefix for scanning/filtering results\n")
 	fmt.Printf("  --force       : Force rewrite existing entries during scan\n")
 	fmt.Printf("  --threshold   : Similarity threshold for search (0.0-1.0, default: 0.8)\n")
+	fmt.Printf("  --limit       : Maximum number of results to return (default: 50)\n")
+	fmt.Printf("  --json        : Output results in JSON format (for programmatic use)\n")
+	fmt.Printf("  --progress    : Stream progress updates as JSON lines (use with --json)\n")
 	fmt.Printf("  --debug       : Enable debug mode (logs detailed information)\n")
 	fmt.Printf("  --logfile     : Specify custom log file path (default: imagefinder.log)\n")
 	fmt.Printf("\nExamples:\n")
-	fmt.Printf("  %s scan --folder=/path/to/images --prefix=ExternalDrive1 --debug\n", os.Args[0])
-	fmt.Printf("  %s search --image=/path/to/query.jpg --threshold=0.85\n", os.Args[0])
+	fmt.Printf("  %s scan --folder=/path/to/images --prefix=ExternalDrive1\n", os.Args[0])
+	fmt.Printf("  %s scan --folder=/path/to/images --json --progress\n", os.Args[0])
+	fmt.Printf("  %s search --image=/path/to/query.jpg --threshold=0.85 --limit=20\n", os.Args[0])
+	fmt.Printf("  %s search --image=/path/to/query.jpg --json\n", os.Args[0])
+	fmt.Printf("  %s info --json\n", os.Args[0])
 }
 
 // ParseThreshold parses and validates the threshold value from string

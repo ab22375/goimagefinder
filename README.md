@@ -237,12 +237,17 @@ goimagefinder scan --folder=/path/to/images [options]
 | `--database=PATH` | Database file path (default: ./images.db) |
 | `--prefix=NAME` | Source prefix for organizing images |
 | `--force` | Force rewrite of existing entries |
+| `--json` | Output results in JSON format |
+| `--progress` | Stream progress updates as JSON lines (use with --json) |
 | `--debug` | Enable debug logging |
 | `--logfile=PATH` | Custom log file path |
 
 Example:
 ```bash
 goimagefinder scan --folder=/Users/photos --db=photos.db --prefix=MacBook --debug
+
+# JSON output for scripting
+goimagefinder scan --folder=/Users/photos --json --progress
 ```
 
 ### Search Similar Images
@@ -257,6 +262,8 @@ goimagefinder search --image=/path/to/query.jpg [options]
 | `--database=PATH` | Database file path |
 | `--threshold=VALUE` | Similarity threshold 0.0-1.0 (default: 0.8) |
 | `--prefix=NAME` | Filter results by source prefix (supports comma-separated list) |
+| `--limit=N` | Maximum number of results to return (default: 50) |
+| `--json` | Output results in JSON format |
 | `--debug` | Enable debug logging |
 | `--logfile=PATH` | Custom log file path |
 
@@ -267,6 +274,48 @@ goimagefinder search --image=vacation.jpg --db=photos.db --threshold=0.75 --pref
 
 # Multiple prefixes (comma-separated)
 goimagefinder search --image=vacation.jpg --db=photos.db --prefix=MacBook,iPhone,Camera
+
+# JSON output for scripting
+goimagefinder search --image=vacation.jpg --json --limit=20
+```
+
+### Database Info
+Display database statistics:
+
+```bash
+goimagefinder info [options]
+```
+
+| Option | Description |
+|--------|-------------|
+| `--database=PATH` | Database file path |
+| `--json` | Output results in JSON format |
+
+Example:
+```bash
+goimagefinder info --db=photos.db
+
+# JSON output
+goimagefinder info --json
+```
+
+### JSON Output Mode
+
+All commands support `--json` flag for programmatic integration:
+
+```bash
+# Scan with streaming progress
+goimagefinder scan --folder=/photos --json --progress
+# Output: {"type":"progress","processed":10,"total":100,...}
+# Output: {"type":"complete","success":true,"processed":100,...}
+
+# Search returns JSON result
+goimagefinder search --image=query.jpg --json
+# Output: {"success":true,"query":"query.jpg","matches":[...],"total":5}
+
+# Info returns database stats
+goimagefinder info --json
+# Output: {"success":true,"total_images":5000,"database_size_bytes":12582912}
 ```
 
 ## Web Interface
@@ -384,14 +433,12 @@ The web interface supports searching for multiple images at once:
 
 ## Project Structure
 
+The project is organized into two main components that can be developed independently:
+
+### CLI Tool (goimagefinder)
 ```
 goimagefinder/
-├── cmd/webserver/          # Web interface
-│   ├── main.go             # Server entry point
-│   ├── config.go           # Configuration management
-│   ├── batch_search_test.go # Batch search tests
-│   ├── static/             # JavaScript and CSS
-│   └── templates/          # HTML templates
+├── main.go                 # CLI entry point
 ├── database/               # SQLite operations
 ├── imageprocessor/         # Image loading and hashing
 │   ├── formats.go          # Format detection
@@ -399,16 +446,35 @@ goimagefinder/
 │   └── format_*.go         # Format-specific loaders
 ├── scanner/                # Directory scanning
 │   └── processor/          # Scanner adapter
+├── output/                 # JSON output formatting
 ├── logging/                # Debug and error logging
 ├── types/                  # Common type definitions
-├── utils/                  # Utility functions
+├── utils/                  # CLI argument parsing
+├── signalhandler/          # Signal handling
 ├── resources/              # App resources
-│   └── launcher.sh         # macOS app launcher script
-├── main.go                 # CLI entry point
-├── Makefile                # Build scripts
+└── Makefile                # Build scripts
+```
+
+### Web Interface (webinterface/)
+```
+webinterface/
+├── main.go                 # Web server entry point
+├── config.go               # Configuration management
+├── cli_executor.go         # CLI wrapper for web integration
+├── static/                 # JavaScript and CSS
+├── templates/              # HTML templates
+├── tests/                  # Web server tests
+├── resources/              # App resources (launcher.sh)
+├── go.mod                  # Separate Go module (no CGO!)
+├── Makefile                # Web-specific build scripts
 ├── Dockerfile              # Docker build configuration
 └── docker-compose.yml      # Docker Compose configuration
 ```
+
+### Legacy Location (cmd/webserver/)
+The `cmd/webserver/` directory contains the original web interface code.
+The `webinterface/` directory is the new location being prepared for independent development.
+See `SEPARATION_PLAN.md` for migration details.
 
 ## Build Commands
 

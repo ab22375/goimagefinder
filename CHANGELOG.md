@@ -9,6 +9,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **JSON output mode**: All CLI commands now support `--json` flag for programmatic integration.
+  - Scan: `goimagefinder scan --folder=/path --json`
+  - Search: `goimagefinder search --image=query.jpg --json`
+  - Info: `goimagefinder info --json`
+  - Structured JSON output for easy parsing by scripts and other tools
+
+- **Progress streaming**: The scan command supports `--progress` flag for real-time progress updates.
+  - Use with `--json` for machine-readable progress: `--json --progress`
+  - Outputs JSON lines with processed count, total, and current file
+
+- **Info command**: New `goimagefinder info` command to display database statistics.
+  - Shows total images, unique hashes, database size
+  - Supports `--json` flag for programmatic access
+  - Useful for monitoring and integration
+
+- **Result limit**: Search command now supports `--limit=N` to control the number of results returned.
+  - Default: 50 results
+  - Example: `goimagefinder search --image=query.jpg --limit=20`
+
+- **Project separation preparation**: Added `webinterface/` directory for independent web interface development.
+  - Web interface can now be built without CGO dependencies
+  - `cli_executor.go` provides CLI wrapper for web integration
+  - Separate `go.mod` and `Makefile` for web interface
+  - See `SEPARATION_PLAN.md` for full migration plan
+
+- **Output package**: New `output/` package for JSON formatting utilities.
+  - Consistent JSON structures for all CLI output
+  - Thread-safe JSON writer for streaming output
+
 - **Multiple prefix filtering**: The `--prefix` option now accepts comma-separated values to filter search results by multiple source prefixes at once.
   - Example: `--prefix=MacBook,iPhone,Camera`
   - Uses efficient SQL `IN` clause for database-level filtering
@@ -45,6 +74,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Supports both single and batch search results
 
 ### Changed
+
+- **Project structure**: Introduced `webinterface/` directory for future independent web interface development.
+  - Web interface files copied to `webinterface/` with separate `go.mod`
+  - Original `cmd/webserver/` preserved for backward compatibility
+  - Web interface will eventually use CLI via `cli_executor.go` instead of direct Go imports
+  - This enables the web interface to be built without CGO (no OpenCV, no SQLite C bindings)
+
+- **CLI help text**: Updated to show new commands and flags (`info`, `--json`, `--progress`, `--limit`).
 
 - `browseRoot` (singular) is now deprecated in favor of `browseRoots` (array). The old field still works for backward compatibility.
 - Docker Compose now uses the published image `ab22375/goimagefinder` by default instead of building locally.

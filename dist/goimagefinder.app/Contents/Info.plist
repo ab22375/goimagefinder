@@ -3,13 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleExecutable</key>
-	<string>launcher.sh</string>
+	<string>goimagefinder</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.goimagefinder.webserver</string>
+	<string>com.goimagefinder.cli</string>
 	<key>CFBundleName</key>
-	<string>GoImageFinder</string>
-	<key>CFBundleDisplayName</key>
-	<string>GoImageFinder</string>
+	<string>goimagefinder</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>CFBundleShortVersionString</key>
@@ -22,7 +20,5 @@
 	<string>1</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
-	<key>LSUIElement</key>
-	<false/>
 </dict>
 </plist>

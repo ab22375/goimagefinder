@@ -3,19 +3,19 @@ package imageprocessor
 
 import (
 	"fmt"
+	"image"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"time"
 
+	"github.com/disintegration/imaging"
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // LoadImage implementations for each format-specific loader
 
-func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *RAFImageLoader) LoadImage(path string) (image.Image, error) {
 	logging.LogInfo("Loading RAF image with specialized loader: %s", path)
 
 	// Create a unique temporary filename for the converted image
@@ -28,10 +28,10 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	logging.LogInfo("Trying to extract RAF preview with exiftool")
 	if err := extractPreviewWithExiftool(path, tempFilename); err == nil {
 		if hasFileContent(tempFilename) {
-			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-			if !img.Empty() {
+			img, err := imaging.Open(tempFilename)
+			if err == nil {
 				logging.LogInfo("Successfully extracted RAF preview")
-				return img, nil
+				return imaging.Grayscale(img), nil
 			}
 		}
 	}
@@ -40,10 +40,10 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	logging.LogInfo("Trying RAF-specific conversion")
 	if err := l.tryRAFSpecific(path, tempFilename); err == nil {
 		if hasFileContent(tempFilename) {
-			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-			if !img.Empty() {
+			img, err := imaging.Open(tempFilename)
+			if err == nil {
 				logging.LogInfo("RAF-specific conversion successful")
-				return img, nil
+				return imaging.Grayscale(img), nil
 			}
 		}
 	}
@@ -52,10 +52,10 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	logging.LogInfo("Trying RAF with dcraw auto-brightness")
 	if err := convertWithDcrawAutoBright(path, tempFilename); err == nil {
 		if hasFileContent(tempFilename) {
-			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-			if !img.Empty() {
+			img, err := imaging.Open(tempFilename)
+			if err == nil {
 				logging.LogInfo("dcraw auto-brightness successful for RAF")
-				return img, nil
+				return imaging.Grayscale(img), nil
 			}
 		}
 	}
@@ -64,10 +64,10 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	logging.LogInfo("Trying RAF with dcraw camera WB")
 	if err := convertWithDcrawCameraWB(path, tempFilename); err == nil {
 		if hasFileContent(tempFilename) {
-			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-			if !img.Empty() {
+			img, err := imaging.Open(tempFilename)
+			if err == nil {
 				logging.LogInfo("dcraw camera WB successful for RAF")
-				return img, nil
+				return imaging.Grayscale(img), nil
 			}
 		}
 	}
@@ -76,10 +76,10 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	logging.LogInfo("Trying RAF with rawtherapee")
 	if err := convertWithRawtherapee(path, tempFilename); err == nil {
 		if hasFileContent(tempFilename) {
-			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-			if !img.Empty() {
+			img, err := imaging.Open(tempFilename)
+			if err == nil {
 				logging.LogInfo("rawtherapee successful for RAF")
-				return img, nil
+				return imaging.Grayscale(img), nil
 			}
 		}
 	}
@@ -99,32 +99,31 @@ func (l *RAFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		outFile.Close()
 
 		if err == nil && hasFileContent(tempFile) {
-			img := gocv.IMRead(tempFile, gocv.IMReadGrayScale)
-			if !img.Empty() {
+			img, err := imaging.Open(tempFile)
+			if err == nil {
 				logging.LogInfo("RAF special fallback successful")
-				return img, nil
+				return imaging.Grayscale(img), nil
 			}
 		}
 	}
 
 	// Try direct load as absolute last resort
 	logging.LogInfo("All RAF conversion methods failed, attempting direct load")
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		// Last resort - try to use standard Go image packages
-		logging.LogInfo("Direct load failed, trying Go standard image packages")
-		if goImg, err := tryGoImagePackages(path); err == nil {
-			// Convert Go image to OpenCV Mat
-			return gocvMatFromGoImage(goImg)
-		}
-
-		return img, fmt.Errorf("failed to load RAF image: %s (all conversion methods failed)", path)
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
 
-	return img, nil
+	// Last resort - try to use standard Go image packages
+	logging.LogInfo("Direct load failed, trying Go standard image packages")
+	if goImg, err := tryGoImagePackages(path); err == nil {
+		return imaging.Grayscale(goImg), nil
+	}
+
+	return nil, fmt.Errorf("failed to load RAF image: %s (all conversion methods failed)", path)
 }
 
-func (l *NEFImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *NEFImageLoader) LoadImage(path string) (image.Image, error) {
 	// Create a unique temporary filename for the converted image
 	tempFilename := filepath.Join(l.TempDir, fmt.Sprintf("nef_conv_%d.jpg", time.Now().UnixNano()))
 	defer os.Remove(tempFilename) // Clean up temp file when done
@@ -143,29 +142,29 @@ func (l *NEFImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		if err == nil {
 			// Check if file exists and has content
 			if hasFileContent(tempFilename) {
-				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-				if !img.Empty() {
-					return img, nil
+				img, err := imaging.Open(tempFilename)
+				if err == nil {
+					return imaging.Grayscale(img), nil
 				}
 			}
 		}
 	}
 
 	// If all methods fail, try direct load (unlikely to work)
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		// Try with standard Go image packages as last resort
-		if goImg, err := tryGoImagePackages(path); err == nil {
-			return gocvMatFromGoImage(goImg)
-		}
-
-		return img, fmt.Errorf("failed to load NEF image: %s (all conversion methods failed)", path)
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
 
-	return img, nil
+	// Try with standard Go image packages as last resort
+	if goImg, err := tryGoImagePackages(path); err == nil {
+		return imaging.Grayscale(goImg), nil
+	}
+
+	return nil, fmt.Errorf("failed to load NEF image: %s (all conversion methods failed)", path)
 }
 
-func (l *ARWImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *ARWImageLoader) LoadImage(path string) (image.Image, error) {
 	// Create a unique temporary filename for the converted image
 	tempFilename := filepath.Join(l.TempDir, fmt.Sprintf("arw_conv_%d.jpg", time.Now().UnixNano()))
 	defer os.Remove(tempFilename) // Clean up temp file when done
@@ -184,29 +183,29 @@ func (l *ARWImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		if err == nil {
 			// Check if file exists and has content
 			if hasFileContent(tempFilename) {
-				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-				if !img.Empty() {
-					return img, nil
+				img, err := imaging.Open(tempFilename)
+				if err == nil {
+					return imaging.Grayscale(img), nil
 				}
 			}
 		}
 	}
 
 	// If all methods fail, try direct load (unlikely to work)
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		// Try with standard Go image packages as last resort
-		if goImg, err := tryGoImagePackages(path); err == nil {
-			return gocvMatFromGoImage(goImg)
-		}
-
-		return img, fmt.Errorf("failed to load ARW image: %s (all conversion methods failed)", path)
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
 
-	return img, nil
+	// Try with standard Go image packages as last resort
+	if goImg, err := tryGoImagePackages(path); err == nil {
+		return imaging.Grayscale(goImg), nil
+	}
+
+	return nil, fmt.Errorf("failed to load ARW image: %s (all conversion methods failed)", path)
 }
 
-func (l *CR2ImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *CR2ImageLoader) LoadImage(path string) (image.Image, error) {
 	// Create a unique temporary filename for the converted image
 	tempFilename := filepath.Join(l.TempDir, fmt.Sprintf("cr2_conv_%d.jpg", time.Now().UnixNano()))
 	defer os.Remove(tempFilename) // Clean up temp file when done
@@ -225,29 +224,29 @@ func (l *CR2ImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		if err == nil {
 			// Check if file exists and has content
 			if hasFileContent(tempFilename) {
-				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-				if !img.Empty() {
-					return img, nil
+				img, err := imaging.Open(tempFilename)
+				if err == nil {
+					return imaging.Grayscale(img), nil
 				}
 			}
 		}
 	}
 
 	// If all methods fail, try direct load (unlikely to work)
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		// Try with standard Go image packages as last resort
-		if goImg, err := tryGoImagePackages(path); err == nil {
-			return gocvMatFromGoImage(goImg)
-		}
-
-		return img, fmt.Errorf("failed to load CR2 image: %s (all conversion methods failed)", path)
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
 
-	return img, nil
+	// Try with standard Go image packages as last resort
+	if goImg, err := tryGoImagePackages(path); err == nil {
+		return imaging.Grayscale(goImg), nil
+	}
+
+	return nil, fmt.Errorf("failed to load CR2 image: %s (all conversion methods failed)", path)
 }
 
-func (l *CR3ImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *CR3ImageLoader) LoadImage(path string) (image.Image, error) {
 	// Create a unique temporary filename for the converted image
 	tempFilename := filepath.Join(l.TempDir, fmt.Sprintf("cr3_conv_%d.jpg", time.Now().UnixNano()))
 	defer os.Remove(tempFilename) // Clean up temp file when done
@@ -265,29 +264,29 @@ func (l *CR3ImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		if err == nil {
 			// Check if file exists and has content
 			if hasFileContent(tempFilename) {
-				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-				if !img.Empty() {
-					return img, nil
+				img, err := imaging.Open(tempFilename)
+				if err == nil {
+					return imaging.Grayscale(img), nil
 				}
 			}
 		}
 	}
 
 	// If all methods fail, try direct load (unlikely to work)
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		// Try with standard Go image packages as last resort
-		if goImg, err := tryGoImagePackages(path); err == nil {
-			return gocvMatFromGoImage(goImg)
-		}
-
-		return img, fmt.Errorf("failed to load CR3 image: %s (all conversion methods failed)", path)
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
 
-	return img, nil
+	// Try with standard Go image packages as last resort
+	if goImg, err := tryGoImagePackages(path); err == nil {
+		return imaging.Grayscale(goImg), nil
+	}
+
+	return nil, fmt.Errorf("failed to load CR3 image: %s (all conversion methods failed)", path)
 }
 
-func (l *DNGImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *DNGImageLoader) LoadImage(path string) (image.Image, error) {
 	// Create a unique temporary filename for the converted image
 	tempFilename := filepath.Join(l.TempDir, fmt.Sprintf("dng_conv_%d.jpg", time.Now().UnixNano()))
 	defer os.Remove(tempFilename) // Clean up temp file when done
@@ -305,24 +304,24 @@ func (l *DNGImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		if err == nil {
 			// Check if file exists and has content
 			if hasFileContent(tempFilename) {
-				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-				if !img.Empty() {
-					return img, nil
+				img, err := imaging.Open(tempFilename)
+				if err == nil {
+					return imaging.Grayscale(img), nil
 				}
 			}
 		}
 	}
 
 	// If all methods fail, try direct load (unlikely to work)
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		// Try with standard Go image packages as last resort
-		if goImg, err := tryGoImagePackages(path); err == nil {
-			return gocvMatFromGoImage(goImg)
-		}
-
-		return img, fmt.Errorf("failed to load DNG image: %s (all conversion methods failed)", path)
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
 
-	return img, nil
+	// Try with standard Go image packages as last resort
+	if goImg, err := tryGoImagePackages(path); err == nil {
+		return imaging.Grayscale(goImg), nil
+	}
+
+	return nil, fmt.Errorf("failed to load DNG image: %s (all conversion methods failed)", path)
 }

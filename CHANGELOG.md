@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Pure Go implementation**: Migrated from CGO dependencies to pure Go for single-binary distribution.
+  - Replaced `gocv.io/x/gocv` (OpenCV/CGO) with `github.com/disintegration/imaging` (pure Go)
+  - Replaced `github.com/mattn/go-sqlite3` (CGO) with `modernc.org/sqlite` (pure Go)
+  - Binary is now fully static - no Xcode or external libraries required
+  - Works on any macOS version without compatibility issues
+  - Enables true "download and run" distribution
+
 ### Added
 
 - **JSON output mode**: All CLI commands now support `--json` flag for programmatic integration.

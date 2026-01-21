@@ -3,6 +3,7 @@ package imageprocessor
 import (
 	"bytes"
 	"fmt"
+	"image"
 	_ "image/jpeg"
 	_ "image/png"
 	"os"
@@ -11,9 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/disintegration/imaging"
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // RawImageLoader handles RAW camera formats
@@ -43,7 +43,7 @@ func (l *RawImageLoader) CanLoad(path string) bool {
 	return false
 }
 
-func (l *RawImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *RawImageLoader) LoadImage(path string) (image.Image, error) {
 	logging.LogInfo("Loading RAW image: %s", path)
 
 	// Create a unique temporary filename for the converted image
@@ -53,7 +53,7 @@ func (l *RawImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	// Check if it's a CR3 file specifically
 	if strings.ToLower(filepath.Ext(path)) == ".cr3" {
 		logging.LogInfo("Detected CR3 format, using specialized loader")
-		if success, img := l.tryCR3(path, tempFilename); success {
+		if img, ok := l.tryCR3(path, tempFilename); ok {
 			return img, nil
 		}
 	}
@@ -67,49 +67,48 @@ func (l *RawImageLoader) LoadImage(path string) (gocv.Mat, error) {
 
 	// First try with dcraw
 	logging.LogInfo("Trying to load RAW with dcraw")
-	if success, img := l.tryDcraw(path, tempFilename); success {
+	if img, ok := l.tryDcraw(path, tempFilename); ok {
 		return img, nil
 	}
 
 	// If dcraw fails, try libraw fallback
 	logging.LogInfo("Trying to load RAW with libraw")
-	if success, img := l.tryLibRaw(path, tempFilename); success {
+	if img, ok := l.tryLibRaw(path, tempFilename); ok {
 		return img, nil
 	}
 
 	// Check if exiftool is available and try extracting preview
 	logging.LogInfo("Trying to extract preview with exiftool")
 	if hasExiftool() {
-		if success, img := l.tryExtractPreview(path, tempFilename); success {
+		if img, ok := l.tryExtractPreview(path, tempFilename); ok {
 			return img, nil
 		}
 	}
 
 	// Final fallback - try direct load (unlikely to work for most RAW formats)
 	logging.LogInfo("All conversion methods failed, attempting direct load as last resort")
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		// Last resort - try to use standard Go image packages which might support some RAW formats
-		logging.LogInfo("Direct load failed, trying Go standard image packages")
-		if goImg, err := tryGoImagePackages(path); err == nil {
-			// Convert Go image to OpenCV Mat
-			return gocvMatFromGoImage(goImg)
-		}
-
-		return img, fmt.Errorf("failed to load RAW image: %s (all conversion methods failed)", path)
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
 
-	return img, nil
+	// Last resort - try to use standard Go image packages which might support some RAW formats
+	logging.LogInfo("Direct load failed, trying Go standard image packages")
+	if goImg, err := tryGoImagePackages(path); err == nil {
+		return imaging.Grayscale(goImg), nil
+	}
+
+	return nil, fmt.Errorf("failed to load RAW image: %s (all conversion methods failed)", path)
 }
 
 // Try to extract preview image with exiftool
-func (l *RawImageLoader) tryExtractPreview(path string, tempFilename string) (bool, gocv.Mat) {
+func (l *RawImageLoader) tryExtractPreview(path string, tempFilename string) (image.Image, bool) {
 	cmd := exec.Command("exiftool", "-b", "-PreviewImage", path)
 
 	outFile, err := os.Create(tempFilename)
 	if err != nil {
 		logging.LogWarning("Failed to create temp file for exiftool preview: %v", err)
-		return false, gocv.NewMat()
+		return nil, false
 	}
 	defer outFile.Close()
 
@@ -120,21 +119,21 @@ func (l *RawImageLoader) tryExtractPreview(path string, tempFilename string) (bo
 		// Check if file has content
 		info, err := os.Stat(tempFilename)
 		if err == nil && info.Size() > 0 {
-			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-			if !img.Empty() {
-				return true, img
+			img, err := imaging.Open(tempFilename)
+			if err == nil {
+				return imaging.Grayscale(img), true
 			}
 		}
 	}
 
-	return false, gocv.NewMat()
+	return nil, false
 }
 
-func (l *RawImageLoader) tryDcraw(path string, tempFilename string) (bool, gocv.Mat) {
+func (l *RawImageLoader) tryDcraw(path string, tempFilename string) (image.Image, bool) {
 	// Check if dcraw is available
 	if !hasDcraw() {
 		logging.LogWarning("dcraw not found on system, skipping dcraw conversion")
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
 	// Convert RAW to TIFF using dcraw
@@ -148,7 +147,7 @@ func (l *RawImageLoader) tryDcraw(path string, tempFilename string) (bool, gocv.
 	outFile, err := os.Create(tempFilename)
 	if err != nil {
 		logging.LogWarning("Failed to create temp file for dcraw conversion: %v", err)
-		return false, gocv.NewMat()
+		return nil, false
 	}
 	defer outFile.Close()
 
@@ -163,19 +162,19 @@ func (l *RawImageLoader) tryDcraw(path string, tempFilename string) (bool, gocv.
 	err = cmd.Run()
 	if err != nil {
 		logging.LogWarning("dcraw conversion failed: %v, stderr: %s", err, stderr.String())
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
 	// Load the converted TIFF
-	img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-	if img.Empty() {
-		return false, gocv.NewMat()
+	img, err := imaging.Open(tempFilename)
+	if err != nil {
+		return nil, false
 	}
 
-	return true, img
+	return imaging.Grayscale(img), true
 }
 
-func (l *RawImageLoader) tryLibRaw(path string, tempFilename string) (bool, gocv.Mat) {
+func (l *RawImageLoader) tryLibRaw(path string, tempFilename string) (image.Image, bool) {
 	// Try with rawtherapee-cli as an alternative for RAW conversion
 	// Example: rawtherapee-cli -o /tmp/output.jpg -c /path/to/raw/file.CR2
 	cmd := exec.Command("rawtherapee-cli", "-o", tempFilename, "-c", path)
@@ -187,18 +186,18 @@ func (l *RawImageLoader) tryLibRaw(path string, tempFilename string) (bool, gocv
 	err := cmd.Run()
 	if err != nil {
 		logging.LogWarning("rawtherapee conversion failed: %v, stderr: %s", err, stderr.String())
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
-	img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-	if img.Empty() {
-		return false, gocv.NewMat()
+	img, err := imaging.Open(tempFilename)
+	if err != nil {
+		return nil, false
 	}
 
-	return true, img
+	return imaging.Grayscale(img), true
 }
 
-func (l *RawImageLoader) tryCR3(path string, tempFilename string) (bool, gocv.Mat) {
+func (l *RawImageLoader) tryCR3(path string, tempFilename string) (image.Image, bool) {
 	// CR3 files often need different handling
 
 	// Try with exiftool to extract preview image (often works for CR3)
@@ -207,7 +206,7 @@ func (l *RawImageLoader) tryCR3(path string, tempFilename string) (bool, gocv.Ma
 	outFile, err := os.Create(tempFilename)
 	if err != nil {
 		logging.LogWarning("Failed to create temp file for CR3 conversion: %v", err)
-		return false, gocv.NewMat()
+		return nil, false
 	}
 	defer outFile.Close()
 
@@ -218,9 +217,9 @@ func (l *RawImageLoader) tryCR3(path string, tempFilename string) (bool, gocv.Ma
 		// Check if file has content
 		info, err := os.Stat(tempFilename)
 		if err == nil && info.Size() > 0 {
-			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-			if !img.Empty() {
-				return true, img
+			img, err := imaging.Open(tempFilename)
+			if err == nil {
+				return imaging.Grayscale(img), true
 			}
 		}
 	}
@@ -229,11 +228,11 @@ func (l *RawImageLoader) tryCR3(path string, tempFilename string) (bool, gocv.Ma
 	cmd = exec.Command("libraw_unpack", "-O", tempFilename, path)
 	err = cmd.Run()
 	if err == nil {
-		img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-		if !img.Empty() {
-			return true, img
+		img, err := imaging.Open(tempFilename)
+		if err == nil {
+			return imaging.Grayscale(img), true
 		}
 	}
 
-	return false, gocv.NewMat()
+	return nil, false
 }

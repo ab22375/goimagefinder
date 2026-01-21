@@ -2,19 +2,18 @@ package processor
 
 import (
 	"fmt"
+	"image"
 	"runtime/debug"
 
 	"imagefinder/imageprocessor"
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // ImageProcessor is an adapter that simplifies interactions between the scanner
 // and the imageprocessor package
 type ImageProcessor struct {
-	DebugMode    bool
-	registry     *imageprocessor.ImageLoaderRegistry
+	DebugMode bool
+	registry  *imageprocessor.ImageLoaderRegistry
 }
 
 // NewImageProcessor creates a new ImageProcessor with appropriate configuration
@@ -26,8 +25,8 @@ func NewImageProcessor(debugMode bool) *ImageProcessor {
 }
 
 // ProcessImage loads and processes an image based on its type
-func (p *ImageProcessor) ProcessImage(path string, isRaw bool, isTiff bool) (gocv.Mat, error) {
-	var img gocv.Mat
+func (p *ImageProcessor) ProcessImage(path string, isRaw bool, isTiff bool) (image.Image, error) {
+	var img image.Image
 	var err error
 
 	// Use defer to recover from any panics during image loading
@@ -36,22 +35,19 @@ func (p *ImageProcessor) ProcessImage(path string, isRaw bool, isTiff bool) (goc
 			stackTrace := debug.Stack()
 			err = fmt.Errorf("panic during image loading: %v\nStack trace: %s", r, string(stackTrace))
 			logging.LogError("Panic during image loading: %v, file: %s\nStack trace: %s", r, path, string(stackTrace))
-			if !img.Empty() {
-				img.Close()
-			}
-			img = gocv.NewMat() // Return an empty Mat to prevent further issues
+			img = nil // Return nil to prevent further issues
 		}
 	}()
 
 	// Load the image using the registry
 	img, err = p.registry.LoadImage(path)
 	if err != nil {
-		return gocv.NewMat(), fmt.Errorf("failed to load image %s: %v", path, err)
+		return nil, fmt.Errorf("failed to load image %s: %v", path, err)
 	}
 
-	// Skip empty images
-	if img.Empty() {
-		return img, fmt.Errorf("image is empty after loading: %s", path)
+	// Skip nil images
+	if img == nil {
+		return nil, fmt.Errorf("image is nil after loading: %s", path)
 	}
 
 	// Log debug information if requested
@@ -69,7 +65,7 @@ func (p *ImageProcessor) ProcessImage(path string, isRaw bool, isTiff bool) (goc
 }
 
 // ComputeImageHashes computes both average and perceptual hashes for an image
-func (p *ImageProcessor) ComputeImageHashes(img gocv.Mat, path string, fileFormat string, isRaw bool, isTiff bool) (struct {
+func (p *ImageProcessor) ComputeImageHashes(img image.Image, path string, fileFormat string, isRaw bool, isTiff bool) (struct {
 	AvgHash string
 	PHash   string
 }, error) {

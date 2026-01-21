@@ -4,14 +4,14 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"image"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/disintegration/imaging"
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // CR3Parser implements a lightweight parser for CR3 files in pure Go
@@ -34,7 +34,7 @@ func (p *CR3Parser) CanLoad(path string) bool {
 }
 
 // LoadImage extracts and loads the preview image from a CR3 file
-func (p *CR3Parser) LoadImage(path string) (gocv.Mat, error) {
+func (p *CR3Parser) LoadImage(path string) (image.Image, error) {
 	logging.LogInfo("Loading CR3 image with native parser: %s", path)
 
 	// Create a unique temporary filename for the extracted preview
@@ -44,16 +44,16 @@ func (p *CR3Parser) LoadImage(path string) (gocv.Mat, error) {
 
 	// Extract preview JPEG
 	if err := p.extractPreviewJPEG(path, tempFilename); err != nil {
-		return gocv.NewMat(), fmt.Errorf("failed to extract preview: %v", err)
+		return nil, fmt.Errorf("failed to extract preview: %v", err)
 	}
 
 	// Load the extracted preview
-	img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-	if img.Empty() {
-		return img, fmt.Errorf("extracted preview could not be loaded")
+	img, err := imaging.Open(tempFilename)
+	if err != nil {
+		return nil, fmt.Errorf("extracted preview could not be loaded: %v", err)
 	}
 
-	return img, nil
+	return imaging.Grayscale(img), nil
 }
 
 // extractPreviewJPEG extracts the embedded JPEG preview from a CR3 file

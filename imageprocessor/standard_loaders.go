@@ -3,11 +3,12 @@ package imageprocessor
 import (
 	"bytes"
 	"fmt"
+	"image"
 	"os"
 	"os/exec"
 	"path/filepath"
 
-	"gocv.io/x/gocv"
+	"github.com/disintegration/imaging"
 	"imagefinder/logging"
 )
 
@@ -32,7 +33,7 @@ func NewStandardImageLoader() *StandardImageLoader {
 }
 
 // LoadImage loads a standard image format
-func (l *StandardImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *StandardImageLoader) LoadImage(path string) (image.Image, error) {
 	return l.DefaultLoadImage(path)
 }
 
@@ -51,16 +52,15 @@ func NewTiffImageLoader() *TiffImageLoader {
 }
 
 // LoadImage implements specialized loading for TIFF images
-func (l *TiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
-	// Standard OpenCV loading works for most TIFF files
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if !img.Empty() {
-		return img, nil
+func (l *TiffImageLoader) LoadImage(path string) (image.Image, error) {
+	// Standard imaging library loading works for most TIFF files
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
-	
-	// If standard loading failed, could implement specialized TIFF processing here
-	// For now, just return the empty mat with an error
-	return img, newImageLoadError("failed to load TIFF image", path)
+
+	// If standard loading failed, return the error
+	return nil, newImageLoadError("failed to load TIFF image", path)
 }
 
 // SimpleRawImageLoader is a simplified loader for RAW formats
@@ -86,10 +86,10 @@ func NewSimpleRawImageLoader() *SimpleRawImageLoader {
 }
 
 // LoadImage provides a simple implementation for RAW image loading
-func (l *SimpleRawImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *SimpleRawImageLoader) LoadImage(path string) (image.Image, error) {
 	// Use a temporary file for the converted image
 	tempPath := filepath.Join(os.TempDir(), filepath.Base(path)+".jpg")
-	
+
 	// Try multiple approaches for RAW conversion, starting with extraction of embedded preview
 	methods := []func(string, string) error{
 		tryExiftoolPreviewExtraction,   // Try extracting preview with exiftool first
@@ -97,7 +97,7 @@ func (l *SimpleRawImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		tryDcrawConversionWithOptions,  // Try dcraw with different options
 		tryLibRawConversion,            // Try libraw-based conversion if available
 	}
-	
+
 	// Try each method in order until one succeeds
 	for _, method := range methods {
 		err := method(path, tempPath)
@@ -105,28 +105,28 @@ func (l *SimpleRawImageLoader) LoadImage(path string) (gocv.Mat, error) {
 			// Check if the file exists and has content
 			if hasFileContent(tempPath) {
 				// Try to load the converted image
-				img := gocv.IMRead(tempPath, gocv.IMReadGrayScale)
-				if !img.Empty() {
+				img, err := imaging.Open(tempPath)
+				if err == nil {
 					// Clean up the temp file when done
-					defer os.Remove(tempPath)
-					return img, nil
+					os.Remove(tempPath)
+					return imaging.Grayscale(img), nil
 				}
 			}
-			// If we get here, the conversion produced a file but OpenCV couldn't read it
+			// If we get here, the conversion produced a file but couldn't read it
 			// Continue to the next method
-			logging.LogWarning("Method produced output file for %s but OpenCV couldn't read it, trying next method", path)
+			logging.LogWarning("Method produced output file for %s but couldn't read it, trying next method", path)
 		}
 	}
-	
+
 	// If all methods failed, try direct loading as a last resort
 	logging.LogWarning("All RAW conversion methods failed for %s, attempting direct load", path)
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if !img.Empty() {
-		return img, nil
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
-	
+
 	// If we get here, all methods failed
-	return gocv.NewMat(), newImageLoadError("failed to load RAW image after trying all methods", path)
+	return nil, newImageLoadError("failed to load RAW image after trying all methods", path)
 }
 
 // tryExiftoolPreviewExtraction tries to extract embedded preview image with exiftool
@@ -136,7 +136,7 @@ func tryExiftoolPreviewExtraction(path, outputPath string) error {
 	if err != nil {
 		return fmt.Errorf("exiftool not available: %v", err)
 	}
-	
+
 	// First try to extract the largest preview image
 	cmd := exec.Command("exiftool", "-b", "-LargestImagePreview", path)
 	outFile, err := os.Create(outputPath)
@@ -144,11 +144,11 @@ func tryExiftoolPreviewExtraction(path, outputPath string) error {
 		return fmt.Errorf("failed to create output file: %v", err)
 	}
 	defer outFile.Close()
-	
+
 	cmd.Stdout = outFile
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
-	
+
 	err = cmd.Run()
 	if err != nil || !hasFileContent(outputPath) {
 		// If the largest preview extraction failed, try the standard preview
@@ -159,10 +159,10 @@ func tryExiftoolPreviewExtraction(path, outputPath string) error {
 			return fmt.Errorf("failed to create output file: %v", err)
 		}
 		defer outFile.Close()
-		
+
 		cmd.Stdout = outFile
 		cmd.Stderr = &stderr
-		
+
 		err = cmd.Run()
 		if err != nil || !hasFileContent(outputPath) {
 			// If standard preview failed, try thumbnail
@@ -173,17 +173,17 @@ func tryExiftoolPreviewExtraction(path, outputPath string) error {
 				return fmt.Errorf("failed to create output file: %v", err)
 			}
 			defer outFile.Close()
-			
+
 			cmd.Stdout = outFile
 			cmd.Stderr = &stderr
-			
+
 			err = cmd.Run()
 			if err != nil || !hasFileContent(outputPath) {
 				return fmt.Errorf("all exiftool preview extraction methods failed: %v", err)
 			}
 		}
 	}
-	
+
 	return nil
 }
 
@@ -194,10 +194,10 @@ func tryDcrawConversionStandard(path, outputPath string) error {
 	if err != nil {
 		return fmt.Errorf("dcraw not available: %v", err)
 	}
-	
+
 	// Use dcraw to convert the RAW file directly to a temp file
 	cmd := exec.Command("dcraw", "-c", "-b", "8", path)
-	
+
 	// Create the temporary file
 	tempFile, err := os.Create(outputPath)
 	if err != nil {
@@ -205,18 +205,18 @@ func tryDcrawConversionStandard(path, outputPath string) error {
 		return fmt.Errorf("failed to create temp file: %v", err)
 	}
 	defer tempFile.Close()
-	
+
 	// Redirect dcraw output to the temp file
 	cmd.Stdout = tempFile
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
-	
+
 	err = cmd.Run()
 	if err != nil {
 		logging.LogWarning("Standard dcraw conversion failed for %s: %v\nStderr: %s", path, err, stderr.String())
 		return err
 	}
-	
+
 	return nil
 }
 
@@ -227,7 +227,7 @@ func tryDcrawConversionWithOptions(path, outputPath string) error {
 	if err != nil {
 		return fmt.Errorf("dcraw not available: %v", err)
 	}
-	
+
 	// Different sets of options to try
 	optionSets := [][]string{
 		{"-c", "-a", "-q", "0", path},               // Auto-brightness, low quality (faster)
@@ -237,33 +237,33 @@ func tryDcrawConversionWithOptions(path, outputPath string) error {
 		{"-c", "-o", "0", path},                     // Linear (no colorspace conversion)
 		{"-e", path},                                // Extract embedded thumbnail
 	}
-	
+
 	// Try each set of options
 	for _, options := range optionSets {
 		cmd := exec.Command("dcraw", options...)
-		
+
 		// Create the output file
 		tempFile, err := os.Create(outputPath)
 		if err != nil {
 			logging.LogWarning("Failed to create output file: %v", err)
 			continue
 		}
-		
+
 		cmd.Stdout = tempFile
 		var stderr bytes.Buffer
 		cmd.Stderr = &stderr
-		
+
 		err = cmd.Run()
 		tempFile.Close()
-		
+
 		if err == nil && hasFileContent(outputPath) {
 			logging.LogInfo("Successfully converted RAW with options: %v", options)
 			return nil
 		}
-		
+
 		logging.LogWarning("dcraw with options %v failed: %v", options, err)
 	}
-	
+
 	return fmt.Errorf("all dcraw option sets failed")
 }
 
@@ -275,7 +275,7 @@ func tryLibRawConversion(path, outputPath string) error {
 		"rawtherapee-cli": {"-o", outputPath, "-c", path},
 		"ufraw-batch": {"--out-type=jpg", "--output=" + outputPath, path},
 	}
-	
+
 	for tool, args := range tools {
 		_, err := exec.LookPath(tool)
 		if err == nil {
@@ -288,7 +288,7 @@ func tryLibRawConversion(path, outputPath string) error {
 			logging.LogWarning("%s conversion failed: %v", tool, err)
 		}
 	}
-	
+
 	return fmt.Errorf("no alternative RAW conversion tools available or all failed")
 }
 

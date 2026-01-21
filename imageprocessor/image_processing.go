@@ -11,10 +11,9 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/disintegration/imaging"
 	"imagefinder/database"
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // SearchOptions defines the options for searching
@@ -33,7 +32,7 @@ type ImageMatch struct {
 }
 
 // LoadImage loads an image using the appropriate loader based on file type
-func LoadImage(path string) (gocv.Mat, error) {
+func LoadImage(path string) (image.Image, error) {
 	// Get a loader registry
 	registry := NewImageLoaderRegistry()
 
@@ -48,13 +47,13 @@ func LoadImage(path string) (gocv.Mat, error) {
 		return loader.LoadImage(path)
 	}
 
-	// Fallback to standard loading method
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		return img, newImageLoadError("failed to load image", path)
+	// Fallback to standard loading method using imaging library
+	img, err := imaging.Open(path)
+	if err != nil {
+		return nil, newImageLoadError("failed to load image", path)
 	}
 
-	return img, nil
+	return imaging.Grayscale(img), nil
 }
 
 // FindSimilarImages finds similar images in the database based on perceptual and average hash comparisons
@@ -71,7 +70,7 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]ImageMatch, error) 
 	queryIsTiff := isTifFormat(options.QueryPath)
 
 	// Load query image with appropriate loader based on format
-	var queryImg gocv.Mat
+	var queryImg image.Image
 	var err error
 
 	if queryIsRaw {
@@ -92,11 +91,9 @@ func FindSimilarImages(db *sql.DB, options SearchOptions) ([]ImageMatch, error) 
 	if err != nil {
 		return nil, fmt.Errorf("failed to load query image: %v", err)
 	}
-	defer queryImg.Close()
 
 	// Apply consistent preprocessing for hashing
 	processedImg := preprocessImageForHashing(queryImg)
-	defer processedImg.Close()
 
 	// Compute hashes for query image
 	avgHash, err := ComputeAverageHash(processedImg)
@@ -357,29 +354,17 @@ func isTifFormat(path string) bool {
 }
 
 // preprocessImageForHashing applies consistent preprocessing to ensure hash stability
-func preprocessImageForHashing(img gocv.Mat) gocv.Mat {
-	// Create a copy of the image to avoid modifying the original
-	processed := gocv.NewMat()
-	img.CopyTo(&processed)
-
+func preprocessImageForHashing(img image.Image) image.Image {
 	// Ensure grayscale
-	if img.Channels() != 1 {
-		gray := gocv.NewMat()
-		gocv.CvtColor(processed, &gray, gocv.ColorBGRToGray)
-		processed.Close()
-		processed = gray
-	}
+	gray := imaging.Grayscale(img)
 
 	// Normalize contrast to improve hash stability
-	normalized := gocv.NewMat()
-	gocv.Normalize(processed, &normalized, 0, 255, gocv.NormMinMax)
-	processed.Close()
-	processed = normalized
+	grayImg := toGrayscale(gray)
+	normalized := normalizeGrayImage(grayImg)
 
 	// Apply slight Gaussian blur to reduce noise
-	blurred := gocv.NewMat()
-	gocv.GaussianBlur(processed, &blurred, image.Pt(3, 3), 0, 0, gocv.BorderDefault)
-	processed.Close()
+	// imaging.Blur takes a sigma value, roughly equivalent to a 3x3 kernel
+	blurred := imaging.Blur(normalized, 1.0)
 
 	return blurred
 }

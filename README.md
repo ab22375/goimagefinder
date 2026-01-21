@@ -13,15 +13,16 @@ A Go-based image similarity detection tool that indexes images using perceptual 
 
 ## Requirements
 
-### Go Dependencies
-```bash
-go get github.com/mattn/go-sqlite3
-go get gocv.io/x/gocv
-go get github.com/barasher/go-exiftool
-go get golang.org/x/image
-```
+### Pure Go - No CGO Required
 
-### External Tools
+GoImageFinder is built entirely in pure Go with no CGO dependencies:
+- **Single static binary** - just download and run
+- **No compiler needed** - works on any macOS without Xcode
+- **Cross-platform compatible** - same binary works across OS versions
+
+Go dependencies are automatically managed via `go mod`.
+
+### External Tools (for RAW support)
 - **exiftool** - Metadata and preview extraction
 - **dcraw** - RAW image conversion
 - **libraw** - RAW image processing
@@ -455,47 +456,16 @@ goimagefinder/
 └── Makefile                # Build scripts
 ```
 
-### Web Interface (webinterface/)
-```
-webinterface/
-├── main.go                 # Web server entry point
-├── config.go               # Configuration management
-├── cli_executor.go         # CLI wrapper for web integration
-├── static/                 # JavaScript and CSS
-├── templates/              # HTML templates
-├── tests/                  # Web server tests
-├── resources/              # App resources (launcher.sh)
-├── go.mod                  # Separate Go module (no CGO!)
-├── Makefile                # Web-specific build scripts
-├── Dockerfile              # Docker build configuration
-└── docker-compose.yml      # Docker Compose configuration
-```
-
-### Legacy Location (cmd/webserver/)
-The `cmd/webserver/` directory contains the original web interface code.
-The `webinterface/` directory is the new location being prepared for independent development.
-See `SEPARATION_PLAN.md` for migration details.
-
 ## Build Commands
 
 ```bash
 # Building
 make build                  # Build for current platform
 make build-macos-arm64      # Build for Apple Silicon
-make build-webserver        # Build web server only
-make webserver              # Build and run web interface
 
 # macOS Distribution
-make create-webserver-dmg   # Create GoImageFinder.dmg (web UI, recommended)
-make create-dmg             # Create goimagefinder.dmg (CLI only)
-make package-webserver-macos # Create .app bundle for web interface
-make package-macos          # Create .app bundle for CLI
-
-# Docker
-make docker-build           # Build Docker image
-make docker-run             # Run Docker container
-make docker-compose-up      # Start with docker-compose
-make docker-compose-down    # Stop docker-compose services
+make create-dmg             # Create goimagefinder.dmg
+make package-macos          # Create .app bundle
 
 # Other
 make clean                  # Remove build artifacts

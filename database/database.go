@@ -9,12 +9,12 @@ import (
 	"imagefinder/logging"
 	"imagefinder/types"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 // InitDatabase initializes and returns a database connection
 func InitDatabase(dbPath string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", dbPath)
+	db, err := sql.Open("sqlite", dbPath)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func InitDatabase(dbPath string) (*sql.DB, error) {
 
 // OpenDatabase opens an existing database connection
 func OpenDatabase(dbPath string) (*sql.DB, error) {
-	return sql.Open("sqlite3", dbPath)
+	return sql.Open("sqlite", dbPath)
 }
 
 // CheckImageExists checks if an image already exists in the database

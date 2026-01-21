@@ -7,8 +7,6 @@ import (
 	"os/exec"
 
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // Utility functions used across the various image loaders
@@ -37,33 +35,6 @@ func tryGoImagePackages(path string) (image.Image, error) {
 	return img, err
 }
 
-// Convert a Go standard library image to OpenCV Mat
-func gocvMatFromGoImage(img image.Image) (gocv.Mat, error) {
-	// This is a simplified version - you might need a more sophisticated conversion
-	// depending on your requirements
-	bounds := img.Bounds()
-	width, height := bounds.Dx(), bounds.Dy()
-
-	mat := gocv.NewMatWithSize(height, width, gocv.MatTypeCV8UC3)
-
-	for y := 0; y < height; y++ {
-		for x := 0; x < width; x++ {
-			r, g, b, _ := img.At(x+bounds.Min.X, y+bounds.Min.Y).RGBA()
-			// Convert from 0-65535 to 0-255
-			mat.SetUCharAt3(y, x, 0, uint8(b>>8))
-			mat.SetUCharAt3(y, x, 1, uint8(g>>8))
-			mat.SetUCharAt3(y, x, 2, uint8(r>>8))
-		}
-	}
-
-	// Convert to grayscale to match expected output
-	grayMat := gocv.NewMat()
-	gocv.CvtColor(mat, &grayMat, gocv.ColorBGRToGray)
-	mat.Close()
-
-	return grayMat, nil
-}
-
 // fileExistsLegacy is kept for compatibility with existing code
 // Use the function from loaders.go for new code
 func fileExistsLegacy(path string) bool {
@@ -71,7 +42,7 @@ func fileExistsLegacy(path string) bool {
 }
 
 // hasFileContentLegacy is kept for compatibility with existing code
-// Use hasFileContent from tiff_loader.go for new code
+// Use hasFileContent from loaders.go for new code
 func hasFileContentLegacy(path string) bool {
 	return hasFileContent(path)
 }

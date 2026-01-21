@@ -705,11 +705,11 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 		result.Error = fmt.Errorf("failed to load image %s: %v", path, err)
 		return result
 	}
-	defer img.Close()
+	// No defer img.Close() needed - GC handles cleanup for image.Image
 
-	// Skip empty images
-	if img.Empty() {
-		result.Error = fmt.Errorf("image is empty after loading: %s", path)
+	// Skip nil images
+	if img == nil {
+		result.Error = fmt.Errorf("image is nil after loading: %s", path)
 		return result
 	}
 
@@ -720,13 +720,16 @@ func processAndStoreImage(db *sql.DB, path string, sourcePrefix string, options 
 		return result
 	}
 
+	// Get image dimensions from bounds
+	bounds := img.Bounds()
+
 	// Create and store image info
 	imageInfo := types.ImageInfo{
 		Path:           path,
 		SourcePrefix:   sourcePrefix,
 		Format:         fileFormat,
-		Width:          img.Cols(),
-		Height:         img.Rows(),
+		Width:          bounds.Dx(),
+		Height:         bounds.Dy(),
 		ModifiedAt:     fileInfo.ModTime().Format(time.RFC3339),
 		Size:           fileInfo.Size(),
 		AverageHash:    imageHashes.AvgHash,

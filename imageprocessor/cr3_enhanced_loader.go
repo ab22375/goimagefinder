@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"image"
 	"io"
 	"os"
 	"os/exec"
@@ -11,9 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/disintegration/imaging"
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // EnhancedCR3ImageLoader handles Canon CR3 format with improved methods
@@ -72,7 +72,7 @@ func (l *EnhancedCR3ImageLoader) CanLoad(path string) bool {
 }
 
 // LoadImage loads a CR3 image with enhanced methods
-func (l *EnhancedCR3ImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *EnhancedCR3ImageLoader) LoadImage(path string) (image.Image, error) {
 	logging.LogInfo("Loading CR3 image with enhanced loader: %s", path)
 
 	// Create a unique temporary filename for the converted image
@@ -80,7 +80,7 @@ func (l *EnhancedCR3ImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	defer os.Remove(tempFilename) // Clean up temp file when done
 
 	// Try using go-exiftool first (if available)
-	if success, img := l.tryGoExiftool(path, tempFilename); success {
+	if img, ok := l.tryGoExiftool(path, tempFilename); ok {
 		logging.LogInfo("Successfully loaded CR3 using go-exiftool")
 		return img, nil
 	}
@@ -98,10 +98,10 @@ func (l *EnhancedCR3ImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		logging.LogInfo("Trying to extract CR3 %s", tag)
 		if err := l.extractWithExiftool(path, tempFilename, tag); err == nil {
 			if hasFileContent(tempFilename) {
-				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-				if !img.Empty() {
+				img, err := imaging.Open(tempFilename)
+				if err == nil {
 					logging.LogInfo("Successfully extracted CR3 %s", tag)
-					return img, nil
+					return imaging.Grayscale(img), nil
 				}
 			}
 		}
@@ -109,14 +109,14 @@ func (l *EnhancedCR3ImageLoader) LoadImage(path string) (gocv.Mat, error) {
 
 	// Try CR3 native parser (pure Go implementation)
 	logging.LogInfo("Trying CR3 native parser")
-	if success, img := l.tryCR3NativeParser(path, tempFilename); success {
+	if img, ok := l.tryCR3NativeParser(path, tempFilename); ok {
 		logging.LogInfo("Successfully loaded CR3 using native parser")
 		return img, nil
 	}
 
 	// Try with libheif (CR3 can contain HEIF/HEIC images)
 	logging.LogInfo("Trying CR3 with libheif")
-	if success, img := l.tryLibheif(path, tempFilename); success {
+	if img, ok := l.tryLibheif(path, tempFilename); ok {
 		logging.LogInfo("Successfully loaded CR3 using libheif")
 		return img, nil
 	}
@@ -125,28 +125,28 @@ func (l *EnhancedCR3ImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	logging.LogInfo("Trying CR3 with rawtherapee")
 	if err := convertWithRawtherapee(path, tempFilename); err == nil {
 		if hasFileContent(tempFilename) {
-			img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-			if !img.Empty() {
+			img, err := imaging.Open(tempFilename)
+			if err == nil {
 				logging.LogInfo("Successfully loaded CR3 using rawtherapee")
-				return img, nil
+				return imaging.Grayscale(img), nil
 			}
 		}
 	}
 
 	// If all else fails, try direct load (unlikely to work)
 	logging.LogInfo("All CR3 methods failed, attempting direct load as last resort")
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if img.Empty() {
-		// Try with standard Go image packages as last resort
-		if goImg, err := tryGoImagePackages(path); err == nil {
-			logging.LogInfo("Successfully loaded CR3 using Go image packages")
-			return gocvMatFromGoImage(goImg)
-		}
-
-		return img, fmt.Errorf("failed to load CR3 image: %s (all methods failed)", path)
+	img, err := imaging.Open(path)
+	if err == nil {
+		return imaging.Grayscale(img), nil
 	}
 
-	return img, nil
+	// Try with standard Go image packages as last resort
+	if goImg, err := tryGoImagePackages(path); err == nil {
+		logging.LogInfo("Successfully loaded CR3 using Go image packages")
+		return imaging.Grayscale(goImg), nil
+	}
+
+	return nil, fmt.Errorf("failed to load CR3 image: %s (all methods failed)", path)
 }
 
 // Extract specific preview with exiftool
@@ -183,19 +183,19 @@ func (l *EnhancedCR3ImageLoader) extractWithExiftool(path string, outputPath str
 }
 
 // tryCR3NativeParser implements a basic pure Go CR3 parser to extract embedded JPEG
-func (l *EnhancedCR3ImageLoader) tryCR3NativeParser(path string, outputPath string) (bool, gocv.Mat) {
+func (l *EnhancedCR3ImageLoader) tryCR3NativeParser(path string, outputPath string) (image.Image, bool) {
 	// Open the CR3 file
 	file, err := os.Open(path)
 	if err != nil {
 		logging.LogWarning("Failed to open CR3 file: %v", err)
-		return false, gocv.NewMat()
+		return nil, false
 	}
 	defer file.Close()
 
 	// Check file signature to verify it's a CR3 file
 	signature := make([]byte, 8)
 	if _, err := io.ReadFull(file, signature); err != nil {
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
 	// Reset file pointer
@@ -205,7 +205,7 @@ func (l *EnhancedCR3ImageLoader) tryCR3NativeParser(path string, outputPath stri
 	box, err := readBox(file)
 	if err != nil || box.Type != "ftyp" {
 		logging.LogWarning("Not a valid CR3 file (missing ftyp box)")
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
 	// Skip to the next box after ftyp
@@ -226,7 +226,7 @@ func (l *EnhancedCR3ImageLoader) tryCR3NativeParser(path string, outputPath stri
 				break
 			}
 			logging.LogWarning("Error reading CR3 file: %v", err)
-			return false, gocv.NewMat()
+			return nil, false
 		}
 
 		// Search for JPEG signature in the buffer
@@ -246,7 +246,7 @@ func (l *EnhancedCR3ImageLoader) tryCR3NativeParser(path string, outputPath stri
 
 	if jpegStartPos == -1 {
 		logging.LogWarning("No JPEG preview found in CR3 file")
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
 	// Seek to JPEG start position
@@ -256,7 +256,7 @@ func (l *EnhancedCR3ImageLoader) tryCR3NativeParser(path string, outputPath stri
 	outFile, err := os.Create(outputPath)
 	if err != nil {
 		logging.LogWarning("Failed to create output file: %v", err)
-		return false, gocv.NewMat()
+		return nil, false
 	}
 	defer outFile.Close()
 
@@ -266,7 +266,7 @@ func (l *EnhancedCR3ImageLoader) tryCR3NativeParser(path string, outputPath stri
 	// Continue copying the rest of the JPEG data
 	if _, err := io.Copy(outFile, file); err != nil {
 		logging.LogWarning("Failed to copy JPEG data: %v", err)
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
 	// Check if we have a valid JPEG now
@@ -276,30 +276,30 @@ func (l *EnhancedCR3ImageLoader) tryCR3NativeParser(path string, outputPath stri
 	}
 
 	// Load the extracted image
-	img := gocv.IMRead(outputPath, gocv.IMReadGrayScale)
-	if !img.Empty() {
-		return true, img
+	img, err := imaging.Open(outputPath)
+	if err == nil {
+		return imaging.Grayscale(img), true
 	}
 
-	return false, gocv.NewMat()
+	return nil, false
 }
 
 // tryGoExiftool attempts to use the go-exiftool library if available
-func (l *EnhancedCR3ImageLoader) tryGoExiftool(path string, outputPath string) (bool, gocv.Mat) {
+func (l *EnhancedCR3ImageLoader) tryGoExiftool(path string, outputPath string) (image.Image, bool) {
 	// This is a placeholder for go-exiftool integration
 	// You would need to import "github.com/barasher/go-exiftool" and implement the actual calls
 
 	// Example implementation would use the imported library
 	// For now just return false to skip this method
-	return false, gocv.NewMat()
+	return nil, false
 }
 
 // tryLibheif attempts to use libheif to extract HEIF/HEIC images from CR3
-func (l *EnhancedCR3ImageLoader) tryLibheif(path string, outputPath string) (bool, gocv.Mat) {
+func (l *EnhancedCR3ImageLoader) tryLibheif(path string, outputPath string) (image.Image, bool) {
 	// Check if heif-convert tool is available
 	_, err := exec.LookPath("heif-convert")
 	if err != nil {
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
 	// Try to convert using heif-convert
@@ -311,16 +311,16 @@ func (l *EnhancedCR3ImageLoader) tryLibheif(path string, outputPath string) (boo
 	err = cmd.Run()
 	if err != nil {
 		logging.LogWarning("heif-convert failed: %v, stderr: %s", err, stderr.String())
-		return false, gocv.NewMat()
+		return nil, false
 	}
 
 	// Check if we got a valid image
-	img := gocv.IMRead(outputPath, gocv.IMReadGrayScale)
-	if !img.Empty() {
-		return true, img
+	img, err := imaging.Open(outputPath)
+	if err == nil {
+		return imaging.Grayscale(img), true
 	}
 
-	return false, gocv.NewMat()
+	return nil, false
 }
 
 // isValidJpeg checks if a file contains a valid JPEG image

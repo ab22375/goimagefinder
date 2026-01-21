@@ -296,7 +296,7 @@ func TestQueryPotentialMatches(t *testing.T) {
 	}
 
 	// Query all matches
-	rows, err := database.QueryPotentialMatches(db, "")
+	rows, err := database.QueryPotentialMatches(db, nil)
 	if err != nil {
 		t.Fatalf("Failed to query all matches: %v", err)
 	}
@@ -311,7 +311,7 @@ func TestQueryPotentialMatches(t *testing.T) {
 	}
 
 	// Query with source prefix filter
-	rows, err = database.QueryPotentialMatches(db, "camera1")
+	rows, err = database.QueryPotentialMatches(db, []string{"camera1"})
 	if err != nil {
 		t.Fatalf("Failed to query filtered matches: %v", err)
 	}
@@ -342,7 +342,7 @@ func TestGetScanStats(t *testing.T) {
 	defer db.Close()
 
 	// Get stats for empty database
-	stats, err := database.GetScanStats(db, "")
+	stats, err := database.GetScanStats(db, nil)
 	if err != nil {
 		t.Fatalf("Failed to get scan stats: %v", err)
 	}
@@ -367,7 +367,7 @@ func TestGetScanStats(t *testing.T) {
 	}
 
 	// Get stats
-	stats, err = database.GetScanStats(db, "test")
+	stats, err = database.GetScanStats(db, []string{"test"})
 	if err != nil {
 		t.Fatalf("Failed to get scan stats: %v", err)
 	}

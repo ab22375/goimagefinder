@@ -2,14 +2,14 @@ package imageprocessor
 
 import (
 	"fmt"
+	"image"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"time"
 
+	"github.com/disintegration/imaging"
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // EnhancedTiffImageLoader is a more advanced TIFF loader with specialized conversion methods
@@ -30,15 +30,15 @@ func NewEnhancedTiffImageLoader() *EnhancedTiffImageLoader {
 }
 
 // LoadImage loads a TIFF image with advanced methods
-func (l *EnhancedTiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
+func (l *EnhancedTiffImageLoader) LoadImage(path string) (image.Image, error) {
 	logging.LogInfo("Loading TIFF image with specialized loader: %s", path)
 
-	// First try direct loading with OpenCV
+	// First try direct loading with imaging library
 	// This works for many standard TIFF files
-	img := gocv.IMRead(path, gocv.IMReadGrayScale)
-	if !img.Empty() {
+	img, err := imaging.Open(path)
+	if err == nil {
 		logging.LogInfo("Successfully loaded TIFF using direct load: %s", path)
-		return img, nil
+		return imaging.Grayscale(img), nil
 	}
 
 	// If direct loading fails, try conversion methods
@@ -57,9 +57,9 @@ func (l *EnhancedTiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
 		if err == nil {
 			// Check if file exists and has content
 			if hasFileContent(tempFilename) {
-				img := gocv.IMRead(tempFilename, gocv.IMReadGrayScale)
-				if !img.Empty() {
-					return img, nil
+				img, err := imaging.Open(tempFilename)
+				if err == nil {
+					return imaging.Grayscale(img), nil
 				}
 			}
 		}
@@ -68,14 +68,11 @@ func (l *EnhancedTiffImageLoader) LoadImage(path string) (gocv.Mat, error) {
 	// If all conversion methods fail, try with standard Go image packages
 	logging.LogInfo("All TIFF conversion methods failed, trying Go standard image packages")
 	if goImg, err := tryGoImagePackages(path); err == nil {
-		// Convert Go image to OpenCV Mat
-		return gocvMatFromGoImage(goImg)
+		return imaging.Grayscale(goImg), nil
 	}
 
-	return gocv.NewMat(), fmt.Errorf("failed to load TIFF image (all methods failed): %s", path)
+	return nil, fmt.Errorf("failed to load TIFF image (all methods failed): %s", path)
 }
-
-// Check if file has content using the utility function
 
 // convertTiffWithImageMagick converts a TIFF file to JPEG using ImageMagick
 func (l *EnhancedTiffImageLoader) convertTiffWithImageMagick(path, outputPath string) error {

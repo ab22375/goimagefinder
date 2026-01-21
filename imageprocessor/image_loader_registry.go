@@ -2,13 +2,12 @@ package imageprocessor
 
 import (
 	"fmt"
+	"image"
 	"path/filepath"
 	"strings"
 	"sync"
 
 	"imagefinder/logging"
-
-	"gocv.io/x/gocv"
 )
 
 // ImageLoaderRegistry maintains a registry of image loaders
@@ -59,7 +58,7 @@ func (r *ImageLoaderRegistry) registerSpecializedLoaders() {
 
 	// Register RAW format loaders using the SimpleRawImageLoader for compatibility
 	simpleRawLoader := NewSimpleRawImageLoader()
-	
+
 	// Register for all RAW formats
 	r.RegisterLoader(".raf", simpleRawLoader)
 	r.RegisterLoader(".nef", simpleRawLoader)
@@ -69,7 +68,7 @@ func (r *ImageLoaderRegistry) registerSpecializedLoaders() {
 	r.RegisterLoader(".raw", simpleRawLoader)
 	r.RegisterLoader(".nrw", simpleRawLoader)
 	r.RegisterLoader(".srf", simpleRawLoader)
-	
+
 	// Register specialized CR3 loader if available
 	if checkExiftoolCommandAvailable() {
 		// If exiftool is available, use the specialized loader
@@ -115,11 +114,11 @@ func (r *ImageLoaderRegistry) CanLoadFile(path string) bool {
 }
 
 // LoadImage loads an image using the appropriate registered loader
-func (r *ImageLoaderRegistry) LoadImage(path string) (gocv.Mat, error) {
+func (r *ImageLoaderRegistry) LoadImage(path string) (image.Image, error) {
 	loader := r.GetLoader(path)
 	if loader == nil {
-		return gocv.NewMat(), fmt.Errorf("no suitable loader found for: %s", path)
+		return nil, fmt.Errorf("no suitable loader found for: %s", path)
 	}
-	
+
 	return loader.LoadImage(path)
 }

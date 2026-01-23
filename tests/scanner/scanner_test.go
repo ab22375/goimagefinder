@@ -1,6 +1,7 @@
 package scanner_test
 
 import (
+	"context"
 	"image"
 	"image/color"
 	"image/jpeg"
@@ -80,7 +81,7 @@ func TestScanAndStoreFolder(t *testing.T) {
 		DebugMode:    true,
 	}
 	
-	err = scanner.ScanAndStoreFolder(db, options)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, options)
 	if err != nil {
 		t.Fatalf("Failed to scan folder: %v", err)
 	}
@@ -118,7 +119,7 @@ func TestScanWithForceRewrite(t *testing.T) {
 		DebugMode:    false,
 	}
 	
-	err = scanner.ScanAndStoreFolder(db, options)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, options)
 	if err != nil {
 		t.Fatalf("Failed first scan: %v", err)
 	}
@@ -138,7 +139,7 @@ func TestScanWithForceRewrite(t *testing.T) {
 	}
 	
 	// Second scan without force - should not update
-	err = scanner.ScanAndStoreFolder(db, options)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, options)
 	if err != nil {
 		t.Fatalf("Failed second scan: %v", err)
 	}
@@ -152,7 +153,7 @@ func TestScanWithForceRewrite(t *testing.T) {
 	
 	// Third scan with force - should update
 	options.ForceRewrite = true
-	err = scanner.ScanAndStoreFolder(db, options)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, options)
 	if err != nil {
 		t.Fatalf("Failed third scan: %v", err)
 	}
@@ -184,7 +185,7 @@ func TestScanWithSourcePrefix(t *testing.T) {
 		DebugMode:    false,
 	}
 	
-	err = scanner.ScanAndStoreFolder(db, options1)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, options1)
 	if err != nil {
 		t.Fatalf("Failed scan with source1: %v", err)
 	}
@@ -198,7 +199,7 @@ func TestScanWithSourcePrefix(t *testing.T) {
 		DebugMode:    false,
 	}
 	
-	err = scanner.ScanAndStoreFolder(db, options2)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, options2)
 	if err != nil {
 		t.Fatalf("Failed scan with source2: %v", err)
 	}
@@ -239,7 +240,7 @@ func TestScanEmptyFolder(t *testing.T) {
 		DebugMode:    false,
 	}
 	
-	err = scanner.ScanAndStoreFolder(db, options)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, options)
 	// Should complete without error
 	if err != nil {
 		t.Fatalf("Failed to scan empty folder: %v", err)
@@ -275,7 +276,7 @@ func TestScanNonExistentFolder(t *testing.T) {
 	
 	// Note: The scanner might not return an error for non-existent folders,
 	// it might just process 0 files. Let's check the behavior.
-	err = scanner.ScanAndStoreFolder(db, options)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, options)
 	
 	// If no error, check that no images were processed
 	if err == nil {
@@ -318,7 +319,7 @@ func TestConcurrentScanning(t *testing.T) {
 			DebugMode:    false,
 		}
 		
-		err = scanner.ScanAndStoreFolder(db, options)
+		err = scanner.ScanAndStoreFolder(context.Background(), db, options)
 		if err != nil {
 			t.Fatalf("Failed scan with %d workers: %v", workers, err)
 		}

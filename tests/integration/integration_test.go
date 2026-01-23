@@ -2,6 +2,7 @@ package integration_test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"image"
 	"image/color"
@@ -112,7 +113,7 @@ func TestCompleteWorkflow(t *testing.T) {
 		DebugMode:    true,
 	}
 	
-	err = scanner.ScanAndStoreFolder(db, scanOptions)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, scanOptions)
 	if err != nil {
 		t.Fatalf("Failed to scan folder: %v", err)
 	}
@@ -203,7 +204,7 @@ func TestDuplicateDetection(t *testing.T) {
 		DebugMode:    false,
 	}
 	
-	scanner.ScanAndStoreFolder(db, scanOptions)
+	scanner.ScanAndStoreFolder(context.Background(), db, scanOptions)
 	
 	// Verify what's in the database
 	var dbCount int
@@ -295,7 +296,7 @@ func TestCrossFormatSimilarity(t *testing.T) {
 		DebugMode:    false,
 	}
 	
-	scanner.ScanAndStoreFolder(db, scanOptions)
+	scanner.ScanAndStoreFolder(context.Background(), db, scanOptions)
 	
 	// Search using the JPG
 	searchOptions := imageprocessor.SearchOptions{
@@ -346,7 +347,7 @@ func TestIncrementalScanning(t *testing.T) {
 		DebugMode:    false,
 	}
 	
-	scanner.ScanAndStoreFolder(db, scanOptions)
+	scanner.ScanAndStoreFolder(context.Background(), db, scanOptions)
 	
 	// Check initial count
 	var count1 int
@@ -357,7 +358,7 @@ func TestIncrementalScanning(t *testing.T) {
 	createPatternImage(t, filepath.Join(imageDir, "image4.jpg"), "random")
 	
 	// Second scan - should only process new images
-	scanner.ScanAndStoreFolder(db, scanOptions)
+	scanner.ScanAndStoreFolder(context.Background(), db, scanOptions)
 	
 	// Check new count
 	var count2 int
@@ -373,7 +374,7 @@ func TestIncrementalScanning(t *testing.T) {
 		filepath.Join(imageDir, "image1.jpg")).Scan(&hash1)
 	
 	// Third scan with same images - hashes should remain the same
-	scanner.ScanAndStoreFolder(db, scanOptions)
+	scanner.ScanAndStoreFolder(context.Background(), db, scanOptions)
 	
 	db.QueryRow("SELECT average_hash FROM images WHERE path = ?", 
 		filepath.Join(imageDir, "image1.jpg")).Scan(&hash2)
@@ -407,7 +408,7 @@ func TestSearchWithSourcePrefix(t *testing.T) {
 		MaxWorkers:   2,
 		DebugMode:    false,
 	}
-	scanner.ScanAndStoreFolder(db, scanOptions1)
+	scanner.ScanAndStoreFolder(context.Background(), db, scanOptions1)
 	
 	// Scan from camera2
 	scanOptions2 := scanner.ScanOptions{
@@ -417,7 +418,7 @@ func TestSearchWithSourcePrefix(t *testing.T) {
 		MaxWorkers:   2,
 		DebugMode:    false,
 	}
-	scanner.ScanAndStoreFolder(db, scanOptions2)
+	scanner.ScanAndStoreFolder(context.Background(), db, scanOptions2)
 	
 	// Create query image
 	queryPath := filepath.Join(tempDir, "query.jpg")
@@ -487,7 +488,7 @@ func TestErrorHandling(t *testing.T) {
 	
 	// The scanner actually handles non-existent folders gracefully
 	// It just processes 0 files without error
-	err = scanner.ScanAndStoreFolder(db, scanOptions)
+	err = scanner.ScanAndStoreFolder(context.Background(), db, scanOptions)
 	// This is actually the expected behavior - no error, just 0 files processed
 	if err != nil {
 		t.Logf("Scanner returned error for non-existent folder: %v", err)
@@ -532,6 +533,6 @@ func BenchmarkScanning(b *testing.B) {
 			DebugMode:    false,
 		}
 		
-		scanner.ScanAndStoreFolder(db, scanOptions)
+		scanner.ScanAndStoreFolder(context.Background(), db, scanOptions)
 	}
 }

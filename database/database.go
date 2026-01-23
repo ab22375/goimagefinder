@@ -19,6 +19,20 @@ func InitDatabase(dbPath string) (*sql.DB, error) {
 		return nil, err
 	}
 
+	// Configure SQLite for better concurrent write handling
+	// WAL mode allows concurrent reads while writing
+	if _, err := db.Exec("PRAGMA journal_mode=WAL"); err != nil {
+		logging.DebugLog("Warning: could not enable WAL mode: %v", err)
+	}
+	// Busy timeout: wait up to 5 seconds if database is locked
+	if _, err := db.Exec("PRAGMA busy_timeout=5000"); err != nil {
+		logging.DebugLog("Warning: could not set busy_timeout: %v", err)
+	}
+	// NORMAL synchronous is safe with WAL and faster than FULL
+	if _, err := db.Exec("PRAGMA synchronous=NORMAL"); err != nil {
+		logging.DebugLog("Warning: could not set synchronous mode: %v", err)
+	}
+
 	// Create table if it doesn't exist
 	createTableSQL := `
 	CREATE TABLE IF NOT EXISTS images (
@@ -37,6 +51,7 @@ func InitDatabase(dbPath string) (*sql.DB, error) {
 		UNIQUE(path, source_prefix)
 	);
 	CREATE INDEX IF NOT EXISTS idx_path ON images(path);
+	CREATE INDEX IF NOT EXISTS idx_source_prefix ON images(source_prefix);
 	CREATE INDEX IF NOT EXISTS idx_average_hash ON images(average_hash);
 	CREATE INDEX IF NOT EXISTS idx_perceptual_hash ON images(perceptual_hash);`
 
@@ -80,6 +95,12 @@ func InitDatabase(dbPath string) (*sql.DB, error) {
 		// update the uniqueness constraint (can't directly modify in SQLite)
 		// In a real app, you'd create a new table and migrate the data
 		logging.DebugLog("Note: To fully update schema, consider rebuilding the database.")
+	}
+
+	// Ensure source_prefix index exists (for existing databases)
+	_, err = db.Exec("CREATE INDEX IF NOT EXISTS idx_source_prefix ON images(source_prefix)")
+	if err != nil {
+		logging.DebugLog("Warning: could not create source_prefix index: %v", err)
 	}
 
 	return db, nil

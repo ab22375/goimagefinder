@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"io"
@@ -22,11 +23,12 @@ import (
 )
 
 func main() {
-	// Set up proper signal handling
-	signalhandler.SetupHandler()
+	// Set up graceful shutdown with context
+	ctx, cancel := signalhandler.SetupWithContext()
+	defer cancel()
 
 	// Set the optimal number of CPUs to use
-	runtime.GOMAXPROCS(signalhandler.GetOptimalProcs()) // <-- Change this function call
+	runtime.GOMAXPROCS(signalhandler.GetOptimalProcs())
 
 	// Parse command line arguments into a map
 	args := utils.ParseArguments()
@@ -87,9 +89,9 @@ func main() {
 
 	switch command {
 	case "scan":
-		handleScanCommand(args, dbPath, debugMode, jsonMode)
+		handleScanCommand(ctx, args, dbPath, debugMode, jsonMode)
 	case "search":
-		handleSearchCommand(args, dbPath, debugMode, jsonMode)
+		handleSearchCommand(ctx, args, dbPath, debugMode, jsonMode)
 	case "info":
 		handleInfoCommand(args, dbPath, jsonMode)
 	default:
@@ -103,10 +105,7 @@ func main() {
 	}
 }
 
-func handleScanCommand(args map[string]string, dbPath string, debugMode bool, jsonMode bool) {
-	// Setup proper signal handling
-	signalhandler.SetupHandler()
-
+func handleScanCommand(ctx context.Context, args map[string]string, dbPath string, debugMode bool, jsonMode bool) {
 	// Set optimal GOMAXPROCS
 	runtime.GOMAXPROCS(signalhandler.GetOptimalProcs())
 
@@ -260,7 +259,7 @@ func handleScanCommand(args map[string]string, dbPath string, debugMode bool, js
 	doneChan := make(chan bool, 1)
 
 	go func() {
-		err := scanner.ScanAndStoreFolder(db, scanOptions)
+		err := scanner.ScanAndStoreFolder(ctx, db, scanOptions)
 		if err != nil {
 			errChan <- err
 		} else {
@@ -268,8 +267,22 @@ func handleScanCommand(args map[string]string, dbPath string, debugMode bool, js
 		}
 	}()
 
-	// Wait for completion or error
+	// Wait for completion, error, or cancellation
 	select {
+	case <-ctx.Done():
+		// Graceful shutdown requested
+		if jsonMode {
+			output.PrintError("Scan interrupted by user", 130)
+		} else {
+			fmt.Println("\nScan interrupted. Waiting for in-progress operations to complete...")
+		}
+		// Wait briefly for cleanup
+		select {
+		case <-errChan:
+		case <-doneChan:
+		case <-time.After(5 * time.Second):
+		}
+		os.Exit(130) // Standard exit code for SIGINT
 	case err := <-errChan:
 		if jsonMode {
 			output.PrintError(fmt.Sprintf("Error scanning folder: %v", err), 1)
@@ -315,7 +328,14 @@ func handleScanCommand(args map[string]string, dbPath string, debugMode bool, js
 		}
 	}
 }
-func handleSearchCommand(args map[string]string, dbPath string, debugMode bool, jsonMode bool) {
+func handleSearchCommand(ctx context.Context, args map[string]string, dbPath string, debugMode bool, jsonMode bool) {
+	// Check for early cancellation
+	if ctx.Err() != nil {
+		if jsonMode {
+			output.PrintError("Operation cancelled", 130)
+		}
+		os.Exit(130)
+	}
 	// Get query image path
 	queryPath, hasQuery := args["image"]
 	if !hasQuery {

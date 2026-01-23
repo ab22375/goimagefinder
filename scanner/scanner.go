@@ -1,6 +1,7 @@
 package scanner
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"os"
@@ -16,8 +17,10 @@ import (
 	"imagefinder/types"
 )
 
-// ScanAndStoreFolder scans a folder and stores image information in the database
-func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
+// ScanAndStoreFolder scans a folder and stores image information in the database.
+// It accepts a context for graceful cancellation - when the context is cancelled,
+// the scan will stop processing new files and return after completing in-progress work.
+func ScanAndStoreFolder(ctx context.Context, db *sql.DB, options ScanOptions) error {
 	// Determine concurrency limit
 	maxWorkers := 8 // Default
 	if options.MaxWorkers > 0 {
@@ -30,7 +33,12 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 	semaphore := make(chan struct{}, maxWorkers)
 
 	// Count and classify files before processing
-	fileStats := countFilesToProcess(options)
+	fileStats := countFilesToProcess(ctx, options)
+
+	// Check if cancelled during file counting
+	if ctx.Err() != nil {
+		return ctx.Err()
+	}
 
 	// Display initial information
 	PrintStartupInfo(fileStats, options)
@@ -41,7 +49,7 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 
 	// Process files
 	startTime := time.Now()
-	err := walkAndProcessFiles(db, options, &wg, resultsChan, semaphore)
+	err := walkAndProcessFiles(ctx, db, options, &wg, resultsChan, semaphore)
 
 	// Wait for all processing to complete
 	wg.Wait()
@@ -60,7 +68,7 @@ func ScanAndStoreFolder(db *sql.DB, options ScanOptions) error {
 }
 
 // countFilesToProcess counts and classifies files to be processed
-func countFilesToProcess(options ScanOptions) FileStats {
+func countFilesToProcess(ctx context.Context, options ScanOptions) FileStats {
 	stats := FileStats{}
 	loaderRegistry := imageprocessor.NewImageLoaderRegistry() // Use root registry directly
 
@@ -70,6 +78,11 @@ func countFilesToProcess(options ScanOptions) FileStats {
 	}
 
 	filepath.Walk(options.FolderPath, func(path string, info os.FileInfo, err error) error {
+		// Check for cancellation
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+
 		if err != nil {
 			logging.LogError("Error accessing path %s: %v", path, err)
 			return nil
@@ -99,7 +112,7 @@ func countFilesToProcess(options ScanOptions) FileStats {
 	return stats
 }
 
-func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, resultsChan chan ProcessImageResult, semaphore chan struct{}) error {
+func walkAndProcessFiles(ctx context.Context, db *sql.DB, options ScanOptions, wg *sync.WaitGroup, resultsChan chan ProcessImageResult, semaphore chan struct{}) error {
 	logging.DebugLog("Starting walkAndProcessFiles - folder: %s, debug: %t, semaphore capacity: %d",
 		options.FolderPath, options.DebugMode, cap(semaphore))
 
@@ -149,6 +162,9 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 
 		for {
 			select {
+			case <-ctx.Done():
+				logging.DebugLog("Buffer monitor received cancellation signal")
+				return
 			case <-ticker.C:
 				bufferLen := len(resultsBuffer)
 				bufferCap := cap(resultsBuffer)
@@ -214,6 +230,10 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 		forwarderRunning := true
 		for forwarderRunning {
 			select {
+			case <-ctx.Done():
+				logging.DebugLog("Result forwarder received cancellation signal")
+				forwarderRunning = false
+				break
 			case result, ok := <-resultsBuffer:
 				if !ok {
 					logging.DebugLog("Results buffer channel closed, exiting forwarder")
@@ -300,6 +320,12 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 	scanStartTime := time.Now()
 
 	err := filepath.Walk(options.FolderPath, func(path string, info os.FileInfo, err error) error {
+		// Check for cancellation
+		if ctx.Err() != nil {
+			logging.DebugLog("File walk cancelled")
+			return ctx.Err()
+		}
+
 		if err != nil {
 			if options.DebugMode {
 				logging.DebugLog("Failed to access path %s: %v", path, err)
@@ -365,6 +391,12 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 
 	// Process files in chunks
 	for chunkStart := 0; chunkStart < totalFiles; chunkStart += chunkSize {
+		// Check for cancellation before processing each chunk
+		if ctx.Err() != nil {
+			logging.DebugLog("Chunk processing cancelled at chunk starting at %d", chunkStart)
+			break
+		}
+
 		chunkEnd := chunkStart + chunkSize
 		if chunkEnd > totalFiles {
 			chunkEnd = totalFiles
@@ -415,6 +447,12 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 					wg.Done()
 				}()
 
+				// Check for cancellation before starting work
+				if ctx.Err() != nil {
+					logging.DebugLog("Worker #%d skipped due to cancellation", fileNum)
+					return
+				}
+
 				if options.DebugMode {
 					logging.DebugLog("Starting worker for file #%d: %s", fileNum, filePath)
 				}
@@ -433,6 +471,9 @@ func walkAndProcessFiles(db *sql.DB, options ScanOptions, wg *sync.WaitGroup, re
 
 				for i := 0; i < 3; i++ { // Try 3 times
 					select {
+					case <-ctx.Done():
+						logging.DebugLog("Worker #%d cancelled while waiting for semaphore", fileNum)
+						return
 					case semaphore <- struct{}{}:
 						semaphoreAcquired = true
 

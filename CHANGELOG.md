@@ -7,7 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **SQLite concurrent write errors**: Fixed `SQLITE_BUSY` errors that occurred when multiple worker goroutines attempted simultaneous database writes during scanning.
+  - Enabled WAL (Write-Ahead Logging) mode for better concurrent write handling
+  - Added 5-second busy timeout to retry locked operations instead of failing immediately
+  - Set synchronous mode to NORMAL for safe performance with WAL
+  - Previously, scanning small folders could fail with "database is locked" errors
+
+- **Added missing database index for `source_prefix`**: Search queries filtering by source prefix now use an index instead of full table scan.
+  - Added `idx_source_prefix` index on the `source_prefix` column
+  - Existing databases are automatically migrated to add the index
+  - Significantly improves search performance when using `--prefix` filter on large databases
+
 ### Added
+
+- **Graceful shutdown support**: The CLI tool now supports graceful shutdown via OS signals, enabling proper integration with external software.
+  - New `SetupWithContext()` function in `signalhandler` package returns a cancellable context
+  - SIGINT (Ctrl+C) and SIGTERM signals trigger graceful shutdown instead of immediate exit
+  - In-progress operations are allowed to complete before exit
+  - Exit code 130 (standard for SIGINT) when interrupted
+  - External software can control execution via `kill <pid>` or `kill -TERM <pid>`
+  - Context cancellation propagates through scanner to stop processing new files
 
 - **RWL (Leica RAW) support**: Added support for Leica RWL raw format files.
   - Registered `.rwl` extension in format detection

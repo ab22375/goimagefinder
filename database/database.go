@@ -213,6 +213,145 @@ func QueryPotentialMatches(db *sql.DB, prefixes []string) (*sql.Rows, error) {
 	return db.Query(query, args...)
 }
 
+// BatchWriter provides batch insert functionality for better performance
+type BatchWriter struct {
+	db          *sql.DB
+	tx          *sql.Tx
+	stmt        *sql.Stmt
+	count       int
+	batchSize   int
+	forceRewrite bool
+}
+
+// NewBatchWriter creates a new batch writer for efficient bulk inserts
+func NewBatchWriter(db *sql.DB, batchSize int, forceRewrite bool) (*BatchWriter, error) {
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, fmt.Errorf("failed to begin transaction: %v", err)
+	}
+
+	var query string
+	if forceRewrite {
+		query = `INSERT OR REPLACE INTO images (
+			path, source_prefix, format, width, height, created_at, modified_at, size, average_hash, perceptual_hash
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+	} else {
+		query = `INSERT OR IGNORE INTO images (
+			path, source_prefix, format, width, height, created_at, modified_at, size, average_hash, perceptual_hash
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+	}
+
+	stmt, err := tx.Prepare(query)
+	if err != nil {
+		tx.Rollback()
+		return nil, fmt.Errorf("failed to prepare statement: %v", err)
+	}
+
+	return &BatchWriter{
+		db:          db,
+		tx:          tx,
+		stmt:        stmt,
+		count:       0,
+		batchSize:   batchSize,
+		forceRewrite: forceRewrite,
+	}, nil
+}
+
+// Add adds an image to the batch, committing if batch size is reached
+func (bw *BatchWriter) Add(imageInfo types.ImageInfo) error {
+	now := time.Now().Format(time.RFC3339)
+
+	_, err := bw.stmt.Exec(
+		imageInfo.Path,
+		imageInfo.SourcePrefix,
+		imageInfo.Format,
+		imageInfo.Width,
+		imageInfo.Height,
+		now,
+		imageInfo.ModifiedAt,
+		imageInfo.Size,
+		imageInfo.AverageHash,
+		imageInfo.PerceptualHash,
+	)
+	if err != nil {
+		return fmt.Errorf("failed to add to batch for %s: %v", imageInfo.Path, err)
+	}
+
+	bw.count++
+
+	// Commit batch when size is reached
+	if bw.count >= bw.batchSize {
+		return bw.Flush()
+	}
+
+	return nil
+}
+
+// Flush commits the current batch and starts a new transaction
+func (bw *BatchWriter) Flush() error {
+	if bw.count == 0 {
+		return nil
+	}
+
+	// Close current statement
+	bw.stmt.Close()
+
+	// Commit current transaction
+	if err := bw.tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit batch: %v", err)
+	}
+
+	logging.DebugLog("Committed batch of %d images", bw.count)
+	bw.count = 0
+
+	// Start new transaction
+	tx, err := bw.db.Begin()
+	if err != nil {
+		return fmt.Errorf("failed to begin new transaction: %v", err)
+	}
+	bw.tx = tx
+
+	var query string
+	if bw.forceRewrite {
+		query = `INSERT OR REPLACE INTO images (
+			path, source_prefix, format, width, height, created_at, modified_at, size, average_hash, perceptual_hash
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+	} else {
+		query = `INSERT OR IGNORE INTO images (
+			path, source_prefix, format, width, height, created_at, modified_at, size, average_hash, perceptual_hash
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+	}
+
+	stmt, err := tx.Prepare(query)
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("failed to prepare statement: %v", err)
+	}
+	bw.stmt = stmt
+
+	return nil
+}
+
+// Close flushes any remaining items and closes the batch writer
+func (bw *BatchWriter) Close() error {
+	if bw.count > 0 {
+		bw.stmt.Close()
+		if err := bw.tx.Commit(); err != nil {
+			return fmt.Errorf("failed to commit final batch: %v", err)
+		}
+		logging.DebugLog("Committed final batch of %d images", bw.count)
+	} else {
+		bw.stmt.Close()
+		bw.tx.Rollback() // Nothing to commit
+	}
+	return nil
+}
+
+// Count returns the number of items in the current batch
+func (bw *BatchWriter) Count() int {
+	return bw.count
+}
+
 // ScanStats contains statistics from a scan operation
 type ScanStats struct {
 	TotalImages  int

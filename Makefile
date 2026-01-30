@@ -1,4 +1,5 @@
-.PHONY: build clean test run build-macos build-universal build-macos-arm64
+.PHONY: build clean test run build-macos build-universal build-macos-arm64 \
+	build-linux build-windows build-cross docker docker-build docker-push
 
 # Application name
 APP_NAME := goimagefinder
@@ -224,17 +225,89 @@ install-tools:
 build-all: deps install-tools build
 	@echo "Complete build with all dependencies finished!"
 
+# Cross-platform builds
+build-linux-amd64:
+	@echo "Building for Linux AMD64..."
+	@mkdir -p $(DIST_DIR)/linux-amd64
+	@GOOS=linux GOARCH=amd64 CGO_ENABLED=0 $(GOBUILD) $(LDFLAGS) -o $(DIST_DIR)/linux-amd64/$(APP_NAME) ./main.go
+	@echo "Build complete! Binary: $(DIST_DIR)/linux-amd64/$(APP_NAME)"
+
+build-linux-arm64:
+	@echo "Building for Linux ARM64..."
+	@mkdir -p $(DIST_DIR)/linux-arm64
+	@GOOS=linux GOARCH=arm64 CGO_ENABLED=0 $(GOBUILD) $(LDFLAGS) -o $(DIST_DIR)/linux-arm64/$(APP_NAME) ./main.go
+	@echo "Build complete! Binary: $(DIST_DIR)/linux-arm64/$(APP_NAME)"
+
+build-windows-amd64:
+	@echo "Building for Windows AMD64..."
+	@mkdir -p $(DIST_DIR)/windows-amd64
+	@GOOS=windows GOARCH=amd64 CGO_ENABLED=0 $(GOBUILD) $(LDFLAGS) -o $(DIST_DIR)/windows-amd64/$(APP_NAME).exe ./main.go
+	@echo "Build complete! Binary: $(DIST_DIR)/windows-amd64/$(APP_NAME).exe"
+
+build-windows-arm64:
+	@echo "Building for Windows ARM64..."
+	@mkdir -p $(DIST_DIR)/windows-arm64
+	@GOOS=windows GOARCH=arm64 CGO_ENABLED=0 $(GOBUILD) $(LDFLAGS) -o $(DIST_DIR)/windows-arm64/$(APP_NAME).exe ./main.go
+	@echo "Build complete! Binary: $(DIST_DIR)/windows-arm64/$(APP_NAME).exe"
+
+# Build all cross-platform binaries
+build-cross: build-linux-amd64 build-linux-arm64 build-macos-arm64 build-windows-amd64 build-windows-arm64
+	@echo "All cross-platform builds complete!"
+	@ls -la $(DIST_DIR)/*/$(APP_NAME)* 2>/dev/null || true
+
+# Docker targets
+docker-build:
+	@echo "Building Docker image..."
+	@docker build -t $(APP_NAME):latest .
+	@echo "Docker image built: $(APP_NAME):latest"
+
+docker-build-multiarch:
+	@echo "Building multi-architecture Docker images..."
+	@./scripts/build-docker.sh all
+
+docker-run:
+	@echo "Running Docker container..."
+	@docker run --rm -v ./images:/data/images:ro -v ./db:/data/db $(APP_NAME):latest info
+
+docker-compose-up:
+	@docker-compose up -d
+
+docker-compose-down:
+	@docker-compose down
+
 # Help target
 help:
 	@echo "Available targets:"
+	@echo ""
+	@echo "Build targets:"
 	@echo "  build                  - Build the application for current platform"
 	@echo "  build-macos-arm64      - Build for macOS ARM64 (Apple Silicon)"
+	@echo "  build-linux-amd64      - Build for Linux x86_64"
+	@echo "  build-linux-arm64      - Build for Linux ARM64"
+	@echo "  build-windows-amd64    - Build for Windows x86_64"
+	@echo "  build-windows-arm64    - Build for Windows ARM64"
+	@echo "  build-cross            - Build for all platforms"
+	@echo "  build-all              - Install dependencies, tools, and build"
+	@echo ""
+	@echo "Package targets:"
 	@echo "  package-macos          - Create a macOS .app package (development)"
 	@echo "  package-macos-dist     - Create distributable .app with bundled libraries"
-	@echo "  create-dmg             - Create a distributable DMG file (uses package-macos-dist)"
-	@echo "  build-all              - Install dependencies, tools, and build the application"
-	@echo "  clean                  - Remove build artifacts"
+	@echo "  create-dmg             - Create a distributable DMG file"
+	@echo ""
+	@echo "Docker targets:"
+	@echo "  docker-build           - Build Docker image for current platform"
+	@echo "  docker-build-multiarch - Build multi-arch Docker images (amd64 + arm64)"
+	@echo "  docker-run             - Run Docker container"
+	@echo "  docker-compose-up      - Start services with docker-compose"
+	@echo "  docker-compose-down    - Stop docker-compose services"
+	@echo ""
+	@echo "Test targets:"
 	@echo "  test                   - Run tests"
+	@echo "  test-coverage          - Run tests with coverage report"
+	@echo "  test-bench             - Run benchmarks"
+	@echo ""
+	@echo "Other targets:"
+	@echo "  clean                  - Remove build artifacts"
 	@echo "  deps                   - Install Go dependencies"
 	@echo "  install-tools          - Install external tools for RAW image processing"
 	@echo "  run-debug-scan         - Run the scan command with debug enabled"

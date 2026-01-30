@@ -463,6 +463,18 @@ goimagefinder/
 make build                  # Build for current platform
 make build-macos-arm64      # Build for Apple Silicon
 
+# Cross-platform builds
+make build-linux-amd64      # Linux x86_64
+make build-linux-arm64      # Linux ARM64
+make build-windows-amd64    # Windows x86_64
+make build-windows-arm64    # Windows ARM64
+make build-cross            # Build all platforms
+
+# Docker
+make docker-build           # Build Docker image
+make docker-build-multiarch # Build amd64 + arm64 images
+make docker-run             # Run container
+
 # macOS Distribution
 make create-dmg             # Create goimagefinder.dmg
 make package-macos          # Create .app bundle
@@ -472,6 +484,32 @@ make clean                  # Remove build artifacts
 make test                   # Run tests
 make install-tools          # Install external RAW tools
 make help                   # Show all targets
+```
+
+## Docker CLI Usage
+
+For running the CLI tool in a container (separate from the web interface):
+
+```bash
+# Build the image
+docker build -t goimagefinder .
+
+# Scan images
+docker run --rm \
+  -v /path/to/images:/data/images:ro \
+  -v ./db:/data/db \
+  goimagefinder scan --folder=/data/images --database=/data/db/images.db --progress
+
+# Search for similar images
+docker run --rm \
+  -v /path/to/images:/data/images:ro \
+  -v ./db:/data/db \
+  goimagefinder search --image=/data/images/query.jpg --database=/data/db/images.db
+
+# Get database info
+docker run --rm \
+  -v ./db:/data/db \
+  goimagefinder info --database=/data/db/images.db
 ```
 
 ## Debug Mode

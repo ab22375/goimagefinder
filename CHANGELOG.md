@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Docker support for CLI tool**: Multi-stage Alpine-based Dockerfile for lightweight container deployment (~25MB).
+  - `Dockerfile` - Multi-platform build with exiftool and libraw-tools
+  - `docker-compose.yml` - Container orchestration with scan/search profiles
+  - `.dockerignore` - Excludes build artifacts to speed up context transfer
+  - Health check included for container orchestration
+
+- **Cross-platform build scripts**: New build infrastructure for all platforms.
+  - `scripts/build-docker.sh` - Build Docker images for amd64 and arm64
+  - `scripts/build-cross.sh` - Cross-compile native binaries for Linux, macOS, Windows
+  - Creates checksums and release archives automatically
+
+- **New Makefile targets for cross-platform builds**:
+  - `make build-linux-amd64` - Linux x86_64
+  - `make build-linux-arm64` - Linux ARM64
+  - `make build-windows-amd64` - Windows x86_64
+  - `make build-windows-arm64` - Windows ARM64
+  - `make build-cross` - Build all platforms at once
+  - `make docker-build` - Build Docker image
+  - `make docker-build-multiarch` - Build multi-arch Docker images
+
+- **Batch database writes**: New `BatchWriter` for efficient bulk inserts.
+  - Wraps multiple INSERT statements in transactions
+  - Auto-commits when batch size is reached
+  - Reduces SQLite transaction overhead for large scans
+  - Available via `database.NewBatchWriter()`
+
+- **Memory pooling for image processing**: Reduced GC pressure during high-throughput scanning.
+  - `sync.Pool` for 32x32 FloatMatrix (DCT operations)
+  - `sync.Pool` for 8x8 FloatMatrix (low-frequency extraction)
+  - `sync.Pool` for hash byte slices
+  - `sync.Pool` for 64-element float64 slices (median calculation)
+  - `FloatMatrix.Release()` method returns matrices to pool
+
 ### Fixed
 
 - **SQLite concurrent write errors**: Fixed `SQLITE_BUSY` errors that occurred when multiple worker goroutines attempted simultaneous database writes during scanning.

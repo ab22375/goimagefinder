@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  goimagefinder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: goimagefinder:latest
+    container_name: goimagefinder
+    volumes:
+      # Mount your images directory (read-only for safety)
+      - ./images:/data/images:ro
+      # Mount database directory (read-write)
+      - ./db:/data/db
+    environment:
+      - GOIMAGEFINDER_DB=/data/db/images.db
+    # Example: scan images on startup
+    # command: ["scan", "--folder=/data/images", "--database=/data/db/images.db", "--progress"]
+
+  # Optional: Run as a one-shot scanner
+  scanner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: goimagefinder:latest
+    volumes:
+      - ./images:/data/images:ro
+      - ./db:/data/db
+    command: ["scan", "--folder=/data/images", "--database=/data/db/images.db", "--progress"]
+    profiles:
+      - scan
+
+  # Optional: Search service
+  search:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: goimagefinder:latest
+    volumes:
+      - ./images:/data/images:ro
+      - ./db:/data/db
+    # Override with search command, e.g.:
+    # docker-compose run search search --image=/data/images/query.jpg --threshold=0.8
+    entrypoint: ["goimagefinder", "search"]
+    profiles:
+      - search

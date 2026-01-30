@@ -1,0 +1,34 @@
+# Windows container build
+# Note: Windows containers require Windows host or WSL2 with Windows containers enabled
+FROM mcr.microsoft.com/windows/servercore:ltsc2022 AS builder
+
+# Install Chocolatey for package management
+RUN powershell -Command \
+    Set-ExecutionPolicy Bypass -Scope Process -Force; \
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
+    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+# Install Go
+RUN choco install golang -y
+
+WORKDIR C:\\app
+
+# Copy source
+COPY . .
+
+# Build
+RUN go build -ldflags="-s -w" -o goimagefinder.exe ./main.go
+
+# Runtime stage
+FROM mcr.microsoft.com/windows/nanoserver:ltsc2022
+
+WORKDIR C:\\app
+
+# Copy binary
+COPY --from=builder C:\\app\\goimagefinder.exe .
+
+# Note: exiftool/dcraw need to be installed separately on Windows
+# or use a larger base image with these tools
+
+ENTRYPOINT ["goimagefinder.exe"]
+CMD ["--help"]

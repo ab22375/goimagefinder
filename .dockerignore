@@ -1,0 +1,30 @@
+# Build artifacts
+build/
+dist/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test data
+test_images/
+images/
+*.db
+
+# Documentation
+*.md
+!go.mod
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local config
+*.local
+.env

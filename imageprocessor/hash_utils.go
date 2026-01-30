@@ -90,6 +90,7 @@ func ComputeAverageHash(img image.Image) (string, error) {
 
 // ComputePerceptualHash computes a DCT-based perceptual hash for the image
 // Always returns a hexadecimal string representation
+// Uses memory pools for better performance with high-throughput processing
 func ComputePerceptualHash(img image.Image) (string, error) {
 	if img == nil {
 		return "", fmt.Errorf("cannot compute hash for nil image")
@@ -107,17 +108,23 @@ func ComputePerceptualHash(img image.Image) (string, error) {
 	gray := imaging.Grayscale(resized)
 	grayImg := toGrayscale(gray)
 
-	// Convert to float matrix for DCT
+	// Convert to float matrix for DCT (uses pool for 32x32)
 	floatImg := grayImageToFloatMatrix(grayImg)
+	defer floatImg.Release()
 
-	// Apply DCT
+	// Apply DCT (result uses pool for 32x32)
 	dct := applyDCT(floatImg)
+	defer dct.Release()
 
-	// Extract 8x8 low frequency components
+	// Extract 8x8 low frequency components (uses pool for 8x8)
 	lowFreq := dct.Region(0, 0, 8, 8)
+	defer lowFreq.Release()
 
-	// Calculate median value
-	values := make([]float64, 64)
+	// Get pooled slice for median calculation
+	valuesPtr := GetFloat64Slice()
+	values := *valuesPtr
+	defer ReleaseFloat64Slice(valuesPtr)
+
 	idx := 0
 	for y := 0; y < 8; y++ {
 		for x := 0; x < 8; x++ {
@@ -129,8 +136,11 @@ func ComputePerceptualHash(img image.Image) (string, error) {
 	// Calculate median
 	median := calculateMedian64(values)
 
-	// Compute binary hash (as bits)
-	var hashBytes []byte
+	// Compute binary hash (as bits) using pooled byte slice
+	hashBytesPtr := GetHashBytes()
+	hashBytes := *hashBytesPtr
+	defer ReleaseHashBytes(hashBytesPtr)
+
 	var currentByte byte = 0
 	var bitCount uint = 0
 
